@@ -5,8 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.thebigoceaan.smartagriculture.databinding.FragmentMoreBinding;
+
+import java.util.Objects;
 
 public class MoreFragment extends Fragment {
 
@@ -16,6 +20,10 @@ public class MoreFragment extends Fragment {
 
         binding = FragmentMoreBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        //for display drawer layout
+        ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        Objects.requireNonNull(mActionBar).setDisplayHomeAsUpEnabled(true);
 
 
         return root;

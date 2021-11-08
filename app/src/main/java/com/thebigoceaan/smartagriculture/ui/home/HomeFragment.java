@@ -8,12 +8,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.databinding.FragmentHomeBinding;
+
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -26,6 +30,9 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        //for display drawer layout
+        ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        Objects.requireNonNull(mActionBar).setDisplayHomeAsUpEnabled(true);
 
         return root;
     }

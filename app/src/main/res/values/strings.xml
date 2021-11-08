@@ -7,4 +7,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_account">Account</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_agro_news">Agro News</string>
+    <string name="nav_daily_vegetable_market">Daily Veg Market</string>
+    <string name="nav_about_us">About us</string>
+    <string name="nav_share_app">Share app</string>
+    <string name="start">Start</string>
+    <string name="close">Close</string>
+
+
+
 </resources>
