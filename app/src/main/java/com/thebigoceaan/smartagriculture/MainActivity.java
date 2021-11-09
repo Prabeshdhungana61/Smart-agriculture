@@ -1,14 +1,20 @@
 package com.thebigoceaan.smartagriculture;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +25,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.thebigoceaan.smartagriculture.databinding.ActivityMainBinding;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +38,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     ActivityMainBinding binding;
     private ActionBarDrawerToggle toggle;
+    private FirebaseAuth auth;
+    FirebaseDatabase database;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private AccessTokenTracker accessTokenTracker;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +60,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 = new ColorDrawable(Color.parseColor("#4fb424"));
         actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
 
-
+        //get instance
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -60,10 +78,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout,R.string.start,R.string.close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
         binding.navigationView.setNavigationItemSelectedListener(this);
+
+        loginLogoutValidate();
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                if (currentAccessToken==null){
+                    auth.signOut();
+                }
+            }
+        };
 
     }
 
@@ -74,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return false;
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
@@ -90,7 +118,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_share_app:
                 Toast.makeText(this, "This redirects to share app to any other playform", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.nav_login:
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_logout:
+                accessTokenTracker = new AccessTokenTracker() {
+                    @Override
+                    protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                        if (currentAccessToken==null){
+                            auth.signOut();
+                        }
+                    }
+                };
+                Toast.makeText(this, "Successfully Logout the account.", Toast.LENGTH_SHORT).show();
+                Intent intent2 = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent2);
+                break;
         }
         return true;
+    }
+
+    private void loginLogoutValidate() {
+        MenuItem loginText = binding.navigationView.getMenu().findItem(R.id.nav_login);
+        MenuItem logoutText = binding.navigationView.getMenu().findItem(R.id.nav_logout);
+        if (auth.getCurrentUser() != null) {
+            loginText.setVisible(false);
+            logoutText.setVisible(true);
+        } else {
+            loginText.setVisible(true);
+            logoutText.setVisible(false);
+        }
     }
 }

@@ -27,7 +27,7 @@
             android:gravity="center"
             android:text="Smart Agriculture"
             android:textColor="#FFF6F6"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <HorizontalScrollView
@@ -63,7 +63,7 @@
         </HorizontalScrollView>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_google"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -77,8 +77,8 @@
             app:backgroundTint="@color/googleLogoColor"
             app:cornerRadius="20dp" />
 
-        <Button
-            android:id="@+id/button3"
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/btn_fb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -86,14 +86,13 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:drawableLeft="@drawable/facebook"
-            android:text="Login With Facebook"
+            android:background="@drawable/customborder"
             android:textColor="#FFFFFF"
             app:backgroundTint="@color/facebookLogoColor"
             app:cornerRadius="20dp" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_skip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
@@ -101,7 +100,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="60dp"
             android:layout_marginRight="60dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/customborder"
             android:gravity="center"
             android:text="Skip"
             android:textColor="#E1DCDC"

@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_more" />
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.thebigoceaan.smartagriculture.ui.more.MoreFragment"
+        android:name="com.thebigoceaan.smartagriculture.ui.account.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account" />
 </navigation>

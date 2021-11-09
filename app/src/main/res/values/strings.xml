@@ -12,8 +12,20 @@
     <string name="nav_daily_vegetable_market">Daily Veg Market</string>
     <string name="nav_about_us">About us</string>
     <string name="nav_share_app">Share app</string>
+    <string name="nav_login">Login</string>
+    <string name="nav_logout">Logout</string>
     <string name="start">Start</string>
     <string name="close">Close</string>
+    <string name="client_id">114205616348-9qbjqom0cshitht92b7n8ns3ro9pp1r4.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">210573751098791</string>
+    <string name="fb_login_protocol_scheme">fb210573751098791</string>
+    <string name="profile_image_desc">profile image</string>
+    <string name="username">username</string>
+    <string name="email">email</string>
+    <string name="logout">Logout</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="about_us">ABOUT US</string>
+    <string name="share_app">SHARE APP</string>
 
 
 </resources>
