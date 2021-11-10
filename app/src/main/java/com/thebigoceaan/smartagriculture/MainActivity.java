@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
+import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -123,14 +124,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.nav_logout:
-                accessTokenTracker = new AccessTokenTracker() {
-                    @Override
-                    protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                        if (currentAccessToken==null){
-                            auth.signOut();
-                        }
-                    }
-                };
+                auth.signOut();
+                LoginManager.getInstance().logOut();
                 Toast.makeText(this, "Successfully Logout the account.", Toast.LENGTH_SHORT).show();
                 Intent intent2 = new Intent(MainActivity.this,LoginActivity.class);
                 startActivity(intent2);

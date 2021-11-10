@@ -80,8 +80,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "onSuccess"+loginResult);
+                progressDialog.show();
                 handleFacebookToken(loginResult.getAccessToken());
-
             }
 
             @Override
@@ -136,6 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d(TAG,"Signing with credential Successful");
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
+                    progressDialog.dismiss();
 
                 }
                 else{
