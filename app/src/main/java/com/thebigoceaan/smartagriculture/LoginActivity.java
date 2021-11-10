@@ -134,6 +134,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Log.d(TAG,"Signing with credential Successful");
+                    FirebaseUser user = auth.getCurrentUser();
+                    Users users = new Users();
+                    users.setUserId(user.getUid());
+                    users.setUserName(user.getDisplayName());
+                    users.setProfilePic(user.getPhotoUrl().toString());
+                    database.getReference().child("Users").child(user.getUid()).setValue(users);
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                     progressDialog.dismiss();
