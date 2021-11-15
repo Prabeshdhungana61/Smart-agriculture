@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/splashColor"
     android:orientation="vertical"
     tools:context=".ui.account.AccountFragment">
 
@@ -19,12 +20,17 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/profileImageAccount"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
+                android:layout_marginStart="160dp"
+                android:layout_marginLeft="160dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/search"
-                android:contentDescription="@string/profile_image_desc" />
+                android:layout_marginEnd="160dp"
+                android:layout_marginRight="160dp"
+                android:background="@drawable/customborder"
+                android:contentDescription="@string/profile_image_desc"
+                android:src="@drawable/search" />
 
             <TextView
                 android:id="@+id/usernameTextView"
@@ -49,7 +55,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btn_logout_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="80dp"
@@ -69,17 +75,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#CF4040"
+            android:background="@color/splashColor"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/btn_privacy_policy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/privacy_policy"
+                android:drawableLeft="@drawable/ic_privacy"
+                android:text="@string/btn_privacy_policy"
                 android:textColor="@color/white"
-                app:backgroundTint="@color/colorAccount"
-                android:drawableLeft="@drawable/ic_privacy" />
+                app:backgroundTint="@color/colorAccount" />
 
             <Button
                 android:id="@+id/btn_about_us"
@@ -98,6 +104,27 @@
                 android:text="@string/share_app"
                 android:textColor="@color/white"
                 app:backgroundTint="@color/colorAccount" />
+
+            <Button
+                android:id="@+id/btn_rate_us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_rate"
+                android:text="@string/rate_us"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/colorAccount" />
+
+            <TextView
+                android:id="@+id/app_version_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/cuprum_regular"
+                android:text="Version"
+                android:textColor="#FFF8F8"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

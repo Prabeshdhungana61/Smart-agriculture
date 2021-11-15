@@ -33,12 +33,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
+import com.thebigoceaan.smartagriculture.dashboard.DashboardActivity;
 import com.thebigoceaan.smartagriculture.databinding.ActivityLoginBinding;
 import com.thebigoceaan.smartagriculture.models.Users;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
@@ -73,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
         AppEventsLogger.activateApp(this);
 
         mCallbackManager= CallbackManager.Factory.create();
-        binding.btnFb.setReadPermissions("email","public_profile");
         binding.btnFb.setPermissions(Arrays.asList("email","public_profile"));
 
         binding.btnFb.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
@@ -136,12 +137,11 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d(TAG,"Signing with credential Successful");
                     FirebaseUser user = auth.getCurrentUser();
                     Users users = new Users();
-                    users.setUserId(user.getUid());
+                    users.setUserId(Objects.requireNonNull(user).getUid());
                     users.setUserName(user.getDisplayName());
-                    users.setProfilePic(user.getPhotoUrl().toString());
+                    users.setProfilePic((user.getPhotoUrl()+"?type=large"));
                     database.getReference().child("Users").child(user.getUid()).setValue(users);
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    startActivity(intent);
+                    updateUi();
                     progressDialog.dismiss();
 
                 }
@@ -160,6 +160,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
 //        auth.addAuthStateListener(authStateListener);
+
     }
 
     @Override
@@ -179,8 +180,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mCallbackManager.onActivityResult(requestCode,resultCode,data);
         super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode,resultCode,data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -212,21 +213,20 @@ public class LoginActivity extends AppCompatActivity {
                             users.setUserName(user.getDisplayName());
                             users.setProfilePic(user.getPhotoUrl().toString());
                             database.getReference().child("Users").child(user.getUid()).setValue(users);
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            Toast.makeText(LoginActivity.this, "Google Signing Sucessfully", Toast.LENGTH_SHORT).show();
-                            startActivity(intent);
+                            updateUi();
+                            Toast.makeText(LoginActivity.this, "Google Signing Successfully", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication Failed !", Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
     }
 
-
-
-
+    
     private void skipButtonOnClick(){
         binding.btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,5 +235,15 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    public void updateUi(){
+        if(auth.getCurrentUser().getEmail().equals("padhikari235@gmail.com")){
+            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+            startActivity(intent);
+        }
+        else{
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+        }
     }
 }

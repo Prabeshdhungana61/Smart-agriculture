@@ -23,9 +23,18 @@
     <string name="username">username</string>
     <string name="email">email</string>
     <string name="logout">Logout</string>
-    <string name="privacy_policy">Privacy Policy</string>
+    <string name="btn_privacy_policy">Privacy Policy</string>
     <string name="about_us">ABOUT US</string>
     <string name="share_app">SHARE APP</string>
-
+    <string name="text_contact_us">Contact Us:</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="login_click"><u>Click here to login Smart Agriculture</u></string>
+    <string name="disclaimer">Disclaimer</string>
+    <string name="dashboard_desc">You can perform crud operations in this dashboard which includes adding agriculture news, information about agriculture, and many more things</string>
+    <string name="operations_dashboard_desc">You can click on the specific image button to perform operations.</string>
+    <string name="add_news">ADD NEWS</string>
+    <string name="update_news">UPDATE NEWS</string>
+    <string name="action_edit">EDIT</string>
+    <string name="action_remove">DELETE</string>
 
 </resources>

@@ -1,38 +1,35 @@
 package com.thebigoceaan.smartagriculture;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.login.LoginManager;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thebigoceaan.smartagriculture.databinding.ActivityMainBinding;
+import com.thebigoceaan.smartagriculture.descriptions.AboutActivity;
+import com.thebigoceaan.smartagriculture.hyperlink.DailyVegMarketActivity;
+import com.thebigoceaan.smartagriculture.services.NewsActivity;
 
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,9 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirebaseDatabase database;
     private FirebaseAuth.AuthStateListener authStateListener;
     private AccessTokenTracker accessTokenTracker;
-
-
-
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Set App bar color
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        //dialog for confirmation
+        dialog= new Dialog(this);
+        getActionBarColor();
 
         //get instance
         auth = FirebaseAuth.getInstance();
@@ -103,32 +95,64 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_agro_news:
-                Toast.makeText(this, "This redirects to agro news activity fragments", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_daily_vegetable_market:
-                Toast.makeText(this, "This redirects to daily vagetables market", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_about_us:
-                Toast.makeText(this, "This redirects to about us page", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_share_app:
-                Toast.makeText(this, "This redirects to share app to any other playform", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_login:
-                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, NewsActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.nav_logout:
-                auth.signOut();
-                LoginManager.getInstance().logOut();
-                Toast.makeText(this, "Successfully Logout the account.", Toast.LENGTH_SHORT).show();
-                Intent intent2 = new Intent(MainActivity.this,LoginActivity.class);
+            case R.id.nav_daily_vegetable_market:
+                Intent intent2 = new Intent(MainActivity.this, DailyVegMarketActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.nav_about_us:
+                Intent intent3 = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intent3);
+                break;
+            case R.id.nav_share_app:
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                i.putExtra(Intent.EXTRA_TEXT, "http://www.facebook.com/TheBigOcean3");
+                startActivity(Intent.createChooser(i, "Share URL"));
+                break;
+            case R.id.nav_login:
+                Intent intent4 = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent4);
+                break;
+            case R.id.nav_logout:
+                dialog.setContentView(R.layout.dialog_confirmation);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Button yesBtn = dialog.findViewById(R.id.btn_yes_logout);
+                Button noBtn = dialog.findViewById(R.id.btn_no_logout);
+                ImageView closeImage = dialog.findViewById(R.id.close_image);
+
+                closeImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+                yesBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        auth.signOut();
+                        LoginManager.getInstance().logOut();
+                        Toast.makeText(MainActivity.this, "Successfully Logout the account.", Toast.LENGTH_SHORT).show();
+                        Intent intent2 = new Intent(MainActivity.this,LoginActivity.class);
+                        startActivity(intent2);
+                    }
+                });
+                noBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
                 break;
         }
         return true;
@@ -144,5 +168,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loginText.setVisible(true);
             logoutText.setVisible(false);
         }
+    }
+
+    public void getActionBarColor(){
+        // Set App bar color
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#4fb424"));
+        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
     }
 }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.thebigoceaan.smartagriculture">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,11 +11,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAgriculture">
-        <activity android:name=".LoginActivity"
-            android:theme="@style/Theme.SmartAgriculture.NoActionBar"
-            >
-
+        <activity android:name=".dashboard.ViewNewsActivity"
+            android:label="View News"
+            android:parentActivityName=".dashboard.DashboardActivity">
         </activity>
+        <activity android:name=".dashboard.AddNewsActivity"
+            android:label="Add News"
+            android:parentActivityName=".dashboard.DashboardActivity"/>
+        <activity android:name=".dashboard.DashboardActivity" />
+        <activity
+            android:name=".services.NewsActivity"
+            android:label="Agriculture News"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".hyperlink.DailyVegMarketActivity"
+            android:label="Daily Vegetable Market"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".descriptions.AboutActivity"
+            android:label="About Us"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".descriptions.PrivacyPolicyActivity"
+            android:label="Privacy Policy"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/Theme.SmartAgriculture.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" />
@@ -27,8 +51,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
     </application>
 
 </manifest>
