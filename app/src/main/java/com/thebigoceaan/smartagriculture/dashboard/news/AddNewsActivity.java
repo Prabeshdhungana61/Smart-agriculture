@@ -1,14 +1,14 @@
-package com.thebigoceaan.smartagriculture.dashboard;
+package com.thebigoceaan.smartagriculture.dashboard.news;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
-import com.thebigoceaan.smartagriculture.MainActivity;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.databinding.ActivityAddNewsBinding;
 import com.thebigoceaan.smartagriculture.models.News;
@@ -26,6 +26,11 @@ public class AddNewsActivity extends AppCompatActivity {
 
         //get reference of CrudNews activity
         CrudNews crud = new CrudNews();
+        //for dropdown buttons
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.source_list, R.layout.item_dropdown);
+        adapter.setDropDownViewResource(R.layout.item_dropdown);
+        binding.newsSourceEditText.setAdapter(adapter);
         //action bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
@@ -34,6 +39,7 @@ public class AddNewsActivity extends AppCompatActivity {
         actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
         //get instance
         auth = FirebaseAuth.getInstance();
+
         //for updating the news
         News news_edit= (News) getIntent().getSerializableExtra("EDIT");
         if(news_edit!=null){
@@ -51,19 +57,21 @@ public class AddNewsActivity extends AppCompatActivity {
 
         //for news add button pressed
         binding.btnNewsAdd.setOnClickListener(view -> {
-            if (validateNewsTitle() && validateNewsSource() && validateNewsLink() && validateNewsDate()&& validateNewsSummary() ){
-                return;
-            }
             News news = new News(binding.newsTitleEditText.getText().toString(),binding.newsSummaryEditText.getText().toString(),
-                    binding.newsSourceEditText.getText().toString(),binding.newsLinkEditText.getText().toString(),binding.newsDateEditText.toString());
+                    binding.newsSourceEditText.getText().toString(),binding.newsLinkEditText.getText().toString(),binding.newsDateEditText.getText().toString());
             if(news_edit==null) {
-                if(binding.newsTitleEditText.getText()==null)
+                if (validateNewsTitle() && validateNewsSource() && validateNewsLink() && validateNewsDate()&& validateNewsSummary() ){
+                    return;
+                }
                 crud.add(news).addOnSuccessListener(suc -> {
                     binding.newsTitleEditText.setText("");
                     binding.newsSourceEditText.setText("");
                     binding.newsLinkEditText.setText("");
                     binding.newsSummaryEditText.setText("");
                     binding.newsDateEditText.setText("");
+
+                    Intent intent = new Intent (getApplicationContext(), ViewNewsActivity.class);
+                    startActivity(intent);
 
                     Toast.makeText(AddNewsActivity.this, "News inserted successfully",
                             Toast.LENGTH_SHORT).show();
@@ -73,13 +81,15 @@ public class AddNewsActivity extends AppCompatActivity {
             else {
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("news_title", binding.newsTitleEditText.getText().toString());
-                hashMap.put("source", binding.newsSourceEditText.getText().toString());
+                hashMap.put("news_source", binding.newsSourceEditText.getText().toString());
                 hashMap.put("news_link", binding.newsLinkEditText.getText().toString());
-                hashMap.put("summary", binding.newsSummaryEditText.getText().toString());
-                hashMap.put("date",binding.newsDateEditText.getText().toString());
+                hashMap.put("news_summary", binding.newsSummaryEditText.getText().toString());
+                hashMap.put("news_date",binding.newsDateEditText.getText().toString());
 
 
                 crud.update(news_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
+                    Intent intent = new Intent (getApplicationContext(), ViewNewsActivity.class);
+                    startActivity(intent);
                     Toast.makeText(AddNewsActivity.this, "news updated successfully",
                             Toast.LENGTH_SHORT).show();
                     finish();

@@ -34,7 +34,17 @@
     <string name="operations_dashboard_desc">You can click on the specific image button to perform operations.</string>
     <string name="add_news">ADD NEWS</string>
     <string name="update_news">UPDATE NEWS</string>
+    <string name="add_info">ADD INFO</string>
+    <string name="update_info">UPDATE INFO</string>
+    <string name="change_image">CHANGE IMAGE</string>
     <string name="action_edit">EDIT</string>
     <string name="action_remove">DELETE</string>
+    <string name="add_agriculture_news">Add AgrIculture News :</string>
+    <string name="add_agriculture_information">Add Agriculture Information</string>
+    <string-array name="source_list">
+        <item>ekantipur</item>
+        <item>krishi post</item>
+        <item>kisan aawaj</item>
+    </string-array>
 
 </resources>

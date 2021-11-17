@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".dashboard.AddNewsActivity">
+    tools:context=".dashboard.news.AddNewsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/abel_regular"
-            android:text="Add AgrIculture News :"
+            android:text="@string/add_agriculture_news"
             android:textColor="#1E1C1C"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -43,20 +43,32 @@
             android:textColor="#201F1F"
             android:textColorHint="#806B6B" />
 
-        <EditText
-            android:id="@+id/news_source_edit_text"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/customborder"
-            android:fontFamily="@font/abel_regular"
-            android:hint=" News Source..."
-            android:textColor="#201F1F"
-            android:textColorHint="#806B6B" />
+            android:backgroundTint="@color/white"
+            app:boxStrokeColor="#E38080"
+            app:hintTextColor="#393535">
+
+            <AutoCompleteTextView
+                android:id="@+id/news_source_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/cuprum_bold"
+                android:hint="News Source"
+                android:inputType="none"
+
+                android:shadowColor="#21652C"
+                android:text="ekantipur"
+                android:textColor="@color/black"
+                android:textColorHint="#675555" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <EditText
             android:id="@+id/news_link_edit_text"

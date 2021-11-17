@@ -1,4 +1,4 @@
-package com.thebigoceaan.smartagriculture.dashboard;
+package com.thebigoceaan.smartagriculture.dashboard.news;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -14,15 +14,12 @@ public class CrudNews {
     public CrudNews(){
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference(News.class.getSimpleName());
-
     }
-
     public Task<Void> add(News news){
         return databaseReference.push().setValue(news);
     }
     public Task<Void> update(String key, HashMap<String,Object> hashMap){
         return databaseReference.child(key).updateChildren(hashMap);
-
     }
     public Task<Void> remove(String key){
         return databaseReference.child(key).removeValue();

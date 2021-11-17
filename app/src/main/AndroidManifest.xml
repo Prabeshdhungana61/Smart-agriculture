@@ -11,13 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAgriculture">
-        <activity android:name=".dashboard.ViewNewsActivity"
-            android:label="View News"
+        <activity android:name=".dashboard.info.ViewInfoActivity"
+            android:label="View Info"
             android:parentActivityName=".dashboard.DashboardActivity">
         </activity>
-        <activity android:name=".dashboard.AddNewsActivity"
-            android:label="Add News"
+        <activity android:name=".dashboard.info.AddInfoActivity"
+            android:label="Add Info"
             android:parentActivityName=".dashboard.DashboardActivity"/>
+        <activity
+            android:name=".dashboard.news.ViewNewsActivity"
+            android:label="View News"
+            android:parentActivityName=".dashboard.DashboardActivity" />
+        <activity
+            android:name=".dashboard.news.AddNewsActivity"
+            android:label="Add News"
+            android:parentActivityName=".dashboard.DashboardActivity" />
         <activity android:name=".dashboard.DashboardActivity" />
         <activity
             android:name=".services.NewsActivity"

@@ -15,8 +15,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.thebigoceaan.smartagriculture.LoginActivity;
-import com.thebigoceaan.smartagriculture.MainActivity;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.dashboard.info.AddInfoActivity;
+import com.thebigoceaan.smartagriculture.dashboard.info.ViewInfoActivity;
+import com.thebigoceaan.smartagriculture.dashboard.news.AddNewsActivity;
+import com.thebigoceaan.smartagriculture.dashboard.news.ViewNewsActivity;
 import com.thebigoceaan.smartagriculture.databinding.ActivityDashboardBinding;
 
 public class DashboardActivity extends AppCompatActivity {
@@ -52,6 +55,20 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.imgViewInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DashboardActivity.this, ViewInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+        binding.imgAddInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DashboardActivity.this, AddInfoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -70,5 +87,12 @@ public class DashboardActivity extends AppCompatActivity {
             auth.signOut();
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+
     }
 }

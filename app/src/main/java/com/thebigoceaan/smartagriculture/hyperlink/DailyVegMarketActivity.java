@@ -43,7 +43,7 @@ public class DailyVegMarketActivity extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         binding.webViewMarket.clearCache(true);
         binding.webViewMarket.clearHistory();
-        binding.webViewMarket.loadUrl("https://ramropatro.com/vegetable");
+        binding.webViewMarket.loadUrl("https://kalimatimarket.gov.np/price");
         binding.webViewMarket.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         binding.progressBarMarket.setProgress(0);
 

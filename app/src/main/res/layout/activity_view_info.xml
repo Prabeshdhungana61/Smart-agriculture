@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".dashboard.news.ViewNewsActivity">
+    tools:context=".dashboard.info.ViewInfoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,12 +13,12 @@
         android:orientation="vertical">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swip_view_news"
+            android:id="@+id/swip_view_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_view_news"
+                android:id="@+id/recyclerView_view_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:reverseLayout="false" />

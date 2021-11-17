@@ -1,8 +1,9 @@
-package com.thebigoceaan.smartagriculture.dashboard;
+package com.thebigoceaan.smartagriculture.dashboard.news;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +15,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
-import com.thebigoceaan.smartagriculture.MainActivity;
 import com.thebigoceaan.smartagriculture.adapters.NewsAdapter;
 import com.thebigoceaan.smartagriculture.databinding.ActivityViewNewsBinding;
 import com.thebigoceaan.smartagriculture.models.News;
@@ -43,8 +43,11 @@ public class ViewNewsActivity extends AppCompatActivity {
 
         binding.recyclerViewViewNews.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setReverseLayout(true);
+        manager.setStackFromEnd(true);
         binding.recyclerViewViewNews.setLayoutManager(manager);
         adapter = new NewsAdapter(this);
+        adapter.notifyDataSetChanged();
         binding.recyclerViewViewNews.setAdapter(adapter);
 
         crud = new CrudNews();
@@ -89,5 +92,11 @@ public class ViewNewsActivity extends AppCompatActivity {
                 binding.swipViewNews.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        NavUtils.navigateUpFromSameTask(this);
+        super.onBackPressed();
     }
 }
