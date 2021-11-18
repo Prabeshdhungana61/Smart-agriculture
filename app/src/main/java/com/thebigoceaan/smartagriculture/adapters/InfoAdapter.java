@@ -1,10 +1,14 @@
 package com.thebigoceaan.smartagriculture.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -14,6 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.login.LoginManager;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.thebigoceaan.smartagriculture.LoginActivity;
+import com.thebigoceaan.smartagriculture.MainActivity;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.dashboard.info.AddInfoActivity;
 import com.thebigoceaan.smartagriculture.dashboard.info.CrudInfo;
@@ -29,6 +38,9 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     ArrayList<Info> list = new ArrayList<>();
     CrudInfo crud = new CrudInfo();
+    Dialog dialog;
+    StorageReference mStorageReference = FirebaseStorage.getInstance().getReference(Info.class.getSimpleName());
+
 
     public InfoAdapter(Context context) {
         this.context = context;
@@ -47,6 +59,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+        dialog = new Dialog(context);
         InfoVH vh = (InfoVH) holder;
         Info info = list.get(position);
         vh.info_title.setText(info.getInfoTitle());
@@ -65,15 +78,32 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         break;
 
                     case R.id.action_remove:
-                        crud.remove(info.getKey()).addOnSuccessListener(suc -> {
-                            Intent intent2 = new Intent(context, ViewInfoActivity.class);
-                            context.startActivity(intent2);
-                            Toast.makeText(context, "agro information removed successfully",
-                                    Toast.LENGTH_SHORT).show();
-                        }).addOnFailureListener(e -> {
-                            Toast.makeText
-                                    (context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        dialog.setContentView(R.layout.dialog_confirmation);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        Button yesBtn = dialog.findViewById(R.id.btn_yes_logout);
+                        Button noBtn = dialog.findViewById(R.id.btn_no_logout);
+                        dialog.show();
+                        yesBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                crud.remove(info.getKey()).addOnSuccessListener(suc -> {
+                                    Intent intent2 = new Intent(context, ViewInfoActivity.class);
+                                    context.startActivity(intent2);
+                                    Toast.makeText(context, "agro information removed successfully",
+                                            Toast.LENGTH_SHORT).show();
+                                }).addOnFailureListener(e -> {
+                                    Toast.makeText
+                                            (context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                            }
                         });
+                        noBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+
                         break;
 
                 }

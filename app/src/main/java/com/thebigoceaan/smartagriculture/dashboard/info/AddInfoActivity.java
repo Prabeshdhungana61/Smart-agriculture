@@ -4,14 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.thebigoceaan.smartagriculture.LoginActivity;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.databinding.ActivityAddInfoBinding;
 import com.thebigoceaan.smartagriculture.models.Info;
@@ -35,6 +40,7 @@ public class AddInfoActivity extends AppCompatActivity {
     private StorageReference mStorageReference;
     public static final int PICK_IMAGE_REQUEST =1;
     private Uri mImageUri;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,11 @@ public class AddInfoActivity extends AppCompatActivity {
                 = new ColorDrawable(Color.parseColor("#4fb424"));
         actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
 
+        //progress dialog codes
+        progressDialog = new ProgressDialog(AddInfoActivity.this);
+        progressDialog.setTitle("Please Wait");
+        progressDialog.setMessage("Saving image to your account ");
+
         //get instance
         auth = FirebaseAuth.getInstance();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference(Info.class.getSimpleName());
@@ -60,21 +71,24 @@ public class AddInfoActivity extends AppCompatActivity {
             intent.setAction(intent.ACTION_GET_CONTENT);
             startActivityForResult(intent,PICK_IMAGE_REQUEST);
         });
-
         Info info_edit= (Info) getIntent().getSerializableExtra("EDIT");
+
         if(info_edit!=null){
             binding.btnAddInfo.setText(R.string.update_info);
             binding.infoTitleEditText.setText(info_edit.getInfoTitle());
             binding.infoDetailsEditText.setText(info_edit.getInfoDetails());
+            Glide.with(this).load(info_edit.getInfoImage()).into(binding.imgInfoView);
         }
         else{
             binding.btnAddInfo.setText(R.string.add_info);
         }
+
         //for news add button pressed
         binding.btnAddInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AddInfoActivity.this.uploadFile();
+                progressDialog.show();
             }
         });
 
@@ -99,23 +113,14 @@ public class AddInfoActivity extends AppCompatActivity {
     public void uploadFile(){
         Info info_edit= (Info) getIntent().getSerializableExtra("EDIT");
         CrudInfo crud = new CrudInfo();
-        if(info_edit!=null){
-            binding.btnAddInfo.setText(R.string.update_info);
-            binding.infoTitleEditText.setText(info_edit.getInfoTitle());
-            binding.infoDetailsEditText.setText(info_edit.getInfoDetails());
-            Glide.with(this).load(info_edit.getInfoImage()).into(binding.imgInfoView);
-        }
-        else{
-            binding.btnAddInfo.setText(R.string.add_info);
-            binding.btnChooseImgInfo.setText(R.string.change_image);
-        }
+
         if(mImageUri !=null){
             StorageReference fileReference = mStorageReference.child(System.currentTimeMillis()+"."+getFileExtension(mImageUri));
             fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Info info = new Info(taskSnapshot.getMetadata().getReference().getDownloadUrl().toString(),binding.infoTitleEditText.getText().toString(),
+                            Info info = new Info(mImageUri.toString(),binding.infoTitleEditText.getText().toString(),
                             binding.infoDetailsEditText.getText().toString());
                             if(info_edit==null) {
                                 crud.add(info).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -127,6 +132,7 @@ public class AddInfoActivity extends AppCompatActivity {
                                         AddInfoActivity.this.startActivity(intent);
                                         Toast.makeText(AddInfoActivity.this, "Agro Info inserted successfully",
                                                 Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
                                     }
                                 }).addOnFailureListener(e -> Toast.makeText
                                         (AddInfoActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -135,9 +141,11 @@ public class AddInfoActivity extends AppCompatActivity {
                                 HashMap<String, Object> hashMap = new HashMap<>();
                                 hashMap.put("infoTitle", binding.infoTitleEditText.getText().toString());
                                 hashMap.put("infoDetails", binding.infoDetailsEditText.getText().toString());
+                                hashMap.put("infoImage",Glide.with(AddInfoActivity.this).load(mStorageReference).into(binding.imgInfoView));
                                 crud.update(info_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
                                     Intent intent = new Intent (getApplicationContext(), ViewInfoActivity.class);
                                     startActivity(intent);
+                                    progressDialog.dismiss();
                                     Toast.makeText(AddInfoActivity.this, "info updated successfully",
                                             Toast.LENGTH_SHORT).show();
                                     finish();
