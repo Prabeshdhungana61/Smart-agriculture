@@ -57,15 +57,17 @@ public class AddNewsActivity extends AppCompatActivity {
 
         //for news add button pressed
         binding.btnNewsAdd.setOnClickListener(view -> {
-            News news = new News(binding.newsTitleEditText.getText().toString(),binding.newsSummaryEditText.getText().toString(),
-                    binding.newsSourceEditText.getText().toString(),binding.newsLinkEditText.getText().toString(),binding.newsDateEditText.getText().toString());
+            News news = new News(binding.newsTitleEditText.getText().toString(),
+                    binding.newsSummaryEditText.getText().toString().trim(),
+                    binding.newsSourceEditText.getText().toString().trim(),
+                    binding.newsLinkEditText.getText().toString(),
+                    binding.newsDateEditText.getText().toString());
             if(news_edit==null) {
                 if (validateNewsTitle() && validateNewsSource() && validateNewsLink() && validateNewsDate()&& validateNewsSummary() ){
                     return;
                 }
                 crud.add(news).addOnSuccessListener(suc -> {
                     binding.newsTitleEditText.setText("");
-                    binding.newsSourceEditText.setText("");
                     binding.newsLinkEditText.setText("");
                     binding.newsSummaryEditText.setText("");
                     binding.newsDateEditText.setText("");

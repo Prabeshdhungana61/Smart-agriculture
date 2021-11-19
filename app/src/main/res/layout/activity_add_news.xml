@@ -54,17 +54,16 @@
             app:hintTextColor="#393535">
 
             <AutoCompleteTextView
-                android:id="@+id/news_source_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/cuprum_bold"
-                android:hint="News Source"
+                android:hint="@string/news_source"
                 android:inputType="none"
-
+                android:id="@+id/news_source_edit_text"
                 android:shadowColor="#21652C"
-                android:text="ekantipur"
+                android:text="@string/ekantipur"
                 android:textColor="@color/black"
                 android:textColorHint="#675555" />
         </com.google.android.material.textfield.TextInputLayout>

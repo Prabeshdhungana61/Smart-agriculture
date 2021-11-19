@@ -41,10 +41,22 @@
     <string name="action_remove">DELETE</string>
     <string name="add_agriculture_news">Add AgrIculture News :</string>
     <string name="add_agriculture_information">Add Agriculture Information</string>
+    <string name="ekantipur">ekantipur</string>
+    <string name="news_source">News Source</string>
     <string-array name="source_list">
         <item>ekantipur</item>
         <item>krishi post</item>
         <item>kisan aawaj</item>
     </string-array>
+    <string name="register_as_farmer_details">
+        If You are farmer and your want to sell then you can register as a farmer.
+        If you register as a farmer then you have many features available which are as below:\n\n
+
+        1. You can unlock message us directly feature and contact us via app.\n
+        2. You can post your product details like product images, product description, product price per unit etc.\n
+        3. You can sell via app using Sell your product option which is appear on "more" page after registration as farmer.\n\n
+
+        CLICK ON THE IMAGE BELOW TO REGISTER AS A FARMER
+    </string>
 
 </resources>
