@@ -10,21 +10,22 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SmartAgriculture">
-        <activity android:name=".hyperlink.WeatherInformationActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="Weather Information">
-
-        </activity>
+        android:theme="@style/Theme.SmartAgriculture"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".dashboard.connect.ViewConnectActivity"
+            android:label="View Messages"
+            android:parentActivityName=".dashboard.DashboardActivity"
+            />
+        <activity
+            android:name=".hyperlink.WeatherInformationActivity"
+            android:label="Weather Information"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".dashboard.info.ViewInfoActivity"
             android:label="View Info"
-            android:parentActivityName=".dashboard.DashboardActivity">
-
-        </activity>
+            android:parentActivityName=".dashboard.DashboardActivity" />
         <activity
             android:name=".dashboard.info.AddInfoActivity"
             android:label="Add Info"

@@ -26,7 +26,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/write_msg_details_edit_text"
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:layout_marginStart="20dp"
@@ -44,7 +44,7 @@
             android:textColorHint="#4E4444" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/msg_sent_btn_connect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"

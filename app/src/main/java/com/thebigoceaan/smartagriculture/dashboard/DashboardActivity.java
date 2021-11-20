@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.thebigoceaan.smartagriculture.LoginActivity;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.dashboard.connect.ViewConnectActivity;
 import com.thebigoceaan.smartagriculture.dashboard.info.AddInfoActivity;
 import com.thebigoceaan.smartagriculture.dashboard.info.ViewInfoActivity;
 import com.thebigoceaan.smartagriculture.dashboard.news.AddNewsActivity;
@@ -69,6 +70,14 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.imgViewMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DashboardActivity.this, ViewConnectActivity.class);
+                startActivity(intent);
+            }
+        });
+        binding.imgViewMsg2.setVisibility(View.INVISIBLE);
     }
 
     @Override

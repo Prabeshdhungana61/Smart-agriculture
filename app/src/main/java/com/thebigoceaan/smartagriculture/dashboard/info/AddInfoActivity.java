@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.thebigoceaan.smartagriculture.LoginActivity;
@@ -58,7 +59,6 @@ public class AddInfoActivity extends AppCompatActivity {
         //progress dialog codes
         progressDialog = new ProgressDialog(AddInfoActivity.this);
         progressDialog.setTitle("Please Wait");
-        progressDialog.setMessage("Saving image to your account ");
 
         //get instance
         auth = FirebaseAuth.getInstance();
@@ -88,7 +88,6 @@ public class AddInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AddInfoActivity.this.uploadFile();
-                progressDialog.show();
             }
         });
 
@@ -115,44 +114,57 @@ public class AddInfoActivity extends AppCompatActivity {
         CrudInfo crud = new CrudInfo();
 
         if(mImageUri !=null){
+            progressDialog.show();
             StorageReference fileReference = mStorageReference.child(System.currentTimeMillis()+"."+getFileExtension(mImageUri));
             fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Info info = new Info(mImageUri.toString(),binding.infoTitleEditText.getText().toString(),
-                            binding.infoDetailsEditText.getText().toString());
-                            if(info_edit==null) {
-                                crud.add(info).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void suc) {
-                                        binding.infoTitleEditText.setText("");
-                                        binding.infoDetailsEditText.setText("");
-                                        Intent intent = new Intent(AddInfoActivity.this.getApplicationContext(), ViewInfoActivity.class);
-                                        AddInfoActivity.this.startActivity(intent);
-                                        Toast.makeText(AddInfoActivity.this, "Agro Info inserted successfully",
-                                                Toast.LENGTH_SHORT).show();
-                                        progressDialog.dismiss();
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Info info = new Info(uri.toString(),binding.infoTitleEditText.getText().toString(),
+                                            binding.infoDetailsEditText.getText().toString());
+                                    if(info_edit==null) {
+                                        crud.add(info).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void suc) {
+                                                binding.infoTitleEditText.setText("");
+                                                binding.infoDetailsEditText.setText("");
+                                                Intent intent = new Intent(AddInfoActivity.this.getApplicationContext(), ViewInfoActivity.class);
+                                                AddInfoActivity.this.startActivity(intent);
+                                                Toast.makeText(AddInfoActivity.this, "Agro Info inserted successfully",
+                                                        Toast.LENGTH_SHORT).show();
+                                                progressDialog.dismiss();
+                                            }
+                                        }).addOnFailureListener(e -> Toast.makeText
+                                                (AddInfoActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show());
                                     }
-                                }).addOnFailureListener(e -> Toast.makeText
-                                        (AddInfoActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show());
-                            }
-                            else {
-                                HashMap<String, Object> hashMap = new HashMap<>();
-                                hashMap.put("infoTitle", binding.infoTitleEditText.getText().toString());
-                                hashMap.put("infoDetails", binding.infoDetailsEditText.getText().toString());
-                                hashMap.put("infoImage",Glide.with(AddInfoActivity.this).load(mStorageReference).into(binding.imgInfoView));
-                                crud.update(info_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
-                                    Intent intent = new Intent (getApplicationContext(), ViewInfoActivity.class);
-                                    startActivity(intent);
-                                    progressDialog.dismiss();
-                                    Toast.makeText(AddInfoActivity.this, "info updated successfully",
-                                            Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }).addOnFailureListener(e -> Toast.makeText
-                                        (AddInfoActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show());
-                            }
 
+                                    else {
+                                        HashMap<String, Object> hashMap = new HashMap<>();
+                                        hashMap.put("infoTitle", binding.infoTitleEditText.getText().toString());
+//                                        hashMap.put("infoDetails", binding.infoDetailsEditText.getText().toString());
+//                                        hashMap.put("infoImage",Glide.with(AddInfoActivity.this).load(uri.toString()).into(binding.imgInfoView));
+                                        crud.update(info_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
+                                            Intent intent = new Intent (getApplicationContext(), ViewInfoActivity.class);
+                                            startActivity(intent);
+                                            progressDialog.dismiss();
+                                            Toast.makeText(AddInfoActivity.this, "info updated successfully",
+                                                    Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }).addOnFailureListener(e -> Toast.makeText
+                                                (AddInfoActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show());
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull @NotNull UploadTask.TaskSnapshot snapshot) {
+                            long percent = (100*snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                            progressDialog.setMessage("Saving image to your account :"+ percent + " % Completed");
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

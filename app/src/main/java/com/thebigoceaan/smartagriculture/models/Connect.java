@@ -1,10 +1,15 @@
 package com.thebigoceaan.smartagriculture.models;
 
-public class Connect {
-    String message;
+import com.google.firebase.database.Exclude;
 
-    public Connect(String message) {
+public class Connect {
+    @Exclude
+    private String key;
+    String message,username;
+
+    public Connect(String message,String username) {
         this.message = message;
+        this.username = username;
     }
 
     public String getMessage() {
@@ -13,5 +18,20 @@ public class Connect {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+    public void setUsername(String username){
+        this.username=username;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }
