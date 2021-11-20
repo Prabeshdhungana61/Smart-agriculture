@@ -144,17 +144,18 @@ public class AddInfoActivity extends AppCompatActivity {
                                     else {
                                         HashMap<String, Object> hashMap = new HashMap<>();
                                         hashMap.put("infoTitle", binding.infoTitleEditText.getText().toString());
-//                                        hashMap.put("infoDetails", binding.infoDetailsEditText.getText().toString());
-//                                        hashMap.put("infoImage",Glide.with(AddInfoActivity.this).load(uri.toString()).into(binding.imgInfoView));
+                                        hashMap.put("infoDetails", binding.infoDetailsEditText.getText().toString());
+                                        hashMap.put("infoImage",uri.toString());
                                         crud.update(info_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
                                             Intent intent = new Intent (getApplicationContext(), ViewInfoActivity.class);
                                             startActivity(intent);
                                             progressDialog.dismiss();
-                                            Toast.makeText(AddInfoActivity.this, "info updated successfully",
+                                            Toast.makeText(AddInfoActivity.this, "Info updated successfully",
                                                     Toast.LENGTH_SHORT).show();
                                             finish();
                                         }).addOnFailureListener(e -> Toast.makeText
                                                 (AddInfoActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show());
+                                        progressDialog.dismiss();
                                     }
                                 }
                             });
@@ -164,7 +165,7 @@ public class AddInfoActivity extends AppCompatActivity {
                         @Override
                         public void onProgress(@NonNull @NotNull UploadTask.TaskSnapshot snapshot) {
                             long percent = (100*snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
-                            progressDialog.setMessage("Saving image to your account :"+ percent + " % Completed");
+                            progressDialog.setMessage("Saving information to your account :"+ percent + "% Completed");
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
