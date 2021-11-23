@@ -9,28 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.facebook.login.LoginManager;
 import com.google.firebase.database.annotations.NotNull;
-import com.thebigoceaan.smartagriculture.LoginActivity;
-import com.thebigoceaan.smartagriculture.MainActivity;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.dashboard.news.AddNewsActivity;
 import com.thebigoceaan.smartagriculture.dashboard.news.CrudNews;
 import com.thebigoceaan.smartagriculture.dashboard.news.ViewNewsActivity;
 import com.thebigoceaan.smartagriculture.models.News;
-
 import java.util.ArrayList;
 
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private Context context;
+    private final Context context;
     ArrayList<News> list = new ArrayList<>();
     CrudNews crud = new CrudNews();
     Dialog dialog;
@@ -109,7 +102,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return list.size();
     }
 
-    public class NewsVH  extends RecyclerView.ViewHolder {
+    public static class NewsVH  extends RecyclerView.ViewHolder {
         public TextView news_title,summary,date,menuText;
         public NewsVH(@NonNull @NotNull View itemView) {
             super(itemView);

@@ -2,7 +2,9 @@ package com.thebigoceaan.smartagriculture.models;
 
 import com.google.firebase.database.Exclude;
 
-public class Connect {
+import java.io.Serializable;
+
+public class Connect implements Serializable {
     @Exclude
     private String key;
     String message,username;
@@ -11,7 +13,6 @@ public class Connect {
         this.message = message;
         this.username = username;
     }
-
     public String getMessage() {
         return message;
     }

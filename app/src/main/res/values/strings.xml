@@ -59,5 +59,10 @@
         CLICK ON THE IMAGE BELOW TO REGISTER AS A FARMER
     </string>
     <string name="_2_user_messages">2. User Messages :</string>
+    <string name="jilla">जिल्ला *</string>
+    <string name="gaupalika_text">नगरपालिका/गाँउपालिका *</string>
+    <string name="mb_text">मोबाईल नम्बर *</string>
+    <string name="reg_text">Register as a Farmer (कृषकको लागी दर्ता गर्नुहोस )</string>
+    <string name="reg_farmer">Register Farmer(कृषकको दर्ता)</string>
 
 </resources>

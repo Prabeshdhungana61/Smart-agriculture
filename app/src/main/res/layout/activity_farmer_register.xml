@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECECEC"
+    android:orientation="vertical"
+    tools:context=".services.register.FarmerRegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/cuprum_bold"
+            android:text="@string/reg_text"
+            android:textColor="#393838"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/district_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/customborder"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:hint="@string/jilla"
+                android:inputType="textPersonName"
+                android:textColor="#040303"
+                android:textColorHint="#403A3A" />
+
+            <EditText
+                android:id="@+id/mun_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/customborder"
+                android:ems="10"
+                android:hint="@string/gaupalika_text"
+                android:inputType="textPersonName"
+                android:textColor="#1E1E1E"
+                android:textColorHint="#403A3A" />
+
+            <EditText
+                android:id="@+id/mbl_num_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/customborder"
+                android:ems="10"
+                android:hint="@string/mb_text"
+                android:inputType="number"
+                android:textColor="#000000"
+                android:textColorHint="#403A3A" />
+
+            <Button
+                android:id="@+id/btn_reg_farmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/customborder"
+                android:text="ADD"
+                android:textColor="#F4F4F4"
+                app:backgroundTint="@color/darkGreen" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

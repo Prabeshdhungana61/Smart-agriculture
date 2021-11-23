@@ -246,4 +246,10 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        progressDialog.dismiss();
+        super.onBackPressed();
+    }
 }

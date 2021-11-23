@@ -3,7 +3,6 @@
     package="com.thebigoceaan.smartagriculture">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -14,14 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAgriculture"
         android:usesCleartextTraffic="true">
-        <activity android:name=".dashboard.connect.ViewConnectActivity"
-            android:label="View Messages"
-            android:parentActivityName=".dashboard.DashboardActivity"
-            />
+        <activity android:name=".services.register.FarmerRegisterActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="@string/reg_farmer"/>
         <activity
             android:name=".hyperlink.WeatherInformationActivity"
             android:label="Weather Information"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".dashboard.info.ViewInfoActivity"
             android:label="View Info"

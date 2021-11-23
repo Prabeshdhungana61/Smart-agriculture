@@ -29,6 +29,8 @@ import com.thebigoceaan.smartagriculture.descriptions.PrivacyPolicyActivity;
 
 import java.util.Objects;
 
+import es.dmoral.toasty.Toasty;
+
 public class AccountFragment extends Fragment {
     FragmentAccountBinding binding;
     FirebaseAuth auth;
@@ -95,7 +97,7 @@ public class AccountFragment extends Fragment {
             yesBtn.setOnClickListener(view1 -> {
                 auth.signOut();
                 LoginManager.getInstance().logOut();
-                Toast.makeText(getActivity(), "Successfully Logout the account.", Toast.LENGTH_SHORT).show();
+                Toasty.success(getActivity(), "Successfully Logout the account.", Toast.LENGTH_SHORT,true).show();
                 Intent intent2 = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent2);
             });

@@ -1,59 +1,45 @@
 package com.thebigoceaan.smartagriculture.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.models.Connect;
 import org.jetbrains.annotations.NotNull;
-import java.util.ArrayList;
-
-public class ConnectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private Context context;
-    ArrayList<Connect> list = new ArrayList<>();
 
 
-    public ConnectAdapter(Context context) {
-        this.context = context;
+public class ConnectAdapter extends FirebaseRecyclerAdapter<Connect, ConnectAdapter.ConnectVH> {
+
+
+    public ConnectAdapter(@NonNull @NotNull FirebaseRecyclerOptions<Connect> options) {
+        super(options);
     }
-    public void setItem(ArrayList<Connect> connect){
-        list.addAll(connect);
+
+    @Override
+    protected void onBindViewHolder(@NonNull @NotNull ConnectVH holder, int position, @NonNull @NotNull Connect model) {
+            holder.username.setText(model.getUsername());
+            holder.message.setText(model.getMessage());
     }
 
     @NonNull
     @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_connect,parent,false);
+    public ConnectVH onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_connect,parent,false);
         return new ConnectVH(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
-        ConnectVH vh = (ConnectVH) holder;
-        Connect connect = list.get(position);
-        vh.username.setText(connect.getUsername());
-        vh.msg.setText(connect.getMessage());
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return list.size();
-    }
-
-    public class ConnectVH  extends RecyclerView.ViewHolder {
-        public TextView username, msg;
-
-        public ConnectVH(@NonNull @com.google.firebase.database.annotations.NotNull View itemView) {
+    public class ConnectVH extends RecyclerView.ViewHolder {
+        TextView username,message;
+        public ConnectVH(@NonNull @NotNull View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.msg_sent_user_text_view);
-            msg = itemView.findViewById(R.id.msg_sent_connect_details_text);
-
+            username=itemView.findViewById(R.id.msg_sent_user_text_view);
+            message=itemView.findViewById(R.id.msg_sent_connect_details_text);
         }
     }
 

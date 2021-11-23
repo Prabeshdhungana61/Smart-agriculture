@@ -14,25 +14,31 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.dashboard.connect.CrudConnect;
-import com.thebigoceaan.smartagriculture.dashboard.info.AddInfoActivity;
 import com.thebigoceaan.smartagriculture.databinding.FragmentConnectBinding;
 import com.thebigoceaan.smartagriculture.models.Connect;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
+
+import es.dmoral.toasty.Toasty;
 
 
 public class ConnectFragment extends Fragment {
     private FragmentConnectBinding binding;
     private FirebaseAuth auth;
-    private Dialog dialog;
-    ProgressDialog progressDialog;
-
-
+    private FirebaseUser user;
+    private ProgressDialog progressDialog;
+    private CrudConnect crud;
+    private Connect connect;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,52 +56,34 @@ public class ConnectFragment extends Fragment {
 
         //get instance
         auth = FirebaseAuth.getInstance();
+        crud= new CrudConnect();
 
-            binding.msgSentBtnConnect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(auth.getCurrentUser()!=null) {
-                        ConnectFragment.this.sendMessage();
-                    }
-                     else{
-                        Toast.makeText(getContext(), "Kindly login first to use this feature !", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
-
-
-        return root;
-    }
-
-    private void sendMessage() {
-        //get reference
-        dialog = new Dialog(getContext());
-        CrudConnect crud = new CrudConnect();
-        Connect connect = new Connect(binding.writeMsgDetailsEditText.getText().toString().trim(),
-                auth.getCurrentUser().getDisplayName().trim());
-        dialog.setContentView(R.layout.dialog_confirmation);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        Button yesBtn = dialog.findViewById(R.id.btn_yes_logout);
-        Button noBtn = dialog.findViewById(R.id.btn_no_logout);
-        dialog.show();
-        yesBtn.setOnClickListener(new View.OnClickListener() {
+        binding.msgSentBtnConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
-                if(validateMessages()){
-                    return;
+                user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user!=null){
+                    if(validateMessages()){
+                        return;
+                    }
+                    progressDialog.show();
+                    connect = new Connect(binding.writeMsgDetailsEditText.getText().toString(),user.getDisplayName());
+                    crud.add(connect).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            progressDialog.dismiss();
+                            Toasty.success(getContext(),"Successfully sent the message to owner !",Toasty.LENGTH_SHORT,true).show();
+                            binding.writeMsgDetailsEditText.setText("");
+                        }
+                    });
                 }
-                progressDialog.show();
-                crud.add(connect).addOnSuccessListener(unused -> {
-                    binding.writeMsgDetailsEditText.setText("");
-                    progressDialog.dismiss();
-                    Toast.makeText(ConnectFragment.this.getContext(), "Successfully sent your message to the admin.", Toast.LENGTH_SHORT).show();
-                }).addOnFailureListener(e -> Toast.makeText(ConnectFragment.this.getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show());
+                else{
+                    Toasty.warning(getContext(),"Kindly login first to use this feature",Toasty.LENGTH_SHORT,true).show();
+                }
             }
         });
-        noBtn.setOnClickListener(view -> dialog.dismiss());
 
+        return root;
     }
 
     @Override
@@ -104,9 +92,9 @@ public class ConnectFragment extends Fragment {
         binding = null;
     }
 
-    private boolean validateMessages(){
+    public boolean validateMessages(){
         if(binding.writeMsgDetailsEditText.getText().toString().trim().equals("")){
-            binding.writeMsgDetailsEditText.setError("Please Write your messages !");
+            binding.writeMsgDetailsEditText.setError("Please write something to proceed !");
         }
         return true;
     }
