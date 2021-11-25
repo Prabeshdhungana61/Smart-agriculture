@@ -30,7 +30,8 @@
                 android:layout_marginRight="160dp"
                 android:background="@drawable/customborder"
                 android:contentDescription="@string/profile_image_desc"
-                android:src="@drawable/search" />
+                android:src="@drawable/search"
+                tools:ignore="ImageContrastCheck,ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/usernameTextView"
@@ -67,8 +68,9 @@
                 android:background="@drawable/customborder"
                 android:hapticFeedbackEnabled="true"
                 android:text="@string/logout"
-                android:textColor="#DDD8D8"
-                app:backgroundTint="#6E6666" />
+                android:textColor="#EFEBE9"
+                app:backgroundTint="#6E6666"
+                tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
 
@@ -84,8 +86,9 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_privacy"
                 android:text="@string/btn_privacy_policy"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/colorAccount" />
+                android:textColor="#263238"
+                app:backgroundTint="@color/colorAccount"
+                android:drawableStart="@drawable/ic_privacy" />
 
             <Button
                 android:id="@+id/btn_about_us"
@@ -93,8 +96,10 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_info"
                 android:text="@string/about_us"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/colorAccount" />
+                android:textColor="#3E2723"
+                app:backgroundTint="@color/colorAccount"
+                tools:ignore="TextContrastCheck"
+                android:drawableStart="@drawable/ic_info" />
 
             <Button
                 android:id="@+id/btn_share_app"
@@ -102,8 +107,9 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_share"
                 android:text="@string/share_app"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/colorAccount" />
+                android:textColor="#263238"
+                app:backgroundTint="@color/colorAccount"
+                android:drawableStart="@drawable/ic_share" />
 
             <Button
                 android:id="@+id/btn_rate_us"
@@ -111,8 +117,9 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_rate"
                 android:text="@string/rate_us"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/colorAccount" />
+                android:textColor="#263238"
+                app:backgroundTint="@color/colorAccount"
+                android:drawableStart="@drawable/ic_rate" />
 
             <TextView
                 android:id="@+id/app_version_text_view"
@@ -122,8 +129,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/cuprum_regular"
-                android:text="Version"
-                android:textColor="#FFF8F8"
+                android:text="@string/version"
+                android:textColor="#5E35B1"
                 android:textStyle="bold" />
         </LinearLayout>
 

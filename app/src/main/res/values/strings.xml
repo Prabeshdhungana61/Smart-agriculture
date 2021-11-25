@@ -64,5 +64,13 @@
     <string name="mb_text">मोबाईल नम्बर *</string>
     <string name="reg_text">Register as a Farmer (कृषकको लागी दर्ता गर्नुहोस )</string>
     <string name="reg_farmer">Register Farmer(कृषकको दर्ता)</string>
+    <string name="version">Version</string>
+    <string name="our_services">Our Services :</string>
+    <string name="_1_hyperlink">1. Hyperlink</string>
+    <string name="_2_register_as_a_farmer">2. Register as a Farmer</string>
+    <string name="image_news">image news</string>
+    <string name="image_vegmarket">image_vegMarket</string>
+    <string name="img_weather">img_weather</string>
+    <string name="image_register_farmer">image_register_farmer</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package com.thebigoceaan.smartagriculture.services.register;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -9,13 +11,15 @@ import java.util.HashMap;
 
 public class CrudFarmer {
     private DatabaseReference databaseReference;
+    FirebaseAuth auth;
 
     public CrudFarmer(){
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference(Farmer.class.getSimpleName());
     }
     public Task<Void> addFarmer(Farmer farmer){
-        return databaseReference.setValue(farmer);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        return databaseReference.child(user.getUid()).setValue(farmer);
     }
     public Task<Void> update(String key, HashMap<String,Object> hashMap){
         return databaseReference.child(key).updateChildren(hashMap);

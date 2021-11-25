@@ -21,7 +21,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/cuprum_bold"
-            android:text="Our Services :"
+            android:text="@string/our_services"
             android:textColor="#191919"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -35,7 +35,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/cuprum_bold"
-            android:text="1. Hyperlink"
+            android:text="@string/_1_hyperlink"
             android:textColor="#191919"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -54,8 +54,10 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:contentDescription="@string/image_news"
                 android:scaleType="fitXY"
-                android:src="@drawable/news" />
+                android:src="@drawable/news"
+                tools:ignore="ImageContrastCheck,ImageContrastCheck" />
 
             <ImageView
                 android:id="@+id/kalimati_veg_market_img_btn"
@@ -64,8 +66,10 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:contentDescription="@string/image_vegmarket"
                 android:scaleType="fitXY"
-                android:src="@drawable/dailyvegmarket" />
+                android:src="@drawable/dailyvegmarket"
+                tools:ignore="ImageContrastCheck" />
 
             <ImageView
                 android:id="@+id/weather_info_img_btn"
@@ -74,8 +78,10 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:contentDescription="@string/img_weather"
                 android:scaleType="fitStart"
-                android:src="@drawable/weatherinfo" />
+                android:src="@drawable/weatherinfo"
+                tools:ignore="ImageContrastCheck" />
 
         </LinearLayout>
 
@@ -88,7 +94,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/cuprum_bold"
-            android:text="2. Register as a Farmer"
+            android:text="@string/_2_register_as_a_farmer"
             android:textColor="#191919"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -110,9 +116,15 @@
 
         <ImageView
             android:id="@+id/img_register_btn"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/ic_image" />
+            android:layout_width="wrap_content"
+            android:layout_height="180dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/customborder"
+            android:contentDescription="@string/image_register_farmer"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/register_farmer_logo" />
 
     </LinearLayout>
 </ScrollView>
