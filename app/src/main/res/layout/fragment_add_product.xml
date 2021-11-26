@@ -1,19 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="@color/white"
     tools:context=".services.products.AddProductFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:textSize="24sp"
-        android:text="ADD PRODUCT" />
+        android:orientation="vertical"
+        >
 
-</FrameLayout>
+
+    <!-- TODO: Update blank fragment layout -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:counterEnabled="true"
+        app:counterTextColor="@color/black"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        app:errorEnabled="true"
+        app:helperText="Input Your Product Title Here"
+        app:helperTextTextColor="@color/black"
+        app:hintTextColor="@color/black"
+        app:startIconDrawable="@drawable/ic_title"
+        app:startIconTint="@color/black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/product_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/customborder"
+            android:hint="@string/product_title"
+            android:maxLength="30"
+            android:nextFocusUp="@color/white"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textEditSuggestionItemLayout="@color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/price_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:counterEnabled="true"
+            app:counterTextColor="@color/black"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/black"
+            app:helperText="Input Your Product Price Here In Rupees"
+            app:helperTextTextColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:startIconDrawable="@drawable/ic_money"
+            app:startIconTint="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/product_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/customborder"
+                android:hint="@string/product_price"
+                android:inputType="number"
+                android:maxLength="6"
+                android:nextFocusUp="@color/white"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textEditSuggestionItemLayout="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/stock_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:counterEnabled="true"
+        app:counterTextColor="@color/black"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        app:helperText="Input Total Stocks Here"
+        app:helperTextTextColor="@color/black"
+        app:hintTextColor="@color/black"
+        app:startIconDrawable="@drawable/ic_title"
+        app:startIconTint="@color/black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/product_stock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/customborder"
+            android:hint="Total Stocks"
+            android:inputType="number"
+            android:maxLength="6"
+            android:nextFocusUp="@color/white"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textEditSuggestionItemLayout="@color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/product_img_choose_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/customborder"
+            android:outlineAmbientShadowColor="@color/darkGreen"
+            android:text="CHOOSE IMAGE"
+            android:textColor="@color/white" />
+
+        <ImageView
+        android:id="@+id/product_img_show"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/ic_image"
+        />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/product_desc_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:counterEnabled="true"
+            app:counterTextColor="@color/black"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/black"
+            app:helperText="Input Product Description Here"
+            app:helperTextTextColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:startIconDrawable="@drawable/ic_title"
+            app:startIconTint="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/product_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/customborder"
+                android:hint="Product Description"
+                android:inputType="number"
+                android:maxLength="1500"
+                android:nextFocusUp="@color/white"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textEditSuggestionItemLayout="@color/white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+        android:id="@+id/product_submit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADD PRODUCT"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:fontFamily="@font/cuprum_bold"
+        />
+
+    </LinearLayout>
+
+
+
+</ScrollView>

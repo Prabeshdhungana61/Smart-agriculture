@@ -20,8 +20,7 @@
             android:id="@+id/viewpagertab"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="#EFE7E7"
-           >
+            android:background="@color/lightWhite">
 
         </com.ogaclejapan.smarttablayout.SmartTabLayout>
 

@@ -28,7 +28,7 @@
     <string name="share_app">SHARE APP</string>
     <string name="text_contact_us">Contact Us:</string>
     <string name="rate_us">Rate Us</string>
-    <string name="login_click"><u>Click here to login Smart Agriculture</u></string>
+    <string name="login_click">Click here to login Smart Agriculture</string>
     <string name="disclaimer">Disclaimer</string>
     <string name="dashboard_desc">You can perform crud operations in this dashboard which includes adding agriculture news, information about agriculture, and many more things</string>
     <string name="operations_dashboard_desc">You can click on the specific image button to perform operations.</string>
@@ -72,5 +72,8 @@
     <string name="image_vegmarket">image_vegMarket</string>
     <string name="img_weather">img_weather</string>
     <string name="image_register_farmer">image_register_farmer</string>
+    <string name="product_title">Product Title...</string>
+    <string name="product_price">Product Price</string>
+    <string name="add_product">ADD PRODUCT</string>
 
 </resources>

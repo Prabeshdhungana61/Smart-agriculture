@@ -15,8 +15,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#C8BFBF"
+            android:layout_height="300dp"
+            android:background="@color/darkGreen"
             android:orientation="vertical">
 
             <ImageView
@@ -40,7 +40,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="@string/username"
-                android:textColor="#323131"
+                android:textColor="#EDEDED"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -51,7 +51,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="@string/email"
-                android:textColor="#272525"
+                android:textColor="#F3F3F3"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -76,50 +76,80 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/splashColor"
+            android:layout_height="480dp"
+            android:background="@drawable/grass_bg"
             android:orientation="vertical">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_privacy_policy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_privacy"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/customborder"
+                android:gravity="center"
                 android:text="@string/btn_privacy_policy"
-                android:textColor="#263238"
-                app:backgroundTint="@color/colorAccount"
-                android:drawableStart="@drawable/ic_privacy" />
-
-            <Button
+                android:textColor="#D3DCE1"
+                android:textSize="16sp"
+                app:backgroundTint="@color/teal_700"
+                app:icon="@drawable/ic_privacy"
+                app:iconGravity="textStart" />
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_about_us"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_info"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/customborder"
+                android:gravity="center"
                 android:text="@string/about_us"
-                android:textColor="#3E2723"
-                app:backgroundTint="@color/colorAccount"
-                tools:ignore="TextContrastCheck"
-                android:drawableStart="@drawable/ic_info" />
-
-            <Button
+                android:textColor="#D3DCE1"
+                android:textSize="16sp"
+                app:backgroundTint="@color/teal_700"
+                app:icon="@drawable/ic_info"
+                app:iconGravity="textStart" />
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_share_app"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_share"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/customborder"
+                android:gravity="center"
                 android:text="@string/share_app"
-                android:textColor="#263238"
-                app:backgroundTint="@color/colorAccount"
-                android:drawableStart="@drawable/ic_share" />
-
-            <Button
+                android:textColor="#D3DCE1"
+                android:textSize="16sp"
+                app:backgroundTint="@color/teal_700"
+                app:icon="@drawable/ic_share"
+                app:iconGravity="textStart" />
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_rate_us"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_rate"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/customborder"
+                android:gravity="center"
                 android:text="@string/rate_us"
-                android:textColor="#263238"
-                app:backgroundTint="@color/colorAccount"
-                android:drawableStart="@drawable/ic_rate" />
+                android:textColor="#D3DCE1"
+                android:textSize="16sp"
+                app:backgroundTint="@color/teal_700"
+                app:icon="@drawable/ic_rate"
+                app:iconGravity="textStart" />
+
+
 
             <TextView
                 android:id="@+id/app_version_text_view"
@@ -130,7 +160,9 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/cuprum_regular"
                 android:text="@string/version"
-                android:textColor="#5E35B1"
+                android:textColor="#E5E3EA"
+                android:textSize="20sp"
+                android:gravity="center"
                 android:textStyle="bold" />
         </LinearLayout>
 
