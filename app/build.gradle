@@ -65,6 +65,8 @@ dependencies {
     implementation 'com.github.GrenderG:Toasty:1.5.2'
     implementation 'jp.wasabeef:richeditor-android:1.2.2'
     implementation 'com.github.sd6352051:NiftyDialogEffects:v1.0.3'
+    implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
 
 
 

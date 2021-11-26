@@ -17,7 +17,7 @@ public class CrudFarmer {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference(Farmer.class.getSimpleName());
     }
-    public Task<Void> addFarmer(Farmer farmer){
+    public Task<Void> add(Farmer farmer){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         return databaseReference.child(user.getUid()).setValue(farmer);
     }

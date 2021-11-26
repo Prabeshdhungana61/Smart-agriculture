@@ -13,6 +13,7 @@ import com.thebigoceaan.smartagriculture.databinding.FragmentMoreBinding;
 import com.thebigoceaan.smartagriculture.hyperlink.DailyVegMarketActivity;
 import com.thebigoceaan.smartagriculture.hyperlink.WeatherInformationActivity;
 import com.thebigoceaan.smartagriculture.services.NewsActivity;
+import com.thebigoceaan.smartagriculture.services.products.ProductDashboard;
 import com.thebigoceaan.smartagriculture.services.register.FarmerRegisterActivity;
 
 import java.util.Objects;
@@ -55,6 +56,13 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), FarmerRegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+        binding.productDashboardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ProductDashboard.class);
                 startActivity(intent);
             }
         });

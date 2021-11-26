@@ -20,6 +20,9 @@
             android:name=".hyperlink.WeatherInformationActivity"
             android:label="Weather Information"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".services.products.ProductDashboard"
+            android:label="Product Dashboard"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".dashboard.info.ViewInfoActivity"
             android:label="View Info"
