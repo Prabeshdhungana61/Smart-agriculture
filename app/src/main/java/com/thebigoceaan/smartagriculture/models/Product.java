@@ -20,6 +20,8 @@ public class Product implements Serializable {
         this.productDescription = productDescription;
     }
 
+    public Product(){}
+
     public Long getProductId() {
         return productId;
     }

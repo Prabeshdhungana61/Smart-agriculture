@@ -17,7 +17,8 @@ public class CrudProduct {
         databaseReference = db.getReference(Product.class.getSimpleName());
     }
     public Task<Void> add(Product product){
-      return databaseReference.push().setValue(product);
+        String uploadId = databaseReference.push().getKey();
+        return databaseReference.child(uploadId).setValue(product);
     }
     public Task<Void> update(String key, HashMap<String,Object> hashMap){
         return databaseReference.child(key).updateChildren(hashMap);

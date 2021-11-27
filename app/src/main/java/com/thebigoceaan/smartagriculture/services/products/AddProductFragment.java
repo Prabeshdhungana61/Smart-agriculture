@@ -5,11 +5,13 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -64,8 +66,8 @@ public class AddProductFragment extends Fragment {
 
         //get instance
         auth = FirebaseAuth.getInstance();
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference(Info.class.getSimpleName());
-        mStorageReference = FirebaseStorage.getInstance().getReference(Info.class.getSimpleName());
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference(Product.class.getSimpleName());
+        mStorageReference = FirebaseStorage.getInstance().getReference(Product.class.getSimpleName());
 
         //progress dialog codes
         progressDialog = new ProgressDialog(getContext());
@@ -130,7 +132,6 @@ public class AddProductFragment extends Fragment {
         }
     }
 
-
     public void uploadProduct() {
         progressDialog.show();
         crud = new CrudProduct();
@@ -142,14 +143,22 @@ public class AddProductFragment extends Fragment {
                     fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Product product = new Product(System.currentTimeMillis(), auth.getCurrentUser().getUid(),
-                                    binding.productTitle.getText().toString().trim(), uri.toString(),
-                                    binding.productPrice.getText().toString(),
-                                    binding.productStock.getText().toString(),
-                                    binding.productDesc.getText().toString());
+                            Product product = new Product();
+                            product.setProductId(System.currentTimeMillis());
+                            product.setUserId(auth.getCurrentUser().getUid());
+                            product.setProductTitle(binding.productTitle.getText().toString().trim());
+                            product.setProductImage(uri.toString());
+                            product.setProductStock(binding.productStock.getText().toString().trim());
+                            product.setProductDescription(binding.productDesc.getText().toString().trim());
                             crud.add(product).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
+                                    binding.productTitle.setText("");
+                                    binding.productPrice.setText("");
+                                    binding.productStock.setText("");
+                                    Glide.with(getContext()).load(R.drawable.ic_image).into(binding.productImgShow);
+                                    binding.productDesc.setText("");
+                                    progressDialog.dismiss();
                                     Toasty.success(getContext(), "Successfully added your product", Toast.LENGTH_SHORT, true).show();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -169,6 +178,7 @@ public class AddProductFragment extends Fragment {
             });
         }
         else{
+            progressDialog.dismiss();
             Toasty.error(getContext(), "No image Selected !", Toast.LENGTH_SHORT,true).show();
         }
     }

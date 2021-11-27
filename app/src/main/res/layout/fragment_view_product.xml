@@ -7,15 +7,23 @@
     android:orientation="vertical"
     tools:context=".services.products.ViewProductFragment">
 
-    <io.supercharge.shimmerlayout.ShimmerLayout
+    <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewProduct"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/item_product" />
+            <include layout="@layout/item_product" />
+            <include layout="@layout/item_product" />
+            <include layout="@layout/item_product" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    </io.supercharge.shimmerlayout.ShimmerLayout>
 </LinearLayout>
