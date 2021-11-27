@@ -41,7 +41,6 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Dialog dialog;
     StorageReference mStorageReference = FirebaseStorage.getInstance().getReference(Info.class.getSimpleName());
 
-
     public InfoAdapter(Context context) {
         this.context = context;
     }

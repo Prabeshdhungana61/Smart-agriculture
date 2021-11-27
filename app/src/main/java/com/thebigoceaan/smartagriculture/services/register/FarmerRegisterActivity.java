@@ -53,6 +53,7 @@ public class FarmerRegisterActivity extends AppCompatActivity {
                 farmer.setDistrict(binding.districtEditText.getText().toString().trim());
                 farmer.setMunicipality(binding.munEditText.getText().toString().trim());
                 farmer.setMobile(binding.mblNumEditText.getText().toString().trim());
+                farmer.setUserid(auth.getCurrentUser().getUid());
                 if(auth.getCurrentUser()!=null) {
                     CrudFarmer crud = new CrudFarmer();
                     crud.add(farmer).addOnSuccessListener(new OnSuccessListener<Void>() {
