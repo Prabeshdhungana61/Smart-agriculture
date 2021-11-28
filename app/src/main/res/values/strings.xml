@@ -76,5 +76,6 @@
     <string name="product_price">Product Price</string>
     <string name="add_product">ADD PRODUCT</string>
     <string name="update_product">UPDATE PRODUCT</string>
+    <string name="del_or_ed">Edit or Delete product</string>
 
 </resources>

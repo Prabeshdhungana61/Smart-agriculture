@@ -36,7 +36,9 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.dashboard.DashboardActivity;
 import com.thebigoceaan.smartagriculture.dashboard.info.AddInfoActivity;
+import com.thebigoceaan.smartagriculture.dashboard.info.ViewInfoActivity;
 import com.thebigoceaan.smartagriculture.databinding.FragmentAddProductBinding;
 import com.thebigoceaan.smartagriculture.models.Info;
 import com.thebigoceaan.smartagriculture.models.Product;
@@ -77,8 +79,8 @@ public class AddProductFragment extends Fragment {
         progressDialog.setTitle("Please Wait");
 
         //get data for edit or update
-        bundle = this.getArguments();
-        Product product_edit= (Product) bundle.getSerializable("EDIT");
+        Product product_edit= (Product) getActivity().getIntent().getSerializableExtra("EDIT");
+
         if(product_edit!=null){
             binding.productSubmitBtn.setText(R.string.update_product);
             binding.productTitle.setText(product_edit.getProductTitle());
@@ -181,6 +183,8 @@ public class AddProductFragment extends Fragment {
                                         binding.productStock.setText("");
                                         binding.productPrice.setText("");
                                         binding.productDesc.setText("");
+                                        Intent intent = new Intent(getContext(),ProductDashboard.class);
+                                        getContext().startActivity(intent);
                                         progressDialog.dismiss();
                                         Toasty.success(getContext(), "Successfully added your product", Toast.LENGTH_SHORT, true).show();
                                     }
@@ -198,6 +202,16 @@ public class AddProductFragment extends Fragment {
                                 hashMap.put("productStock",binding.productStock.getText().toString());
                                 hashMap.put("productImage",uri.toString());
                                 hashMap.put("productDesc",binding.productDesc.getText().toString());
+                                crud.update(product_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
+                                    Intent intent = new Intent (getApplicationContext(), ProductDashboard.class);
+                                    startActivity(intent);
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Product updated successfully",
+                                            Toast.LENGTH_SHORT).show();
+                                    getActivity().finish();
+                                }).addOnFailureListener(e -> Toasty.error
+                                        (getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT,true).show());
+                                progressDialog.dismiss();
                             }
                         }
                     });

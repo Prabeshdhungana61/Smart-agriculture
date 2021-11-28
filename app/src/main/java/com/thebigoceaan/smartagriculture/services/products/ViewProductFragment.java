@@ -1,21 +1,17 @@
 package com.thebigoceaan.smartagriculture.services.products;
 
-import android.app.backup.BackupDataInput;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
-import com.google.android.gms.common.GooglePlayServicesManifestException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,13 +19,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.adapters.ProductAdapter;
-import com.thebigoceaan.smartagriculture.dashboard.news.AddNewsActivity;
-import com.thebigoceaan.smartagriculture.dashboard.news.ViewNewsActivity;
 import com.thebigoceaan.smartagriculture.databinding.FragmentViewProductBinding;
-import com.thebigoceaan.smartagriculture.models.News;
 import com.thebigoceaan.smartagriculture.models.Product;
 import java.util.ArrayList;
-
 import es.dmoral.toasty.Toasty;
 
 public class ViewProductFragment extends Fragment {
@@ -122,9 +114,10 @@ public class ViewProductFragment extends Fragment {
              crud = new CrudProduct();
              Product product = list.get(position);
             dialogBuilder.withTitle("ACTION YOUR PRODUCT")
-                    .withMessage("Edit or delete your product...")
+                    .withMessage(R.string.del_or_ed)
                     .withIcon(R.drawable.ic_edit)
                     .withDialogColor(R.color.lightWhite)
+                    .withDividerColor(Color.GREEN)
                     .withButton1Text("EDIT")
                     .withButton2Text("DELETE")
                     .isCancelableOnTouchOutside(true)
@@ -133,6 +126,8 @@ public class ViewProductFragment extends Fragment {
                         dialogBuilder1.withTitle("ARE YOU SURE ?")
                                 .withMessage("You want to delete this...")
                                 .withButton1Text("YES")
+                                .withDividerColor(Color.RED)
+                                .withIcon(R.drawable.ic_danger)
                                 .withDialogColor(R.color.errorColor)
                                 .withButton2Text("NO")
                                 .setButton1Click(view1 -> {
@@ -147,23 +142,24 @@ public class ViewProductFragment extends Fragment {
                                                         (getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                             });
                                 })
-                                .setButton2Click(view12 -> dialogBuilder1.dismiss()).show();
+                                .setButton2Click(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view12) {
+                                        dialogBuilder1.dismiss();
+                                        dialogBuilder.dismiss();
+                                    }
+                                }).show();
 
                     }).setButton1Click(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //edit code here...
                     dialogBuilder.dismiss();
-                    AddProductFragment fragment = new AddProductFragment();
-                    FragmentManager manager = getActivity().getSupportFragmentManager();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("EDIT", product);
-                    fragment.setArguments(bundle);
-                    manager.beginTransaction().replace(R.id.viewpager,fragment).commit();
+                    Intent intent = new Intent(getContext(), ProductDashboard.class);
+                    intent.putExtra("EDIT",product);
+                    getContext().startActivity(intent);
                 }
             }).show();
-
-
         };
     }
 }
