@@ -30,6 +30,7 @@
                 android:layout_marginRight="160dp"
                 android:background="@drawable/customborder"
                 android:contentDescription="@string/profile_image_desc"
+                android:scaleType="centerCrop"
                 android:src="@drawable/search"
                 tools:ignore="ImageContrastCheck,ImageContrastCheck" />
 

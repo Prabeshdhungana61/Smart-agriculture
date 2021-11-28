@@ -53,8 +53,8 @@ public class AccountFragment extends Fragment {
         binding.appVersionTextView.setText("Version : " + versionName);
 
         if(user!=null){
-            String personImage = Objects.requireNonNull(user.getPhotoUrl()).toString();
-            Glide.with(this).load(personImage).into(binding.profileImageAccount);
+            String personImage = user.getPhotoUrl().toString()+"?height=500";
+            Glide.with(this).load(personImage).fitCenter().centerCrop().into(binding.profileImageAccount);
             binding.usernameTextView.setText(user.getDisplayName());
             binding.emailTextView.setText(user.getEmail());
         }

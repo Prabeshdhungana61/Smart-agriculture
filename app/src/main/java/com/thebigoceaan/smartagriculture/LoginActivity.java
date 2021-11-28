@@ -17,6 +17,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -139,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                     Users users = new Users();
                     users.setUserId(Objects.requireNonNull(user).getUid());
                     users.setUserName(user.getDisplayName());
-                    users.setProfilePic((user.getPhotoUrl()+"?type=large"));
+                    users.setProfilePic(user.getPhotoUrl().toString());
                     database.getReference().child("Users").child(user.getUid()).setValue(users);
                     updateUi();
                     progressDialog.dismiss();

@@ -75,5 +75,6 @@
     <string name="product_title">Product Title...</string>
     <string name="product_price">Product Price</string>
     <string name="add_product">ADD PRODUCT</string>
+    <string name="update_product">UPDATE PRODUCT</string>
 
 </resources>
