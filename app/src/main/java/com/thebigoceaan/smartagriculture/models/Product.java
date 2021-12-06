@@ -7,10 +7,10 @@ import java.io.Serializable;
 public class Product implements Serializable {
     @Exclude
      private String key;
-    private Long productId;
+    private String productId;
     private String userId, productTitle, productImage, productPrice, productStock, productDescription;
 
-    public Product(Long productId, String userId, String productTitle, String productImage, String productPrice, String productStock, String productDescription) {
+    public Product(String productId, String userId, String productTitle, String productImage, String productPrice, String productStock, String productDescription) {
         this.productId = productId;
         this.userId = userId;
         this.productTitle = productTitle;
@@ -22,11 +22,11 @@ public class Product implements Serializable {
 
     public Product(){}
 
-    public Long getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 

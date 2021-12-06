@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.karumi.dexter.Dexter;
@@ -166,7 +167,7 @@ public class AddProductFragment extends Fragment {
                         @Override
                         public void onSuccess(Uri uri) {
                             Product product = new Product();
-                            product.setProductId(System.currentTimeMillis());
+                            product.setProductId(System.currentTimeMillis()+"");
                             product.setUserId(auth.getCurrentUser().getUid());
                             product.setProductTitle(binding.productTitle.getText().toString().trim());
                             product.setProductImage(uri.toString());
@@ -221,6 +222,9 @@ public class AddProductFragment extends Fragment {
                 public void onFailure(@NonNull @NotNull Exception e) {
                     Toasty.warning(getContext(), "" + e.getMessage(), Toasty.LENGTH_SHORT, true).show();
                 }
+            }).addOnProgressListener(snapshot -> {
+                long percent = (100*snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                progressDialog.setMessage("Completed: "+ percent + "%");
             });
         }
         else{

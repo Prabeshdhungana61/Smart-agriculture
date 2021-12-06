@@ -51,6 +51,8 @@
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/white"
             app:boxStrokeColor="#E38080"
+            app:helperText="Choose News source above"
+            app:helperTextTextColor="@color/black"
             app:hintTextColor="#393535">
 
             <AutoCompleteTextView

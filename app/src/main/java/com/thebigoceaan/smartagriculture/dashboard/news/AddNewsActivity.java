@@ -31,6 +31,7 @@ public class AddNewsActivity extends AppCompatActivity {
                 R.array.source_list, R.layout.item_dropdown);
         adapter.setDropDownViewResource(R.layout.item_dropdown);
         binding.newsSourceEditText.setAdapter(adapter);
+
         //action bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
@@ -44,11 +45,16 @@ public class AddNewsActivity extends AppCompatActivity {
         News news_edit= (News) getIntent().getSerializableExtra("EDIT");
         if(news_edit!=null){
             binding.btnNewsAdd.setText(R.string.update_news);
-            binding.newsSourceEditText.setText(news_edit.getNews_source());
             binding.newsLinkEditText.setText(news_edit.getNews_link());
             binding.newsSummaryEditText.setText(news_edit.getNews_summary());
             binding.newsTitleEditText.setText(news_edit.getNews_title());
             binding.newsDateEditText.setText(news_edit.getNews_date());
+            binding.newsSourceEditText.setText(news_edit.getNews_source());
+            ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                    R.array.source_list, R.layout.item_dropdown);
+            adapter2.setDropDownViewResource(R.layout.item_dropdown);
+            binding.newsSourceEditText.setAdapter(adapter2);
+
 
         }
         else{
@@ -63,9 +69,6 @@ public class AddNewsActivity extends AppCompatActivity {
                     binding.newsLinkEditText.getText().toString(),
                     binding.newsDateEditText.getText().toString());
             if(news_edit==null) {
-                if (validateNewsTitle() && validateNewsSource() && validateNewsLink() && validateNewsDate()&& validateNewsSummary() ){
-                    return;
-                }
                 crud.add(news).addOnSuccessListener(suc -> {
                     binding.newsTitleEditText.setText("");
                     binding.newsLinkEditText.setText("");
@@ -88,7 +91,6 @@ public class AddNewsActivity extends AppCompatActivity {
                 hashMap.put("news_summary", binding.newsSummaryEditText.getText().toString());
                 hashMap.put("news_date",binding.newsDateEditText.getText().toString());
 
-
                 crud.update(news_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
                     Intent intent = new Intent (getApplicationContext(), ViewNewsActivity.class);
                     startActivity(intent);
@@ -101,38 +103,5 @@ public class AddNewsActivity extends AppCompatActivity {
         });
 
     }
-
-    private boolean validateNewsTitle(){
-        if(binding.newsTitleEditText.getText().toString().length()==0){
-            binding.newsTitleEditText.setError("You must have to write news title...");
-        }
-        return true;
-    }
-    private boolean validateNewsSource(){
-        if(binding.newsSourceEditText.getText().toString().length()==0){
-            binding.newsSourceEditText.setError("You must have to write news source...");
-        }
-        return true;
-    }
-    private boolean validateNewsLink(){
-        if(binding.newsLinkEditText.getText().toString().length()==0){
-            binding.newsLinkEditText.setError("You must have to put news Link...");
-        }
-        return true;
-    }
-    private boolean validateNewsSummary(){
-        if(binding.newsSummaryEditText.getText().toString().length()==0){
-            binding.newsSummaryEditText.setError("You must have to put news title...");
-        }
-        return true;
-    }
-    private boolean validateNewsDate(){
-        if(binding.newsDateEditText.getText().toString().length()==0){
-            binding.newsDateEditText.setError("You must have to put news title...");
-        }
-        return true;
-    }
-
-
 
 }

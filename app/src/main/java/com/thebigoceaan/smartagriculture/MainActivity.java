@@ -28,7 +28,6 @@ import com.thebigoceaan.smartagriculture.databinding.ActivityMainBinding;
 import com.thebigoceaan.smartagriculture.descriptions.AboutActivity;
 import com.thebigoceaan.smartagriculture.hyperlink.DailyVegMarketActivity;
 import com.thebigoceaan.smartagriculture.services.NewsActivity;
-
 import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
@@ -69,10 +68,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //for drawer layout
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout,R.string.start,R.string.close);
-        binding.drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         binding.navigationView.setNavigationItemSelectedListener(this);
+        binding.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
         loginLogoutValidate();
         accessTokenTracker = new AccessTokenTracker() {

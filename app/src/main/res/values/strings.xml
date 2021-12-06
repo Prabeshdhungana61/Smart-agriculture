@@ -77,5 +77,7 @@
     <string name="add_product">ADD PRODUCT</string>
     <string name="update_product">UPDATE PRODUCT</string>
     <string name="del_or_ed">Edit or Delete product</string>
+    <string name="product_image">PRODUCT IMAGE</string>
+    <string name="image_description">Image Description</string>
 
 </resources>

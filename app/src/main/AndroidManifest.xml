@@ -13,7 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAgriculture"
         android:usesCleartextTraffic="true">
-        <activity android:name=".services.products.EditProductActivity"></activity>
+        <activity android:name=".services.products.ProductDetailsActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Product Description"
+            />
+
         <activity
             android:name=".services.register.FarmerRegisterActivity"
             android:label="@string/reg_farmer"

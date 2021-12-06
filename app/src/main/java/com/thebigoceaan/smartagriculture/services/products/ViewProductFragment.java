@@ -82,17 +82,20 @@ public class ViewProductFragment extends Fragment {
                 ArrayList<Product> product = new ArrayList<>();
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Product product1 = data.getValue(Product.class);
-                    if(product1.getUserId().equals(auth.getCurrentUser().getUid())) {
-                        product1.setKey(data.getKey());
-                        product.add(product1);
-                        key = data.getKey();
+                    if(auth.getCurrentUser()!=null) {
+                        if (product1.getUserId().equals(auth.getCurrentUser().getUid())) {
+                            product1.setKey(data.getKey());
+                            product.add(product1);
+                            key = data.getKey();
+                            binding.shimmerText.stopShimmer();
+                            binding.shimmerText.setVisibility(View.GONE);
+                        }
                     }
                 }
                 adapter.setItem(product);
                 adapter.notifyDataSetChanged();
                 isLoading = false;
-                binding.shimmerText.stopShimmer();
-                binding.shimmerText.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -131,7 +134,7 @@ public class ViewProductFragment extends Fragment {
                                 .withDialogColor(R.color.errorColor)
                                 .withButton2Text("NO")
                                 .setButton1Click(view1 -> {
-                                    //delete code here
+                                    //product delete code here
                                             crud.remove(product.getKey()).addOnSuccessListener(suc -> {
                                                 Intent intent2 = new Intent(getContext(), ProductDashboard.class);
                                                 getContext().startActivity(intent2);
@@ -153,7 +156,7 @@ public class ViewProductFragment extends Fragment {
                     }).setButton1Click(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //edit code here...
+                    //product edit code here...
                     dialogBuilder.dismiss();
                     Intent intent = new Intent(getContext(), ProductDashboard.class);
                     intent.putExtra("EDIT",product);
