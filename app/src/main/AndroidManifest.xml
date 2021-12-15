@@ -13,11 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAgriculture"
         android:usesCleartextTraffic="true">
-        <activity android:name=".services.products.ProductDetailsActivity"
-            android:parentActivityName=".MainActivity"
+        <activity android:name=".services.news.NewsDetailsActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".services.products.ProductDetailsActivity"
             android:label="Product Description"
-            />
-
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".services.register.FarmerRegisterActivity"
             android:label="@string/reg_farmer"
@@ -48,7 +49,7 @@
             android:parentActivityName=".dashboard.DashboardActivity" />
         <activity android:name=".dashboard.DashboardActivity" />
         <activity
-            android:name=".services.NewsActivity"
+            android:name=".services.news.NewsActivity"
             android:label="Agriculture News"
             android:parentActivityName=".MainActivity" />
         <activity

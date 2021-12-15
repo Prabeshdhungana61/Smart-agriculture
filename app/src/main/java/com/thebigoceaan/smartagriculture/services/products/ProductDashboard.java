@@ -35,9 +35,9 @@ public class ProductDashboard extends AppCompatActivity {
                 .add("ADD PRODUCT", AddProductFragment.class)
                 .add("VIEW PRODUCT", ViewProductFragment.class)
                 .create());
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager =  findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
-        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+        SmartTabLayout viewPagerTab =  findViewById(R.id.viewpagertab);
         viewPagerTab.setViewPager(viewPager);
 
     }

@@ -48,6 +48,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         News news = list.get(position);
         vh.news_title.setText(news.getNews_title());
         vh.summary.setText(news.getNews_summary());
+        vh.date.setText(news.getNews_date());
         vh.menuText.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(context,vh.menuText);
             popupMenu.inflate(R.menu.task);

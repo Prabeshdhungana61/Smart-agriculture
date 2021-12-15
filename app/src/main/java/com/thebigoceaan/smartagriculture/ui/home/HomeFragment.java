@@ -59,10 +59,10 @@ public class HomeFragment extends Fragment {
 
         setOnClickListener();
         binding.recyclerViewProductDetails.setHasFixedSize(true);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        manager.setReverseLayout(true);
-        manager.setStackFromEnd(true);
-        binding.recyclerViewProductDetails.setLayoutManager(manager);
+//        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+//        manager.setReverseLayout(true);
+//        manager.setStackFromEnd(true);
+//        binding.recyclerViewProductDetails.setLayoutManager(manager);
         adapter = new ProductDetailsAdapter(getContext(),listener,list);
         adapter.notifyDataSetChanged();
         binding.recyclerViewProductDetails.setAdapter(adapter);

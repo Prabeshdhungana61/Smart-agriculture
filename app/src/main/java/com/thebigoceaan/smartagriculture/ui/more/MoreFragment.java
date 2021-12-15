@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.thebigoceaan.smartagriculture.databinding.FragmentMoreBinding;
 import com.thebigoceaan.smartagriculture.hyperlink.DailyVegMarketActivity;
 import com.thebigoceaan.smartagriculture.hyperlink.WeatherInformationActivity;
-import com.thebigoceaan.smartagriculture.services.NewsActivity;
+import com.thebigoceaan.smartagriculture.services.news.NewsActivity;
 import com.thebigoceaan.smartagriculture.services.products.ProductDashboard;
 import com.thebigoceaan.smartagriculture.services.register.FarmerRegisterActivity;
 

@@ -82,15 +82,16 @@ public class ViewProductFragment extends Fragment {
                 ArrayList<Product> product = new ArrayList<>();
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Product product1 = data.getValue(Product.class);
-                    if(auth.getCurrentUser()!=null) {
-                        if (product1.getUserId().equals(auth.getCurrentUser().getUid())) {
-                            product1.setKey(data.getKey());
-                            product.add(product1);
-                            key = data.getKey();
-                            binding.shimmerText.stopShimmer();
-                            binding.shimmerText.setVisibility(View.GONE);
-                        }
+                        if (auth.getCurrentUser() != null) {
+                            if (product1.getUserId().equals(auth.getCurrentUser().getUid())) {
+                                product1.setKey(data.getKey());
+                                product.add(product1);
+                                key = data.getKey();
+                            }
                     }
+                    binding.shimmerText.stopShimmer();
+                    binding.shimmerText.setVisibility(View.GONE);
+
                 }
                 adapter.setItem(product);
                 adapter.notifyDataSetChanged();

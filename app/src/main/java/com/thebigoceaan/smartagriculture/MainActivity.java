@@ -27,7 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.thebigoceaan.smartagriculture.databinding.ActivityMainBinding;
 import com.thebigoceaan.smartagriculture.descriptions.AboutActivity;
 import com.thebigoceaan.smartagriculture.hyperlink.DailyVegMarketActivity;
-import com.thebigoceaan.smartagriculture.services.NewsActivity;
+import com.thebigoceaan.smartagriculture.services.news.NewsActivity;
+
 import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
