@@ -7,6 +7,7 @@ android {
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
+
     defaultConfig {
         applicationId "com.thebigoceaan.smartagriculture"
         minSdkVersion 16
@@ -69,4 +70,7 @@ dependencies {
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.mikhaellopez:circularimageview:4.3.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+
 }

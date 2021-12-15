@@ -60,6 +60,7 @@
                 android:id="@+id/btn_logout_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="80dp"
                 android:layout_marginLeft="80dp"
                 android:layout_marginTop="10dp"
@@ -67,10 +68,13 @@
                 android:layout_marginRight="80dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/customborder"
+                android:drawableLeft="@drawable/ic_login"
+                android:gravity="center"
                 android:hapticFeedbackEnabled="true"
                 android:text="@string/logout"
                 android:textColor="#EFEBE9"
                 app:backgroundTint="#C32424"
+                app:iconGravity="textStart"
                 tools:ignore="TextContrastCheck" />
 
         </LinearLayout>

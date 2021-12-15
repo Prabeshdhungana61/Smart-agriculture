@@ -3,35 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
     android:orientation="vertical">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/productImageDesc"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@drawable/customborder"
+        android:contentDescription="@string/product_image"
+        android:orientation="vertical"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/ic_image" />
+
+    <TextView
+        android:id="@+id/productTitleDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:id="@+id/productImageDesc"
-            android:background="@drawable/customborder"
-            app:srcCompat="@drawable/ic_image"
-            android:orientation="vertical"
-            android:contentDescription="@string/product_image"
-            android:scaleType="fitXY" />
-
-        <TextView
-            android:id="@+id/productTitleDesc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:fontFamily="@font/cuprum_bold"
-            android:maxLines="2"
-            android:text="@string/product_title"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+        android:layout_margin="10dp"
+        android:fontFamily="@font/cuprum_bold"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="@string/product_title"
+        android:textColor="#2F3A10"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

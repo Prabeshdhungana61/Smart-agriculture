@@ -22,15 +22,16 @@ public class ProductDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityProductDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getAndSetIntentData();
 
         // Set App bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
         ColorDrawable colorDrawable
                 = new ColorDrawable(Color.parseColor("#4fb424"));
+        getSupportActionBar().setTitle(title);
         actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
 
-        getAndSetIntentData();
     }
 
     void getAndSetIntentData() {
@@ -48,8 +49,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
             //Setting Intent Data
             binding.productTitleDetails.setText(title);
-            binding.productStockDetails.setText(stock);
-            binding.productDetailsPrice.setText(price);
+            binding.productStockDetails.setText(stock+ "K.G. ");
+            binding.productDetailsPrice.setText(price + "Rs.");
             binding.productDescriptionDetails.setText(description);
             Glide.with(this).load(image).placeholder(R.drawable.ic_image).into(binding.imageView);
         } else {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -13,24 +14,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.CubeGrid;
+import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
-import com.thebigoceaan.smartagriculture.R;
-import com.thebigoceaan.smartagriculture.adapters.ProductAdapter;
 import com.thebigoceaan.smartagriculture.adapters.ProductDetailsAdapter;
 import com.thebigoceaan.smartagriculture.databinding.FragmentHomeBinding;
-import com.thebigoceaan.smartagriculture.databinding.FragmentViewProductBinding;
 import com.thebigoceaan.smartagriculture.models.Product;
 import com.thebigoceaan.smartagriculture.services.products.CrudProduct;
 import com.thebigoceaan.smartagriculture.services.products.ProductDetailsActivity;
-
 import java.util.ArrayList;
 import java.util.Objects;
-
 import es.dmoral.toasty.Toasty;
 
 public class HomeFragment extends Fragment {
@@ -43,7 +41,6 @@ public class HomeFragment extends Fragment {
     FirebaseAuth auth;
     ArrayList<Product> list = new ArrayList<>();
     private ProductDetailsAdapter.RecyclerViewClickListener listener;
-    private ShimmerFrameLayout shimmertext;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,16 +50,16 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        //For Progress bar
+        Sprite cubegrid = new CubeGrid();
+        binding.spinKit.setIndeterminateDrawable(cubegrid);
+
         //for display drawer layout
         ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         Objects.requireNonNull(mActionBar).setDisplayHomeAsUpEnabled(true);
 
         setOnClickListener();
         binding.recyclerViewProductDetails.setHasFixedSize(true);
-//        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-//        manager.setReverseLayout(true);
-//        manager.setStackFromEnd(true);
-//        binding.recyclerViewProductDetails.setLayoutManager(manager);
         adapter = new ProductDetailsAdapter(getContext(),listener,list);
         adapter.notifyDataSetChanged();
         binding.recyclerViewProductDetails.setAdapter(adapter);
@@ -105,13 +102,12 @@ public class HomeFragment extends Fragment {
                 adapter.setItem(product);
                 adapter.notifyDataSetChanged();
                 isLoading = false;
+                binding.spinKit.setVisibility(View.GONE);
 
             }
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                shimmertext.stopShimmer();
-                shimmertext.setVisibility(View.GONE);
                 Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT,true).show();
             };
         });

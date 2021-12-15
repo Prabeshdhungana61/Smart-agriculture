@@ -1,31 +1,22 @@
 package com.thebigoceaan.smartagriculture.ui.connect;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
-import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.dashboard.connect.CrudConnect;
 import com.thebigoceaan.smartagriculture.databinding.FragmentConnectBinding;
 import com.thebigoceaan.smartagriculture.models.Connect;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -82,6 +73,7 @@ public class ConnectFragment extends Fragment {
                 }
             }
         });
+
 
         return root;
     }
