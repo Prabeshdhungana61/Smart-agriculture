@@ -35,13 +35,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
     }
 
     void getAndSetIntentData() {
-        if (getIntent().hasExtra("TitleProductText") &&
-                getIntent().hasExtra("StockProductText") && getIntent().hasExtra("ProductPriceText")
+        if (getIntent().hasExtra("TitleProductText") && getIntent().hasExtra("ProductPriceText")
                 && getIntent().hasExtra("ProductImage") && getIntent().hasExtra("ProductDescText")
         ) {
             //Getting Data from Intent
             title = getIntent().getStringExtra("TitleProductText");
-            stock = getIntent().getStringExtra("StockProductText");
             price = getIntent().getStringExtra("ProductPriceText");
             description = getIntent().getStringExtra("ProductDescText");
             image = getIntent().getStringExtra("ProductImage");
@@ -49,7 +47,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
             //Setting Intent Data
             binding.productTitleDetails.setText(title);
-            binding.productStockDetails.setText(stock+ "K.G. ");
             binding.productDetailsPrice.setText(price + "Rs.");
             binding.productDescriptionDetails.setText(description);
             Glide.with(this).load(image).placeholder(R.drawable.ic_image).into(binding.imageView);

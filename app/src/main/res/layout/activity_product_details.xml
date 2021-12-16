@@ -23,33 +23,15 @@
 
         </ImageView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/product_details_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/cuprum_bold"
-                android:text="@string/product_price"
-                android:textColor="@color/darkGreen"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/product_stock_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/cuprum_bold"
-                android:gravity="right"
-                android:text="TextView"
-                android:textColor="#121111"
-                android:textSize="18sp" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/product_details_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/cuprum_bold"
+            android:text="@string/product_price"
+            android:textColor="@color/darkGreen"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/product_title_details"
@@ -60,7 +42,7 @@
             android:gravity="center"
             android:text="@string/product_title"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/product_description_details"
@@ -68,9 +50,32 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:fontFamily="@font/cuprum_regular"
-            android:text="@string/privacy_policy"
+            android:text="@string/image_description"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#3C3636" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/cuprum_bold"
+            android:text="Seller Information : "
+            android:textColor="#3E3636"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

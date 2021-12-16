@@ -53,11 +53,6 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //For Progress bar
-        binding.spinKit.setVisibility(View.GONE);
-        Sprite cubegrid = new CubeGrid();
-        binding.spinKit.setIndeterminateDrawable(cubegrid);
-
         //for display drawer layout
         ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         Objects.requireNonNull(mActionBar).setDisplayHomeAsUpEnabled(true);
@@ -73,6 +68,11 @@ public class HomeFragment extends Fragment {
 
         crud = new CrudProduct();
         loadData();
+        //For Progress bar
+        Sprite cubegrid = new CubeGrid();
+        binding.spinKit.setIndeterminateDrawable(cubegrid);
+        binding.spinKit.setVisibility(View.GONE);
+
         binding.recyclerViewProductDetails.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull @org.jetbrains.annotations.NotNull RecyclerView recyclerView, int newState) {
@@ -115,8 +115,6 @@ public class HomeFragment extends Fragment {
                 adapter.setItem(product);
                 adapter.notifyDataSetChanged();
                 isLoading = false;
-                binding.spinKit.setVisibility(View.GONE);
-
             }
 
             @Override
@@ -137,7 +135,6 @@ public class HomeFragment extends Fragment {
             Product product = list.get(position);
             Intent intent = new Intent(getContext(), ProductDetailsActivity.class);
             intent.putExtra("TitleProductText",product.getProductTitle());
-            intent.putExtra("StockProductText",product.getProductStock());
             intent.putExtra("ProductPriceText",product.getProductPrice());
             intent.putExtra("ProductImage",product.getProductImage());
             intent.putExtra("ProductDescText",product.getProductDescription());
