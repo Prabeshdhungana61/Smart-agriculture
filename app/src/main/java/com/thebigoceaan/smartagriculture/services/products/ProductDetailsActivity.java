@@ -15,7 +15,7 @@ import es.dmoral.toasty.Toasty;
 
 public class ProductDetailsActivity extends AppCompatActivity {
     ActivityProductDetailsBinding binding;
-    String title, stock, price, description, image;
+    String title, sellerProfile,sellerMobile,sellerEmail, price, description, image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
     }
 
     void getAndSetIntentData() {
-        if (getIntent().hasExtra("TitleProductText") && getIntent().hasExtra("ProductPriceText")
+        if (getIntent().hasExtra("SellerEmail") && getIntent().hasExtra("SellerMobile")
+                && getIntent().hasExtra("SellerProfile") && getIntent().hasExtra("TitleProductText")
+                && getIntent().hasExtra("ProductPriceText")
                 && getIntent().hasExtra("ProductImage") && getIntent().hasExtra("ProductDescText")
         ) {
             //Getting Data from Intent
@@ -43,13 +45,19 @@ public class ProductDetailsActivity extends AppCompatActivity {
             price = getIntent().getStringExtra("ProductPriceText");
             description = getIntent().getStringExtra("ProductDescText");
             image = getIntent().getStringExtra("ProductImage");
-
+            sellerProfile=getIntent().getStringExtra("SellerProfile");
+            sellerEmail=getIntent().getStringExtra("SellerEmail");
+            sellerMobile=getIntent().getStringExtra("SellerMobile");
 
             //Setting Intent Data
             binding.productTitleDetails.setText(title);
             binding.productDetailsPrice.setText(price + "Rs.");
             binding.productDescriptionDetails.setText(description);
             Glide.with(this).load(image).placeholder(R.drawable.ic_image).into(binding.imageView);
+            Glide.with(this).load(sellerProfile).placeholder(R.drawable.ic_image).into(binding.sellerProfileImage);
+            binding.sendEmailTextView.setText(sellerEmail);
+            binding.sellerMobileTextView.setText(sellerMobile);
+
         } else {
             Toasty.error(this, "No data Found !", Toasty.LENGTH_SHORT, true).show();
         }
