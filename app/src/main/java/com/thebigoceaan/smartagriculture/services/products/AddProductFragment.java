@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -41,6 +42,7 @@ import com.thebigoceaan.smartagriculture.dashboard.DashboardActivity;
 import com.thebigoceaan.smartagriculture.dashboard.info.AddInfoActivity;
 import com.thebigoceaan.smartagriculture.dashboard.info.ViewInfoActivity;
 import com.thebigoceaan.smartagriculture.databinding.FragmentAddProductBinding;
+import com.thebigoceaan.smartagriculture.models.Farmer;
 import com.thebigoceaan.smartagriculture.models.Info;
 import com.thebigoceaan.smartagriculture.models.Product;
 
@@ -63,6 +65,7 @@ public class AddProductFragment extends Fragment {
     private ProgressDialog progressDialog;
     private CrudProduct crud;
     private Bundle bundle;
+    private FirebaseDatabase database;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,6 +75,7 @@ public class AddProductFragment extends Fragment {
 
         //get instance
         auth = FirebaseAuth.getInstance();
+        database=FirebaseDatabase.getInstance();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference(Product.class.getSimpleName());
         mStorageReference = FirebaseStorage.getInstance().getReference(Product.class.getSimpleName());
 
@@ -174,6 +178,17 @@ public class AddProductFragment extends Fragment {
                             product.setProductStock(binding.productStock.getText().toString().trim());
                             product.setProductPrice(binding.productPrice.getText().toString().trim());
                             product.setProductDescription(binding.productDesc.getText().toString().trim());
+                            product.setSellerProfile(auth.getCurrentUser().getPhotoUrl().toString());
+                            product.setSellerEmail(auth.getCurrentUser().getEmail());
+                            database.getReference("Farmer").child(auth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                                @Override
+                                public void onSuccess(DataSnapshot dataSnapshot) {
+                                    Farmer farmer = dataSnapshot.getValue(Farmer.class);
+                                    String mobile = farmer.getMobile();
+                                    Toasty.success(getContext(),""+mobile, Toasty.LENGTH_SHORT,true).show();
+                                }
+                            });
+                            product.setSellerMobile(new Farmer().getMobile());
                             if(product_edit==null) {
                                 crud.add(product).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override

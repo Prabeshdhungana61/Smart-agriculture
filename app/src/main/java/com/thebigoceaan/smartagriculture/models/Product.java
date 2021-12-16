@@ -1,7 +1,6 @@
 package com.thebigoceaan.smartagriculture.models;
 
 import com.google.firebase.database.Exclude;
-
 import java.io.Serializable;
 
 public class Product implements Serializable {
@@ -9,8 +8,11 @@ public class Product implements Serializable {
      private String key;
     private String productId;
     private String userId, productTitle, productImage, productPrice, productStock, productDescription;
+    private String sellerProfile,sellerEmail,sellerMobile;
 
-    public Product(String productId, String userId, String productTitle, String productImage, String productPrice, String productStock, String productDescription) {
+    public Product(String productId, String userId, String productTitle, String productImage, String productPrice, String productStock
+            , String productDescription,
+                   String sellerProfile, String sellerEmail, String sellerMobile) {
         this.productId = productId;
         this.userId = userId;
         this.productTitle = productTitle;
@@ -18,6 +20,9 @@ public class Product implements Serializable {
         this.productPrice = productPrice;
         this.productStock = productStock;
         this.productDescription = productDescription;
+        this.sellerProfile=sellerProfile;
+        this.sellerEmail=sellerEmail;
+        this.sellerMobile=sellerMobile;
     }
 
     public Product(){}
@@ -84,5 +89,29 @@ public class Product implements Serializable {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getSellerProfile() {
+        return sellerProfile;
+    }
+
+    public void setSellerProfile(String sellerProfile) {
+        this.sellerProfile = sellerProfile;
+    }
+
+    public String getSellerEmail() {
+        return sellerEmail;
+    }
+
+    public void setSellerEmail(String sellerEmail) {
+        this.sellerEmail = sellerEmail;
+    }
+
+    public String getSellerMobile() {
+        return sellerMobile;
+    }
+
+    public void setSellerMobile(String sellerMobile) {
+        this.sellerMobile = sellerMobile;
     }
 }

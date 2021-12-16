@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +41,7 @@ public class HomeFragment extends Fragment {
     CrudProduct crud;
     String key=null;
     FirebaseAuth auth;
+    int totalItem,currentItem,scrollOutItem;
     ArrayList<Product> list = new ArrayList<>();
     private ProductDetailsAdapter.RecyclerViewClickListener listener;
 
@@ -51,6 +54,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         //For Progress bar
+        binding.spinKit.setVisibility(View.GONE);
         Sprite cubegrid = new CubeGrid();
         binding.spinKit.setIndeterminateDrawable(cubegrid);
 
@@ -71,16 +75,24 @@ public class HomeFragment extends Fragment {
         loadData();
         binding.recyclerViewProductDetails.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager)binding.recyclerViewProductDetails.getLayoutManager();
-                int totalItem=linearLayoutManager.getItemCount();
-                int lastVisible=linearLayoutManager.findLastCompletelyVisibleItemPosition();
-                if(totalItem<lastVisible+3){
-                    if(!isLoading){
-                        isLoading=true;
-                        loadData();
-                    }
+            public void onScrollStateChanged(@NonNull @org.jetbrains.annotations.NotNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState== AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
+                    isLoading=true;
+                }
+            }
 
+            @Override
+            public void onScrolled(@NonNull @org.jetbrains.annotations.NotNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                GridLayoutManager manager = (GridLayoutManager)binding.recyclerViewProductDetails.getLayoutManager();
+                currentItem=manager.getChildCount();
+                totalItem = manager.getItemCount();
+                scrollOutItem = manager.findFirstVisibleItemPosition();
+
+                if(isLoading && (currentItem+scrollOutItem==totalItem) ){
+                    isLoading=false;
+                    loadData();
                 }
             }
         });
@@ -89,6 +101,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadData() {
+        binding.spinKit.setVisibility(View.VISIBLE);
         crud.get(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
