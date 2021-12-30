@@ -1,20 +1,44 @@
 package com.thebigoceaan.smartagriculture.models;
+import com.google.firebase.database.Exclude;
+import com.google.type.Date;
+
+import java.io.Serializable;
+import java.util.Calendar;
 import java.util.UUID;
 
 
-public class Order {
+public class Order implements Serializable {
+    @Exclude
+            private String key;
 
     String orderId;
-    String sellerEmail, buyerEmail,buyerName, buyerProfile;
+    String orderDate,sellerEmail, buyerEmail,buyerName, buyerProfile,productTitle;
 
-    public Order(String sellerEmail, String buyerEmail, String buyerName, String buyerProfile) {
+    public Order(String sellerEmail, String buyerEmail, String buyerName, String buyerProfile,String productTitle) {
         this.orderId= UUID.randomUUID().toString();
+        this.orderDate= Calendar.getInstance().getTime().toString();
         this.sellerEmail = sellerEmail;
         this.buyerEmail = buyerEmail;
         this.buyerName = buyerName;
         this.buyerProfile = buyerProfile;
+        this.productTitle = productTitle;
     }
     public Order(){
+    }
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public String getProductTitle() {
+        return productTitle;
+    }
+
+    public void setProductTitle(String productTitle) {
+        this.productTitle = productTitle;
     }
 
     public String getOrderId() {
@@ -55,5 +79,13 @@ public class Order {
 
     public void setBuyerProfile(String buyerProfile) {
         this.buyerProfile = buyerProfile;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

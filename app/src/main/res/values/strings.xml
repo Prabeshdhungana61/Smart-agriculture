@@ -79,5 +79,8 @@
     <string name="del_or_ed">Edit or Delete product</string>
     <string name="product_image">PRODUCT IMAGE</string>
     <string name="image_description">Image Description</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

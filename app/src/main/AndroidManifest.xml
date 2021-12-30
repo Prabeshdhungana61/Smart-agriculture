@@ -16,6 +16,10 @@
         <activity
             android:name=".services.news.NewsDetailsActivity"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".services.order.OrderList"
+            android:parentActivityName=".MainActivity"
+            android:label="Your Orders List"
+            />
         <activity
             android:name=".services.products.ProductDetailsActivity"
             android:label="Product Description"

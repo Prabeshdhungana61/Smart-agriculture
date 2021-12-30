@@ -2,6 +2,7 @@ package com.thebigoceaan.smartagriculture.services.news;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,9 +25,8 @@ public class NewsActivity extends AppCompatActivity {
         // Set App bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        ColorDrawable drawable =new ColorDrawable(ContextCompat.getColor(this, R.color.splashColor));
+        actionBar.setBackgroundDrawable(drawable); //action bar ends
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)

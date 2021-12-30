@@ -26,6 +26,7 @@ import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.databinding.FragmentAccountBinding;
 import com.thebigoceaan.smartagriculture.descriptions.AboutActivity;
 import com.thebigoceaan.smartagriculture.descriptions.PrivacyPolicyActivity;
+import com.thebigoceaan.smartagriculture.services.order.OrderList;
 
 import java.util.Objects;
 
@@ -103,8 +104,14 @@ public class AccountFragment extends Fragment {
             });
             noBtn.setOnClickListener(view12 -> dialog.dismiss());
 
+        });
 
-
+        binding.btnViewOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), OrderList.class);
+                startActivity(intent);
+            }
         });
 
     return root;

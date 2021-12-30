@@ -32,9 +32,9 @@ import es.dmoral.toasty.Toasty;
 public class ProductDetailsActivity extends AppCompatActivity {
     ActivityProductDetailsBinding binding;
     String title, sellerProfile,sellerMobile,sellerEmail, price, description, image;
-    private DatabaseReference mDatabaseReference;
-    private CrudOrder crud;
+    CrudOrder crud;
     private FirebaseAuth auth;
+    Order order;
 
 
 
@@ -54,8 +54,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
         actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
 
         auth = FirebaseAuth.getInstance();
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference(Order.class.getSimpleName());
-
         binding.orderByButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,14 +97,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     //for order click button
     private void orderClick(){
-        String sellerEmail = getIntent().getStringExtra("SellerEmail");
         String buyerEmail = auth.getCurrentUser().getEmail();
         String buyerName =  auth.getCurrentUser().getDisplayName();
         String buyerProfile = auth.getCurrentUser().getPhotoUrl().toString();
-        Order order = new Order(sellerEmail,buyerEmail,buyerName,buyerProfile);
-        CrudOrder crud = new CrudOrder();
-
-        Log.d("ASAS",""+order);
+        order = new Order(sellerEmail,buyerEmail,buyerName,buyerProfile,title);
+        crud = new CrudOrder();
         try {
             crud.add(order).addOnSuccessListener(unused -> Toasty.success(ProductDetailsActivity.this, "Successfully sent order to the farmer !", Toasty.LENGTH_SHORT, true).show())
                     .addOnFailureListener(new OnFailureListener() {
