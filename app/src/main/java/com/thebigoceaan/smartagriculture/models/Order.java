@@ -12,9 +12,9 @@ public class Order implements Serializable {
             private String key;
 
     String orderId;
-    String orderDate,sellerEmail, buyerEmail,buyerName, buyerProfile,productTitle;
+    String orderDate,sellerEmail, buyerEmail,buyerName, buyerProfile,productTitle,stockTotal;
 
-    public Order(String sellerEmail, String buyerEmail, String buyerName, String buyerProfile,String productTitle) {
+    public Order(String sellerEmail, String buyerEmail, String buyerName, String buyerProfile,String productTitle,String stockTotal) {
         this.orderId= UUID.randomUUID().toString();
         this.orderDate= Calendar.getInstance().getTime().toString();
         this.sellerEmail = sellerEmail;
@@ -22,6 +22,7 @@ public class Order implements Serializable {
         this.buyerName = buyerName;
         this.buyerProfile = buyerProfile;
         this.productTitle = productTitle;
+        this.stockTotal = stockTotal;
     }
     public Order(){
     }
@@ -87,5 +88,13 @@ public class Order implements Serializable {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getStockTotal() {
+        return stockTotal;
+    }
+
+    public void setStockTotal(String stockTotal) {
+        this.stockTotal = stockTotal;
     }
 }

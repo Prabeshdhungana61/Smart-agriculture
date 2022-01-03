@@ -18,8 +18,7 @@ public class CrudOrder {
         databaseReference = db.getReference(Order.class.getSimpleName());
     }
     public Task<Void> add(Order order){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        return databaseReference.child(user.getUid()).setValue(order);
+        return databaseReference.push().setValue(order);
     }
     public Task<Void> update(String key, HashMap<String,Object> hashMap){
         return databaseReference.child(key).updateChildren(hashMap);

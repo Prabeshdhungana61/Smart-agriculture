@@ -4,11 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -35,6 +40,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     CrudOrder crud;
     private FirebaseAuth auth;
     Order order;
+    Dialog dialog;
 
 
 
@@ -54,10 +60,42 @@ public class ProductDetailsActivity extends AppCompatActivity {
         actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
 
         auth = FirebaseAuth.getInstance();
+
+        dialog = new Dialog(this);
+
         binding.orderByButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    orderClick();
+                dialog.setContentView(R.layout.dialog_stock);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                ImageButton req_button = dialog.findViewById(R.id.send_req_button);
+                EditText yourStock = dialog.findViewById(R.id.your_stock_edit_text);
+                dialog.show();
+                req_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String buyerEmail = auth.getCurrentUser().getEmail();
+                        String buyerName =  auth.getCurrentUser().getDisplayName();
+                        String buyerProfile = auth.getCurrentUser().getPhotoUrl().toString();
+                        String myStock = yourStock.getText().toString();
+                        order = new Order(sellerEmail,buyerEmail,buyerName,buyerProfile,title,myStock);
+                        crud = new CrudOrder();
+                        try {
+                            crud.add(order).addOnSuccessListener(unused -> {
+                                yourStock.setText("");
+                                dialog.dismiss();
+                                Toasty.success(ProductDetailsActivity.this, "Successfully sent order to the farmer !", Toasty.LENGTH_SHORT, true).show();
+                            }).addOnFailureListener(e -> {
+                                        dialog.dismiss();
+                                        Toasty.error(ProductDetailsActivity.this, "" + e.getMessage(), Toasty.LENGTH_SHORT, true).show();
+
+                                    });
+                        }
+                        catch (Exception e){
+                            Toast.makeText(ProductDetailsActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
 
@@ -94,26 +132,4 @@ public class ProductDetailsActivity extends AppCompatActivity {
         }
     }
 
-
-    //for order click button
-    private void orderClick(){
-        String buyerEmail = auth.getCurrentUser().getEmail();
-        String buyerName =  auth.getCurrentUser().getDisplayName();
-        String buyerProfile = auth.getCurrentUser().getPhotoUrl().toString();
-        order = new Order(sellerEmail,buyerEmail,buyerName,buyerProfile,title);
-        crud = new CrudOrder();
-        try {
-            crud.add(order).addOnSuccessListener(unused -> Toasty.success(ProductDetailsActivity.this, "Successfully sent order to the farmer !", Toasty.LENGTH_SHORT, true).show())
-                    .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull @NotNull Exception e) {
-                    Toasty.error(ProductDetailsActivity.this, "" + e.getMessage(), Toasty.LENGTH_SHORT, true).show();
-
-                }
-            });
-        }
-        catch (Exception e){
-            Toast.makeText(ProductDetailsActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
 }
