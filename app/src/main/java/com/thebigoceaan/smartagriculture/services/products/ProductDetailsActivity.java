@@ -36,7 +36,7 @@ import es.dmoral.toasty.Toasty;
 
 public class ProductDetailsActivity extends AppCompatActivity {
     ActivityProductDetailsBinding binding;
-    String title, sellerProfile,sellerMobile,sellerEmail, price, description, image;
+    String title, sellerProfile,sellerMobile,sellerEmail, price, description, image,totalProductStock;
     CrudOrder crud;
     private FirebaseAuth auth;
     Order order;
@@ -78,7 +78,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         String buyerName =  auth.getCurrentUser().getDisplayName();
                         String buyerProfile = auth.getCurrentUser().getPhotoUrl().toString();
                         String myStock = yourStock.getText().toString();
-                        order = new Order(sellerEmail,buyerEmail,buyerName,buyerProfile,title,myStock);
+                        int orderStock = Integer.parseInt(myStock);
+                        int perUnitPrice = Integer.parseInt(price);
+                        int orderPrice = orderStock * perUnitPrice;
+                        order = new Order(sellerEmail,buyerEmail,buyerName,buyerProfile,title,myStock,""+orderPrice);
                         crud = new CrudOrder();
                         try {
                             crud.add(order).addOnSuccessListener(unused -> {
@@ -104,6 +107,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     void getAndSetIntentData() {
         if (getIntent().hasExtra("SellerEmail") && getIntent().hasExtra("SellerMobile")
+                && getIntent().hasExtra("TotalProductStock")
                 && getIntent().hasExtra("SellerProfile") && getIntent().hasExtra("TitleProductText")
                 && getIntent().hasExtra("ProductPriceText")
                 && getIntent().hasExtra("ProductImage") && getIntent().hasExtra("ProductDescText")
@@ -116,11 +120,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
             sellerProfile=getIntent().getStringExtra("SellerProfile");
             sellerEmail=getIntent().getStringExtra("SellerEmail");
             sellerMobile=getIntent().getStringExtra("SellerMobile");
+            totalProductStock = getIntent().getStringExtra("TotalProductStock");
 
             //Setting Intent Data
             binding.productTitleDetails.setText(title);
             binding.productDetailsPrice.setText(price + "Rs.");
             binding.productDescriptionDetails.setText(description);
+            binding.productDetailsTotalStock.setText(totalProductStock);
 
             Glide.with(this).load(image).placeholder(R.drawable.ic_image).into(binding.imageView);
             Glide.with(this).load(sellerProfile).placeholder(R.drawable.ic_image).into(binding.sellerProfileImage);

@@ -4,10 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/drawable/ic_danger.xml" value="0.18697916666666667" />
+        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/drawable/ic_delete.xml" value="0.18697916666666667" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/drawable/ic_view.xml" value="0.18697916666666667" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_fullscreen.xml" value="0.18645833333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_order_list.xml" value="0.18645833333333334" />
-        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_product_details.xml" value="0.18645833333333334" />
+        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_product_details.xml" value="0.22" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_view_info.xml" value="0.18645833333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/dialog_confirmation.xml" value="0.17083333333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/dialog_stock.xml" value="0.25" />

@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
                 i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
-                i.putExtra(Intent.EXTRA_TEXT, "http://www.facebook.com/TheBigOcean3");
+                i.putExtra(Intent.EXTRA_TEXT, "https://www.facebook.com/smartagricultureandroid");
                 startActivity(Intent.createChooser(i, "Share URL"));
                 break;
             case R.id.nav_login:
@@ -124,8 +124,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_logout:
                 dialog.setContentView(R.layout.dialog_confirmation);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                Button yesBtn = dialog.findViewById(R.id.btn_yes_logout);
-                Button noBtn = dialog.findViewById(R.id.btn_no_logout);
+                Button yesBtn = dialog.findViewById(R.id.btn_yes_confirm);
+                Button noBtn = dialog.findViewById(R.id.btn_no_confirm);
                 ImageView closeImage = dialog.findViewById(R.id.close_image);
 
                 closeImage.setOnClickListener(new View.OnClickListener() {

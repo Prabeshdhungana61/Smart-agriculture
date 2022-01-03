@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
@@ -10,15 +12,32 @@
     android:background="@drawable/customborder2"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/item_order_productTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/cuprum_bold"
-        android:gravity="center"
-        android:text="Corriender"
-        android:textColor="#040303"
-        android:textSize="16sp" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/item_order_productTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/cuprum_bold"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="Corriender"
+            android:textColor="#040303"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:background="#DC3B3B"
+            app:srcCompat="@drawable/ic_delete"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+    </LinearLayout>
 
     <View
         android:id="@+id/view4"

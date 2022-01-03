@@ -18,19 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.facebook.login.LoginManager;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.thebigoceaan.smartagriculture.LoginActivity;
-import com.thebigoceaan.smartagriculture.MainActivity;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.dashboard.info.AddInfoActivity;
 import com.thebigoceaan.smartagriculture.dashboard.info.CrudInfo;
 import com.thebigoceaan.smartagriculture.dashboard.info.ViewInfoActivity;
-import com.thebigoceaan.smartagriculture.dashboard.news.AddNewsActivity;
-import com.thebigoceaan.smartagriculture.dashboard.news.ViewNewsActivity;
 import com.thebigoceaan.smartagriculture.models.Info;
-import com.thebigoceaan.smartagriculture.models.News;
+
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
@@ -79,8 +74,8 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     case R.id.action_remove:
                         dialog.setContentView(R.layout.dialog_confirmation);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        Button yesBtn = dialog.findViewById(R.id.btn_yes_logout);
-                        Button noBtn = dialog.findViewById(R.id.btn_no_logout);
+                        Button yesBtn = dialog.findViewById(R.id.btn_yes_confirm);
+                        Button noBtn = dialog.findViewById(R.id.btn_no_confirm);
                         dialog.show();
                         yesBtn.setOnClickListener(new View.OnClickListener() {
                             @Override

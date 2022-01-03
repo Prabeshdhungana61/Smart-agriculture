@@ -64,8 +64,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     case R.id.action_remove:
                         dialog.setContentView(R.layout.dialog_confirmation);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        Button yesBtn = dialog.findViewById(R.id.btn_yes_logout);
-                        Button noBtn = dialog.findViewById(R.id.btn_no_logout);
+                        Button yesBtn = dialog.findViewById(R.id.btn_yes_confirm);
+                        Button noBtn = dialog.findViewById(R.id.btn_no_confirm);
                         dialog.show();
                         yesBtn.setOnClickListener(new View.OnClickListener() {
                             @Override

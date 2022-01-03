@@ -141,6 +141,7 @@ public class HomeFragment extends Fragment {
             intent.putExtra("SellerProfile",product.getSellerProfile());
             intent.putExtra("SellerEmail",product.getSellerEmail());
             intent.putExtra("SellerMobile",product.getSellerMobile());
+            intent.putExtra("TotalProductStock",product.getProductStock());
             getContext().startActivity(intent);
         };
     }

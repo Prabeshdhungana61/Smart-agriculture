@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,10 +15,14 @@ import java.util.ArrayList;
 public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private Context context;
     ArrayList<Order> list = new ArrayList<>();
+    private RecyclerViewClickListener listener;
 
-    public OrderAdapter(Context context, ArrayList<Order> list){
+
+    public OrderAdapter(Context context, ArrayList<Order> list, RecyclerViewClickListener listener){
         this.context = context;
         this.list = list;
+        this.listener = listener;
+
     }
 
     public void setItem(ArrayList<Order> order){
@@ -47,16 +52,28 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return list.size();
     }
 
-    public class OrderVH extends RecyclerView.ViewHolder {
+    public class OrderVH extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView productTitle, sellerEmail, orderDate;
+        ImageButton deleteButton;
         public OrderVH(@NonNull View itemView) {
             super(itemView);
 
             productTitle = itemView.findViewById(R.id.item_order_productTitle);
             sellerEmail = itemView.findViewById(R.id.item_order_sellerEmail);
             orderDate = itemView.findViewById(R.id.item_order_date);
+            deleteButton = itemView.findViewById(R.id.delete_button);
+            deleteButton.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onClick(view, getBindingAdapterPosition());
         }
     }
 
+    public interface RecyclerViewClickListener{
+        void onClick(View view, int position);
+    }
 
 }
