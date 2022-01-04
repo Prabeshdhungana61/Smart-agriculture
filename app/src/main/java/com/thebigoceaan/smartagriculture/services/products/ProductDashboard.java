@@ -34,6 +34,7 @@ public class ProductDashboard extends AppCompatActivity {
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
                 .add("ADD PRODUCT", AddProductFragment.class)
                 .add("VIEW PRODUCT", ViewProductFragment.class)
+                .add("VIEW PROFILE",FarmerProfileFragment.class)
                 .create());
         ViewPager viewPager =  findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);

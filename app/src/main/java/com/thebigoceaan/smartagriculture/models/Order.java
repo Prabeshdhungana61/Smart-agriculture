@@ -13,8 +13,10 @@ public class Order implements Serializable {
 
     String orderId;
     String orderDate,sellerEmail, buyerEmail,buyerName, buyerProfile,productTitle,stockTotal,orderPrice;
+    boolean isCompleted = false;
 
-    public Order(String sellerEmail, String buyerEmail, String buyerName, String buyerProfile,String productTitle,String stockTotal,String orderPrice) {
+    public Order(String sellerEmail, String buyerEmail, String buyerName, String buyerProfile
+            ,String productTitle,String stockTotal,String orderPrice,boolean isCompleted) {
         this.orderId= UUID.randomUUID().toString();
         this.orderDate= Calendar.getInstance().getTime().toString();
         this.sellerEmail = sellerEmail;
@@ -24,8 +26,17 @@ public class Order implements Serializable {
         this.productTitle = productTitle;
         this.stockTotal = stockTotal;
         this.orderPrice = orderPrice;
+        this.isCompleted = isCompleted;
     }
     public Order(){
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 
     public String getOrderPrice() {
@@ -106,5 +117,22 @@ public class Order implements Serializable {
 
     public void setStockTotal(String stockTotal) {
         this.stockTotal = stockTotal;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "key='" + key + '\'' +
+                ", orderId='" + orderId + '\'' +
+                ", orderDate='" + orderDate + '\'' +
+                ", sellerEmail='" + sellerEmail + '\'' +
+                ", buyerEmail='" + buyerEmail + '\'' +
+                ", buyerName='" + buyerName + '\'' +
+                ", buyerProfile='" + buyerProfile + '\'' +
+                ", productTitle='" + productTitle + '\'' +
+                ", stockTotal='" + stockTotal + '\'' +
+                ", orderPrice='" + orderPrice + '\'' +
+                ", isCompleted=" + isCompleted +
+                '}';
     }
 }

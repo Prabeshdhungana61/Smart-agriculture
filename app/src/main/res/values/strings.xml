@@ -87,5 +87,14 @@
     <string name="your_orders">Your stock :</string>
     <string name="edit_your_orders">How much/many you want to get(unit)</string>
     <string name="send_req">SEND ORDER REQUEST</string>
+    <string name="farmer_profile">
+        Order Date
+        Product Title
+        Buyer Email
+        Buyer Username/Display Name
+        Buyer orders stock (how much he/she want to buy)  It should be less that the total stock.
+        Buyer calculated Price.
+        isCompleted is false and it has radio button when it checked then order is completed and Price is added to totalPrice
+    </string>
 
 </resources>

@@ -81,7 +81,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         int orderStock = Integer.parseInt(myStock);
                         int perUnitPrice = Integer.parseInt(price);
                         int orderPrice = orderStock * perUnitPrice;
-                        order = new Order(sellerEmail,buyerEmail,buyerName,buyerProfile,title,myStock,""+orderPrice);
+                        order = new Order(sellerEmail,buyerEmail,buyerName,buyerProfile,title,myStock,""+orderPrice,false);
                         crud = new CrudOrder();
                         try {
                             crud.add(order).addOnSuccessListener(unused -> {

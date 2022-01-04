@@ -42,7 +42,7 @@
                 android:ems="10"
                 android:fontFamily="@font/cuprum_regular"
                 android:hint="@string/edit_your_orders"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:minHeight="48dp"
                 android:textColor="@color/black"
                 android:textColorHint="#5C4949" />
