@@ -47,6 +47,7 @@ public class FarmerProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
         vh.totalBuyerPrice.setText(order.getOrderPrice() + " Rs");
         vh.buyerName.setText(order.getBuyerName());
         vh.orderCompleted.setText(!order.isCompleted() ? "NOT COMPLETED ": "COMPLETED");
+        vh.orderCompleted.setChecked(order.isCompleted());
 
     }
 

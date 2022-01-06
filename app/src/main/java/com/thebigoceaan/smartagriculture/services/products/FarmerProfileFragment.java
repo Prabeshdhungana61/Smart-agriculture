@@ -3,6 +3,7 @@ package com.thebigoceaan.smartagriculture.services.products;
 import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.SlideBottom;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -22,8 +23,10 @@ import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.thebigoceaan.smartagriculture.R;
@@ -37,6 +40,8 @@ import com.thebigoceaan.smartagriculture.services.order.CrudSale;
 import com.thebigoceaan.smartagriculture.services.order.OrderList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
@@ -61,8 +66,9 @@ public class FarmerProfileFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         setOnClickRadioButton();
+        farmerDashboard();//farmer dashboard method call
 
-//setting recyclerview
+        //setting recyclerview
         binding.recyclerViewFarmerProfile.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setReverseLayout(true);
@@ -143,22 +149,54 @@ public class FarmerProfileFragment extends Fragment {
                         order.setCompleted(true);
                     })
                     .setButton1Click(view12 -> {
+                        //dismiss the dialog
                         dialogBuilder.dismiss();
-                        adapter.notifyDataSetChanged();
-                        Sale sale = new Sale();
-                        CrudSale sale2 = new CrudSale();
-                        int totalPrice = Integer.parseInt(order.getOrderPrice());
-                        int orders = list.size();
-                        sale.setTotalSale(totalPrice);
-                        sale.setTotalOrders(orders);
-                        sale2.add(sale).addOnSuccessListener(unused -> {
-                            Toasty.success(getContext(), "Successfully completed the order ", Toasty.LENGTH_SHORT,true).show();
-                        }).addOnFailureListener(e -> {
-                            Toasty.error(getContext(), ""+e.getMessage(), Toasty.LENGTH_SHORT,true).show();
+
+                        //update the isCompleted true
+                        HashMap<String,Object> hashMap = new HashMap<>();
+                        hashMap.put("completed", true);
+                        crud.update(order.getKey(),hashMap).addOnSuccessListener(unused -> {
+                            adapter.notifyDataSetChanged();
                         });
+
+                        //to add into sale database
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        database.getReference("Sale").child(user.getUid()).get().addOnSuccessListener(dataSnapshot -> {
+                            //getting data from database
+                            Sale saleGet = dataSnapshot.getValue(Sale.class);
+                            //sale code here
+                            CrudSale saleCrud = new CrudSale();
+                            int totalPrice = (!(saleGet == null) ? saleGet.getTotalSale():0)+Integer.parseInt(order.getOrderPrice());
+                            int orders = list.size();
+                            Sale sale = new Sale(totalPrice,orders);
+                            saleCrud.add(sale).addOnSuccessListener(unused -> {
+                                Toasty.success(getContext(), "Successfully completed the order", Toasty.LENGTH_SHORT,true).show();
+                                adapter.notifyDataSetChanged();
+                                Intent intent = new Intent(getContext(),ProductDashboard.class);
+                                startActivity(intent);
+                            }).addOnFailureListener(e -> {
+                                Toasty.error(getContext(), ""+e.getMessage(), Toasty.LENGTH_SHORT,true).show();
+                            });
+
+                        }).addOnFailureListener(e -> {
+                            Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+
                     })
                     .show();
-
         };
+    }
+
+    private void farmerDashboard(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        database.getReference("Sale").child(user.getUid()).get().addOnSuccessListener(dataSnapshot -> {
+            Sale sale = dataSnapshot.getValue(Sale.class);
+            binding.totalSaleTextView.setText(sale!=null ? sale.getTotalSale() +"Rs" : "0 Rs");
+        }).addOnFailureListener(e -> {
+            Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+
     }
 }

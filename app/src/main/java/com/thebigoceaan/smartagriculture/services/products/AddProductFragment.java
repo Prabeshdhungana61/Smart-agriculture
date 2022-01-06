@@ -200,12 +200,7 @@ public class AddProductFragment extends Fragment {
                                                 progressDialog.dismiss();
                                                 Toasty.success(getContext(), "Successfully added your product", Toast.LENGTH_SHORT, true).show();
                                             }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull @NotNull Exception e) {
-                                                Toasty.warning(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT, true).show();
-                                            }
-                                        });
+                                        }).addOnFailureListener(e -> Toasty.warning(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT, true).show());
                                     }
                                     else{
                                         HashMap<String, Object> hashMap = new HashMap<>();
