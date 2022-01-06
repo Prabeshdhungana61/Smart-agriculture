@@ -3,6 +3,7 @@ package com.thebigoceaan.smartagriculture.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,9 +19,11 @@ import java.util.ArrayList;
 public class FarmerProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     ArrayList<Order> list = new ArrayList<>();
     CrudOrder order = new CrudOrder();
+    private FarmerProfileAdapter.OnClickFarmerProfile listener;
 
-    public FarmerProfileAdapter(ArrayList<Order> list) {
+    public FarmerProfileAdapter(ArrayList<Order> list,OnClickFarmerProfile listener) {
         this.list = list;
+        this.listener= listener;
     }
     public void setItem(ArrayList<Order> order){
         list.addAll(order);
@@ -38,11 +41,10 @@ public class FarmerProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         FarmerProfileVH vh = (FarmerProfileVH) holder;
         Order order = list.get(position);
-        vh.id.setText("1");
         vh.title.setText(order.getProductTitle());
         vh.buyerEmail.setText(order.getBuyerEmail());
         vh.buyerStock.setText(order.getStockTotal());
-        vh.totalBuyerPrice.setText(order.getOrderPrice());
+        vh.totalBuyerPrice.setText(order.getOrderPrice() + " Rs");
         vh.buyerName.setText(order.getBuyerName());
         vh.orderCompleted.setText(!order.isCompleted() ? "NOT COMPLETED ": "COMPLETED");
 
@@ -53,11 +55,11 @@ public class FarmerProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
         return list.size();
     }
 
-    public class FarmerProfileVH extends RecyclerView.ViewHolder {
-        TextView id, title, buyerEmail, buyerName, buyerStock,totalBuyerPrice, orderCompleted;
+    public class FarmerProfileVH extends RecyclerView.ViewHolder implements View.OnClickListener{
+        TextView  title, buyerEmail, buyerName, buyerStock,totalBuyerPrice;
+        RadioButton orderCompleted;
         public FarmerProfileVH(@NonNull View itemView) {
             super(itemView);
-            id = itemView.findViewById(R.id.item_order_id);
             title = itemView.findViewById(R.id.item_order_title);
             buyerEmail = itemView.findViewById(R.id.item_order_bemail);
             buyerName = itemView.findViewById(R.id.item_order_bname);
@@ -65,6 +67,16 @@ public class FarmerProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
             totalBuyerPrice = itemView.findViewById(R.id.item_order_price);
             orderCompleted = itemView.findViewById(R.id.item_order_done);
 
+            orderCompleted.setOnClickListener(this);
+
         }
+
+        @Override
+        public void onClick(View view) {
+            listener.onClick(view,getBindingAdapterPosition());
+        }
+    }
+    public interface OnClickFarmerProfile{
+        void onClick(View view, int position);
     }
 }
