@@ -14,12 +14,18 @@
         android:theme="@style/Theme.SmartAgriculture"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".services.order.OrderDashboard"
+            android:exported="false"
+            android:parentActivityName=".services.products.ProductDashboard"
+            android:label="Order Dashboard"
+            />
+        <activity
             android:name=".services.news.NewsDetailsActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".services.order.OrderList"
-            android:parentActivityName=".MainActivity"
+        <activity
+            android:name=".services.order.OrderList"
             android:label="Your Orders List"
-            />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".services.products.ProductDetailsActivity"
             android:label="Product Description"
