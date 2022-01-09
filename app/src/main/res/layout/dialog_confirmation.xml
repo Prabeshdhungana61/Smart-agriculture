@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="#FFFFFF">
 
 
@@ -52,7 +52,7 @@
                 app:srcCompat="@drawable/ic_danger" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/dialog_confirmation_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -68,17 +68,17 @@
                 app:layout_constraintVertical_bias="0.027" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/dialog_confirmation_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="You want to do this."
                 android:textColor="#403B3B"
-                app:layout_constraintBottom_toTopOf="@+id/btn_yes_logout"
+                app:layout_constraintBottom_toTopOf="@+id/btn_yes_confirm"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                app:layout_constraintTop_toBottomOf="@+id/dialog_confirmation_title" />
 
             <Button
                 android:id="@+id/btn_yes_confirm"
@@ -93,7 +93,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.263"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_confirmation_title"
                 app:layout_constraintVertical_bias="0.063" />
 
             <Button
@@ -109,7 +109,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.736"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_confirmation_title"
                 app:layout_constraintVertical_bias="0.063" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

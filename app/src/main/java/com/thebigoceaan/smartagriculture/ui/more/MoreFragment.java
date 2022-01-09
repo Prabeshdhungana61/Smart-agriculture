@@ -84,28 +84,27 @@ public class MoreFragment extends Fragment {
         binding.productDashboardBtn.setVisibility(View.GONE);
         binding.registerAsFarmerDesc.setVisibility(View.GONE);
         binding.imgRegisterBtn.setVisibility(View.GONE);
-        database.getReference("Farmer").child(auth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-            @Override
-            public void onSuccess(DataSnapshot dataSnapshot) {
+
+        if(auth.getCurrentUser()!=null) {
+            database.getReference("Farmer").child(auth.getCurrentUser().getUid()).get().addOnSuccessListener(dataSnapshot -> {
                 Farmer farmer = dataSnapshot.getValue(Farmer.class);
-                if(farmer!=null){
+                if (farmer != null) {
                     binding.productDashboardBtn.setVisibility(View.VISIBLE);
                     binding.registerAsFarmerDesc.setVisibility(View.GONE);
                     binding.imgRegisterBtn.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     binding.productDashboardBtn.setVisibility(View.GONE);
                     binding.imgRegisterBtn.setVisibility(View.VISIBLE);
                     binding.registerAsFarmerDesc.setVisibility(View.VISIBLE);
                 }
+            }).addOnFailureListener(e -> Toast.makeText(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
+        else{
+            binding.registerAsFarmerDesc.setVisibility(View.VISIBLE);
+            binding.registerAsFarmerDesc.setText("Kindly login through Facebook or Google to authenticate first for registering as a Farmer !");
+        }
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+
         return root;
     }
 

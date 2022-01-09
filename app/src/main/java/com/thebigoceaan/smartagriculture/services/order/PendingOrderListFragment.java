@@ -64,6 +64,7 @@ public class PendingOrderListFragment extends Fragment {
 
         dialog = new Dialog(getContext());
 
+
         loadData();
         binding.recyclerViewOrderListPending.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -84,33 +85,38 @@ public class PendingOrderListFragment extends Fragment {
         return view;
     }
     private void loadData() {
-        crud.get(key).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                ArrayList<Order> order = new ArrayList<>();
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    Order order1 = data.getValue(Order.class);
-                    if (order1.getBuyerEmail().equals(auth.getCurrentUser().getEmail()) && !order1.isCompleted()) {
-                        order1.setKey(data.getKey());
-                        order.add(order1);
-                        key = data.getKey();
-                    }
+        if(auth.getCurrentUser()!=null) {
+            crud.get(key).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                    ArrayList<Order> order = new ArrayList<>();
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Order order1 = data.getValue(Order.class);
+                        if (order1.getBuyerEmail().equals(auth.getCurrentUser().getEmail()) && !order1.isCompleted()) {
+                            order1.setKey(data.getKey());
+                            order.add(order1);
+                            key = data.getKey();
+                        }
 
-                    binding.swipePendingOrder.setRefreshing(false);
+                        binding.swipePendingOrder.setRefreshing(false);
+
+                    }
+                    adapter.setItem(order);
+                    adapter.notifyDataSetChanged();
+                    isLoading = false;
 
                 }
-                adapter.setItem(order);
-                adapter.notifyDataSetChanged();
-                isLoading = false;
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                binding.swipePendingOrder.setRefreshing(false);
-                Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT,true).show();
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                    binding.swipePendingOrder.setRefreshing(false);
+                    Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT, true).show();
+                }
+            });
+        }
+        else{
+            binding.swipePendingOrder.setRefreshing(false);
+            Toasty.warning(getContext(), "Kindly login to see your order list", Toasty.LENGTH_SHORT,true).show();
+        }
     }
     public void setOnClickListenerOrder(){
         listener=(view,position)->{

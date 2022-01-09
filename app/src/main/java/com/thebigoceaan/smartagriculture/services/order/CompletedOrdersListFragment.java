@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -84,33 +85,36 @@ public class CompletedOrdersListFragment extends Fragment {
         return view;
     }
     private void loadData() {
-        crud.get(key).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                ArrayList<Order> order = new ArrayList<>();
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    Order order1 = data.getValue(Order.class);
-                    if (order1.getBuyerEmail().equals(auth.getCurrentUser().getEmail()) && order1.isCompleted()) {
-                        order1.setKey(data.getKey());
-                        order.add(order1);
-                        key = data.getKey();
+        if(auth.getCurrentUser()!=null) {
+            crud.get(key).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                    ArrayList<Order> order = new ArrayList<>();
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Order order1 = data.getValue(Order.class);
+                        if (order1.getBuyerEmail().equals(auth.getCurrentUser().getEmail()) && order1.isCompleted()) {
+                            order1.setKey(data.getKey());
+                            order.add(order1);
+                            key = data.getKey();
+                        }
+                        binding.swipeCompletedOrder.setRefreshing(false);
                     }
-
-                    binding.swipeCompletedOrder.setRefreshing(false);
-
+                    adapter.setItem(order);
+                    adapter.notifyDataSetChanged();
+                    isLoading = false;
                 }
-                adapter.setItem(order);
-                adapter.notifyDataSetChanged();
-                isLoading = false;
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                binding.swipeCompletedOrder.setRefreshing(false);
-                Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT,true).show();
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                    binding.swipeCompletedOrder.setRefreshing(false);
+                    Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT, true).show();
+                }
+            });
+        }
+        else{
+            binding.swipeCompletedOrder.setRefreshing(false);
+            Toasty.warning(getContext(), "Kindly login to see your order list", Toasty.LENGTH_SHORT,true).show();
+        }
     }
     public void setOnClickListenerOrder(){
         listener=(view,position)->{

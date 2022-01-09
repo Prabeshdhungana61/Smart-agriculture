@@ -63,44 +63,42 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         dialog = new Dialog(this);
 
-        binding.orderByButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if(auth.getCurrentUser()!=null) {
+            binding.orderByButton.setOnClickListener(view -> {
                 dialog.setContentView(R.layout.dialog_stock);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 ImageButton req_button = dialog.findViewById(R.id.send_req_button);
                 EditText yourStock = dialog.findViewById(R.id.your_stock_edit_text);
                 dialog.show();
-                req_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String buyerEmail = auth.getCurrentUser().getEmail();
-                        String buyerName =  auth.getCurrentUser().getDisplayName();
-                        String buyerProfile = auth.getCurrentUser().getPhotoUrl().toString();
-                        String myStock = yourStock.getText().toString();
-                        int orderStock = Integer.parseInt(myStock);
-                        int perUnitPrice = Integer.parseInt(price);
-                        int orderPrice = orderStock * perUnitPrice;
-                        order = new Order(sellerEmail,buyerEmail,buyerName,buyerProfile,title,myStock,""+orderPrice,false);
-                        crud = new CrudOrder();
-                        try {
-                            crud.add(order).addOnSuccessListener(unused -> {
-                                yourStock.setText("");
-                                dialog.dismiss();
-                                Toasty.success(ProductDetailsActivity.this, "Successfully sent order to the farmer !", Toasty.LENGTH_SHORT, true).show();
-                            }).addOnFailureListener(e -> {
-                                        dialog.dismiss();
-                                        Toasty.error(ProductDetailsActivity.this, "" + e.getMessage(), Toasty.LENGTH_SHORT, true).show();
+                req_button.setOnClickListener(view1 -> {
+                    String buyerEmail = auth.getCurrentUser().getEmail();
+                    String buyerName = auth.getCurrentUser().getDisplayName();
+                    String buyerProfile = auth.getCurrentUser().getPhotoUrl().toString();
+                    String myStock = yourStock.getText().toString();
+                    int orderStock = Integer.parseInt(myStock);
+                    int perUnitPrice = Integer.parseInt(price);
+                    int orderPrice = orderStock * perUnitPrice;
+                    order = new Order(sellerEmail, buyerEmail, buyerName, buyerProfile, title, myStock, "" + orderPrice, false);
+                    crud = new CrudOrder();
+                    try {
+                        crud.add(order).addOnSuccessListener(unused -> {
+                            yourStock.setText("");
+                            dialog.dismiss();
+                            Toasty.success(ProductDetailsActivity.this, "Successfully sent order to the farmer !", Toasty.LENGTH_SHORT, true).show();
+                        }).addOnFailureListener(e -> {
+                            dialog.dismiss();
+                            Toasty.error(ProductDetailsActivity.this, "" + e.getMessage(), Toasty.LENGTH_SHORT, true).show();
 
-                                    });
-                        }
-                        catch (Exception e){
-                            Toast.makeText(ProductDetailsActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                        });
+                    } catch (Exception e) {
+                        Toast.makeText(ProductDetailsActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-            }
-        });
+            });
+        }
+        else{
+            Toasty.error(this, "Kindly login first to order product !", Toasty.LENGTH_SHORT,true).show();
+        }
 
 
     }
