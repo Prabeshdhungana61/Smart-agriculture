@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
@@ -36,12 +37,15 @@ import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.adapters.FarmerProfileAdapter;
 import com.thebigoceaan.smartagriculture.adapters.OrderAdapter;
 import com.thebigoceaan.smartagriculture.databinding.FragmentFarmerProfileBinding;
+import com.thebigoceaan.smartagriculture.models.Farmer;
 import com.thebigoceaan.smartagriculture.models.Order;
 import com.thebigoceaan.smartagriculture.models.Sale;
 import com.thebigoceaan.smartagriculture.services.order.CrudOrder;
 import com.thebigoceaan.smartagriculture.services.order.CrudSale;
 import com.thebigoceaan.smartagriculture.services.order.OrderDashboard;
 import com.thebigoceaan.smartagriculture.services.order.OrderList;
+import com.thebigoceaan.smartagriculture.services.register.CrudFarmer;
+import com.thebigoceaan.smartagriculture.services.register.FarmerRegisterActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,14 +56,10 @@ import es.dmoral.toasty.Toasty;
 
 public class FarmerProfileFragment extends Fragment {
     FragmentFarmerProfileBinding binding;
-    FarmerProfileAdapter adapter;
-    ArrayList<Order> list = new ArrayList<>();
-    boolean isLoading = false;
-    CrudOrder crud = new CrudOrder();
-    String key = null;
-    FirebaseAuth auth ;
-    private FarmerProfileAdapter.OnClickFarmerProfile listener;
-    private int selectedButtonID;
+    CrudFarmer crudFarmer = new CrudFarmer();
+    private FirebaseAuth auth;
+    DatabaseReference reference;
+    FirebaseDatabase database;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,6 +69,8 @@ public class FarmerProfileFragment extends Fragment {
 
         //firebase instance
         auth = FirebaseAuth.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance();
 
         farmerDashboard();//farmer dashboard method call
         farmerProfile();//farmer profile method call
@@ -82,6 +84,17 @@ public class FarmerProfileFragment extends Fragment {
         binding.farmerUsernameTextView.setText(auth.getCurrentUser().getDisplayName());
         binding.editFarmerProfileButton.setOnClickListener(view -> {
             //set intent to edit profile page
+            database.getReference("Farmer").child(auth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    Farmer farmer = dataSnapshot.getValue(Farmer.class);
+                    Intent intent = new Intent(getContext(), FarmerRegisterActivity.class);
+                    intent.putExtra("EDITFARMER",farmer);
+                    startActivity(intent);
+                }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
 
         });
     }
@@ -103,4 +116,5 @@ public class FarmerProfileFragment extends Fragment {
         });
 
     }
+
 }

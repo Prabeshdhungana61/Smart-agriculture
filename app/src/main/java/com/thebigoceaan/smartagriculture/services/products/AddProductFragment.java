@@ -160,7 +160,7 @@ public class AddProductFragment extends Fragment {
     public void uploadProduct() {
         progressDialog.show();
         bundle = this.getArguments();
-        Info product_edit= (Info) bundle.getSerializable("EDIT");
+        Product product_edit= (Product) bundle.getSerializable("EDIT");
         crud = new CrudProduct();
         if (mImageUri != null) {
             StorageReference fileReference = mStorageReference.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
@@ -213,8 +213,8 @@ public class AddProductFragment extends Fragment {
                                             Intent intent = new Intent (getApplicationContext(), ProductDashboard.class);
                                             startActivity(intent);
                                             progressDialog.dismiss();
-                                            Toast.makeText(getContext(), "Product updated successfully",
-                                                    Toast.LENGTH_SHORT).show();
+                                            Toasty.success(getContext(), "Product updated successfully",
+                                                    Toasty.LENGTH_SHORT,true).show();
                                             getActivity().finish();
                                         }).addOnFailureListener(e -> Toasty.error
                                                 (getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT,true).show());

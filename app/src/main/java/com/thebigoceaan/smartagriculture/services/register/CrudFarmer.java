@@ -21,8 +21,9 @@ public class CrudFarmer {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         return databaseReference.child(user.getUid()).setValue(farmer);
     }
-    public Task<Void> update(String key, HashMap<String,Object> hashMap){
-        return databaseReference.child(key).updateChildren(hashMap);
+    public Task<Void> update(HashMap<String,Object> hashMap){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        return databaseReference.child(user.getUid()).updateChildren(hashMap);
     }
     public Task<Void> remove(String key){
         return databaseReference.child(key).removeValue();
