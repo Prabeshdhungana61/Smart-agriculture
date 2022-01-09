@@ -53,6 +53,7 @@ public class PendingOrderFragment extends Fragment {
         binding = FragmentPendingOrderBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
+        setOnClickRadioButton();
         binding.pendingOrdersRv.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setReverseLayout(true);
@@ -94,15 +95,14 @@ public class PendingOrderFragment extends Fragment {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Order order1 = data.getValue(Order.class);
                     if (auth.getCurrentUser() != null) {
-                        if (order1.getSellerEmail().equals(auth.getCurrentUser().getUid()) && !order1.isCompleted()) {
+                        if (order1.getSellerEmail().equals(auth.getCurrentUser().getEmail()) && !order1.isCompleted()) {
                             order1.setKey(data.getKey());
                             order.add(order1);
                             key = data.getKey();
                         }
                     }
-                    binding.swipePendingOrders.setRefreshing(false);
-
                 }
+                binding.swipePendingOrders.setRefreshing(false);
                 adapter.setItem(order);
                 adapter.notifyDataSetChanged();
                 isLoading = false;

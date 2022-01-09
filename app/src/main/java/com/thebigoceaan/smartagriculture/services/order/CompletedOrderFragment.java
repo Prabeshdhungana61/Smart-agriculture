@@ -3,6 +3,7 @@ package com.thebigoceaan.smartagriculture.services.order;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,14 +16,19 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.adapters.FarmerProfileAdapter;
+import com.thebigoceaan.smartagriculture.adapters.NewsViewAdapter;
 import com.thebigoceaan.smartagriculture.databinding.FragmentCompletedOrderBinding;
+import com.thebigoceaan.smartagriculture.models.News;
 import com.thebigoceaan.smartagriculture.models.Order;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
@@ -36,78 +42,53 @@ public class CompletedOrderFragment extends Fragment {
     private String key = null;
     private CrudOrder crud = new CrudOrder();
     private FirebaseAuth auth;
-
+    private DatabaseReference database;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCompletedOrderBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
-        binding.completedOrdersRv.setHasFixedSize(true);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        manager.setReverseLayout(true);
-        manager.setStackFromEnd(true);
-        binding.completedOrdersRv.setLayoutManager(manager);
-        adapter = new FarmerProfileAdapter(list,listener);
-        adapter.notifyDataSetChanged();
+        //instance
+        database = FirebaseDatabase.getInstance().getReference("News");
+
+        binding.swipeCompletedOrders.setRefreshing(true);
+        //calling set adapter method
+        binding.completedOrdersRv.hasFixedSize();
+        //Reverse RecyclerView
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        binding.completedOrdersRv.setLayoutManager(linearLayoutManager);
+        adapter= new FarmerProfileAdapter(list,listener);
         binding.completedOrdersRv.setAdapter(adapter);
 
         auth = FirebaseAuth.getInstance();
 
-        //calling public method of radio button onClick
-        PendingOrderFragment radioClickOrders = new PendingOrderFragment();
-        radioClickOrders.setOnClickRadioButton();
-
-        loadData();
-        binding.completedOrdersRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        crud.get(key).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager)binding.completedOrdersRv.getLayoutManager();
-                int totalItem=linearLayoutManager.getItemCount();
-                int lastVisible=linearLayoutManager.findLastCompletelyVisibleItemPosition();
-                if(totalItem<lastVisible+3){
-                    if(!isLoading){
-                        isLoading=true;
-                        loadData();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    Order order1 = dataSnapshot.getValue(Order.class);
+                    if(order1.isCompleted() && order1.getSellerEmail().equals(auth.getCurrentUser().getEmail())){
+                        order1.setKey(dataSnapshot.getKey());
+                        list.add(order1);
+                        key = dataSnapshot.getKey();
                     }
-
                 }
+                binding.swipeCompletedOrders.setRefreshing(false);
+                adapter.setItem(list);
+                adapter.notifyDataSetChanged();
+                isLoading = false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
 
         return view;
     }
 
-    private void loadData() {
-        binding.swipeCompletedOrders.setRefreshing(true);
-        crud.get(key).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                ArrayList<Order> order = new ArrayList<>();
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    Order order1 = data.getValue(Order.class);
-                    if (auth.getCurrentUser() != null) {
-                        if (order1.getSellerEmail().equals(auth.getCurrentUser().getUid()) && order1.isCompleted()) {
-                            order1.setKey(data.getKey());
-                            order.add(order1);
-                            key = data.getKey();
-                        }
-                    }
-                    binding.swipeCompletedOrders.setRefreshing(false);
-
-                }
-                adapter.setItem(order);
-                adapter.notifyDataSetChanged();
-                isLoading = false;
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                binding.swipeCompletedOrders.setRefreshing(false);
-                Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT,true).show();
-            }
-        });
-    }
 }

@@ -48,6 +48,9 @@ public class FarmerProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
         vh.buyerName.setText(order.getBuyerName());
         vh.orderCompleted.setText(!order.isCompleted() ? "NOT COMPLETED ": "COMPLETED");
         vh.orderCompleted.setChecked(order.isCompleted());
+        if(order.isCompleted()){
+            vh.orderCompleted.setEnabled(false);
+        }
 
     }
 
