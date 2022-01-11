@@ -125,18 +125,13 @@
             android:scaleType="fitXY"
             app:srcCompat="@drawable/register_farmer_logo" />
 
-        <Button
+        <ImageView
             android:id="@+id/product_dashboard_btn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:text="Product Dashboard"
-            android:textColor="#EFE7E7"
-            android:textSize="20sp" />
+            android:src="@drawable/product_dashboard_image_button" />
 
     </LinearLayout>
 </ScrollView>

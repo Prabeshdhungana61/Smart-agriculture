@@ -26,6 +26,7 @@ public class AddNewsActivity extends AppCompatActivity {
 
         //get reference of CrudNews activity
         CrudNews crud = new CrudNews();
+
         //for dropdown buttons
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.source_list, R.layout.item_dropdown);

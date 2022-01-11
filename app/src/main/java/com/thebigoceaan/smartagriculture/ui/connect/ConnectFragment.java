@@ -49,30 +49,9 @@ public class ConnectFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         crud= new CrudConnect();
 
-        binding.msgSentBtnConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user!=null){
-                    if(validateMessages()){
-                        return;
-                    }
-                    progressDialog.show();
-                    connect = new Connect(binding.writeMsgDetailsEditText.getText().toString(),user.getDisplayName());
-                    crud.add(connect).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            progressDialog.dismiss();
-                            Toasty.success(getContext(),"Successfully sent the message to owner !",Toasty.LENGTH_SHORT,true).show();
-                            binding.writeMsgDetailsEditText.setText("");
-                        }
-                    });
-                }
-                else{
-                    Toasty.warning(getContext(),"Kindly login first to use this feature",Toasty.LENGTH_SHORT,true).show();
-                }
-            }
-        });
+        if(validateMessages()){
+            sendMessageButton();
+        }
 
 
         return root;
@@ -84,10 +63,31 @@ public class ConnectFragment extends Fragment {
         binding = null;
     }
 
-    public boolean validateMessages(){
-        if(binding.writeMsgDetailsEditText.getText().toString().trim().equals("")){
+    private boolean validateMessages(){
+        if(binding.writeMsgDetailsEditText.getText().toString().trim().isEmpty()){
             binding.writeMsgDetailsEditText.setError("Please write something to proceed !");
+            return false;
         }
-        return true;
+        else{
+            return true;
+        }
     }
+
+    private void sendMessageButton(){
+        binding.msgSentBtnConnect.setOnClickListener(view -> {
+            user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                progressDialog.show();
+                connect = new Connect(binding.writeMsgDetailsEditText.getText().toString(), user.getDisplayName());
+                crud.add(connect).addOnSuccessListener(unused -> {
+                    progressDialog.dismiss();
+                    Toasty.success(getContext(), "Successfully sent the message to owner !", Toasty.LENGTH_SHORT, true).show();
+                    binding.writeMsgDetailsEditText.setText("");
+                });
+            } else {
+                Toasty.warning(getContext(), "Kindly login first to use this feature", Toasty.LENGTH_SHORT, true).show();
+            }
+        });
+    }
+
 }
