@@ -96,6 +96,13 @@ public class FarmerRegisterActivity extends AppCompatActivity {
         districtAdapter.setDropDownViewResource(R.layout.item_dropdown);
         binding.districtEditText.setAdapter(districtAdapter);
         binding.munEditText.setAdapter(vdcAdapter);
+        binding.teestActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FarmerRegisterActivity.this, TestActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //get data for edit or update
         Farmer farmer_edit= (Farmer) this.getIntent().getSerializableExtra("EDITFARMER");
@@ -124,17 +131,19 @@ public class FarmerRegisterActivity extends AppCompatActivity {
                 farmer.setMunicipality(binding.munEditText.getText().toString().trim());
                 farmer.setMobile(binding.mblNumEditText.getText().toString().trim());
                 farmer.setUserid(auth.getCurrentUser().getUid());
-                if (auth.getCurrentUser() != null) {
-                    CrudFarmer crud = new CrudFarmer();
-                    crud.add(farmer).addOnSuccessListener(unused -> {
-                        binding.munEditText.setText("");
-                        binding.districtEditText.setText("");
-                        binding.mblNumEditText.setText("");
-                        Toasty.success(FarmerRegisterActivity.this, "Successfully registered as farmer", Toast.LENGTH_SHORT, true).show();
-                    }).addOnFailureListener(e -> Toasty.error(FarmerRegisterActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT, true).show());
+                if (farmerRegisterValidation()) {
+                    if (auth.getCurrentUser() != null) {
+                        CrudFarmer crud = new CrudFarmer();
+                        crud.add(farmer).addOnSuccessListener(unused -> {
+                            binding.munEditText.setText("");
+                            binding.districtEditText.setText("");
+                            binding.mblNumEditText.setText("");
+                            Toasty.success(FarmerRegisterActivity.this, "Successfully registered as farmer", Toast.LENGTH_SHORT, true).show();
+                        }).addOnFailureListener(e -> Toasty.error(FarmerRegisterActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT, true).show());
 
-                } else {
-                    Toasty.warning(FarmerRegisterActivity.this, "Kindly Login first to register as a farmer", Toast.LENGTH_SHORT, true).show();
+                    } else {
+                        Toasty.warning(FarmerRegisterActivity.this, "Kindly Login first to register as a farmer", Toast.LENGTH_SHORT, true).show();
+                    }
                 }
             }
             else{
@@ -172,5 +181,22 @@ public class FarmerRegisterActivity extends AppCompatActivity {
         return json;
     }
 
+    public boolean farmerRegisterValidation(){
+        if(binding.districtEditText.getText().toString().trim().isEmpty()){
+            binding.districtEditText.setError("Kindly choose District");
+            return false;
+        }
+        else if(binding.munEditText.getText().toString().trim().isEmpty()){
+            binding.munEditText.setError("Kindly choose municipality/vdc");
+            return false;
+        }
+        else if(binding.mblNumEditText.getText().toString().trim().isEmpty()){
+            binding.mblNumEditText.setError("Kindly enter your mobile number");
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 
 }
