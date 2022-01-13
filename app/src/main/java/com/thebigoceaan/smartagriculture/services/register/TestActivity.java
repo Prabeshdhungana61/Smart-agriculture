@@ -3,6 +3,7 @@ package com.thebigoceaan.smartagriculture.services.register;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +33,7 @@ public class TestActivity extends AppCompatActivity {
     String json_string;
     String getDistrict;
     String getProvince,getMunicipality;
-    JSONObject jsonObject;
+    JSONObject jsonObject,jsonObject2;
     ArrayList<String> provinceArray = new ArrayList<>();
     ArrayList<String> munArray = new ArrayList<>();
     ArrayList<String> districtArray = new ArrayList<>();
@@ -45,20 +46,18 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        //district json
+
+        //JSON TO JAVA
         json_string= loadJSONFromAsset();
         {
             try {
                 jsonObject =new JSONObject(json_string);
                 JSONArray jsonArray =jsonObject.getJSONArray("location");
-
                 for (int i = 0; i < jsonArray.length(); i++){
                     JSONObject jObj = jsonArray.getJSONObject(i);
-//                    Toasty.success(TestActivity.this, ""+ jsonArray.length(), Toasty.LENGTH_LONG,true).show();
                     for (int j=0;j< jObj.length();j++){
                         getProvince = jObj.names().getString(j);
                         provinceArray.add(getProvince);
-
                         binding.testProvince.setOnItemClickListener((adapterView, view, position, l) -> {
                             selectedId = position;
                             for(selectedId=0;selectedId<jObj.length();selectedId++){
@@ -75,26 +74,31 @@ public class TestActivity extends AppCompatActivity {
                                 }
                             }
                         });
-                        binding.testDistrict.setOnItemClickListener((adapterView2, view2, i2, l2) -> {
-                            selectedId = i2;
-                            if(selectedId==0){
-                                try {
-                                    getMunicipality = jObj.getJSONObject(getDistrict).names().toString();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                Toast.makeText(TestActivity.this, "HELLO "+getMunicipality, Toast.LENGTH_SHORT).show();
+                        binding.testDistrict.setOnItemClickListener((adapterView, view, i1, l) -> {
+                            selectedId = i1;
+                            for(selectedId=0;selectedId<districtArray.size();selectedId++){
+                                {
+                                    try {
+                                        JSONArray jsonArray1 = jObj.getJSONObject(binding.testProvince.getText().toString()).getJSONArray(binding.testDistrict.getText().toString());
+                                        for (int m=0;m<jsonArray1.length();m++){
+                                            getMunicipality = jsonArray1.getString(m);
+                                            if (!munArray.contains(getMunicipality)) {
+                                                munArray.add(getMunicipality);
+                                            }
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
 
+                                }
                             }
                         });
-
                     }
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
 
+            }
         }
 
         //for dropdown

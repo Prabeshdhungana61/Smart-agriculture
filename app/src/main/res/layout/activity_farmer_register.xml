@@ -30,7 +30,6 @@
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:orientation="vertical">
-
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
@@ -40,18 +39,18 @@
                 android:backgroundTint="@color/white"
                 android:textColorHint="#332D2D"
                 app:boxStrokeColor="#E38080"
-                app:helperText="Choose News source above"
+                app:helperText="Choose Province above"
                 app:helperTextTextColor="@color/black"
                 app:hintTextColor="#393535">
 
                 <AutoCompleteTextView
-                    android:id="@+id/district_edit_text"
+                    android:id="@+id/province_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/cuprum_bold"
-                    android:hint="Select District"
+                    android:hint="प्रदेश छान्नुहोस "
                     android:inputType="none"
                     android:shadowColor="#21652C"
                     android:text=""
@@ -68,7 +67,35 @@
                 android:backgroundTint="@color/white"
                 android:textColorHint="#332D2D"
                 app:boxStrokeColor="#E38080"
-                app:helperText="Choose News source above"
+                app:helperText="Choose district above"
+                app:helperTextTextColor="@color/black"
+                app:hintTextColor="#393535">
+
+                <AutoCompleteTextView
+                    android:id="@+id/district_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/cuprum_bold"
+                    android:hint="जिल्ला छान्नुहोस"
+                    android:inputType="none"
+                    android:shadowColor="#21652C"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textColorHint="#675555" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/white"
+                android:textColorHint="#332D2D"
+                app:boxStrokeColor="#E38080"
+                app:helperText="Choose municipality above"
                 app:helperTextTextColor="@color/black"
                 app:hintTextColor="#393535">
 
@@ -79,7 +106,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/cuprum_bold"
-                    android:hint="Select VDC"
+                    android:hint="गांउपालिका/नगरपालिका छान्नुहोस "
                     android:inputType="none"
                     android:shadowColor="#21652C"
                     android:text=""
@@ -118,13 +145,6 @@
                 android:text="ADD FARMER PROFILE"
                 android:textColor="#F5F5F5"
                 app:backgroundTint="@color/darkGreen" />
-
-            <Button
-                android:id="@+id/teestActivityButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="GOTO TEST" />
 
         </LinearLayout>
 

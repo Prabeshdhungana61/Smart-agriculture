@@ -1,53 +1,40 @@
 package com.thebigoceaan.smartagriculture.services.register;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.databinding.ActivityFarmerRegisterBinding;
 import com.thebigoceaan.smartagriculture.models.Farmer;
-import com.thebigoceaan.smartagriculture.models.Location;
-import com.thebigoceaan.smartagriculture.models.News;
-import com.thebigoceaan.smartagriculture.models.Product;
 import com.thebigoceaan.smartagriculture.services.products.ProductDashboard;
-
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import es.dmoral.toasty.Toasty;
 
 public class FarmerRegisterActivity extends AppCompatActivity {
     ActivityFarmerRegisterBinding binding;
     private FirebaseAuth auth;
     private CrudFarmer crudFarmer = new CrudFarmer();
-    ArrayList<String> district = new ArrayList<String>();
-    ArrayList<String> vdc = new ArrayList<String>();
+    ArrayList<String> districtList = new ArrayList<String>();
+    ArrayList<String> municipalityList = new ArrayList<String>();
+    ArrayList<String> provienceList = new ArrayList<String>();
+    ArrayAdapter<String> provinceAdapter,districtAdapter,municipalityAdapter;
     JSONObject jsonObject;
     JSONArray jsonArray;
-    String getDistrict,getVDC;
+    int selectedId;
+    String getDistrict,getMunicipality,getProvince;
     String json_string;
 
 
@@ -66,44 +53,75 @@ public class FarmerRegisterActivity extends AppCompatActivity {
 
         //get instance
         auth = FirebaseAuth.getInstance();
-        JSONObject jsonObject;
 
-        //district json
+        //JSON PARSING for nepali address
         json_string= loadJSONFromAsset();
         {
             try {
                 jsonObject =new JSONObject(json_string);
-                JSONArray jsonArray =jsonObject.getJSONArray("location");
+                jsonArray =jsonObject.getJSONArray("location");
                 for (int i = 0; i < jsonArray.length(); i++){
                     JSONObject jObj = jsonArray.getJSONObject(i);
-                    getDistrict= jObj.getString("District");
-                    getVDC = jObj.getString("VDC_name");
-                    if(!district.contains(getDistrict) ){
-                        district.add(getDistrict);
-                        jsonArray.getJSONObject(i);
-                    }
-                    vdc.add(getVDC);
+                    for (int j=0;j< jObj.length();j++){
+                        getProvince = jObj.names().getString(j);
+                        provienceList.add(getProvince);
+                        binding.provinceEditText.setOnItemClickListener((adapterView, view, position, l) -> {
+                            selectedId = position;
+                            for(selectedId=0;selectedId<jObj.length();selectedId++){
+                                try {
+                                    for (int k=0;k<jObj.getJSONObject(binding.provinceEditText.getText().toString()).names().length();k++){
+                                        getDistrict = jObj.getJSONObject(binding.provinceEditText.getText().toString().trim()).names().getString(k);
+                                        if (!districtList.contains(getDistrict)) {
+                                            districtList.add(getDistrict);
+                                        }
+                                    }
 
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        binding.districtEditText.setOnItemClickListener((adapterView, view, i1, l) -> {
+                            selectedId = i1;
+                            for(selectedId=0;selectedId<districtList.size();selectedId++){
+                                {
+                                    try {
+                                        JSONArray jsonArray1 = jObj.getJSONObject(binding.provinceEditText.getText().toString()).getJSONArray(binding.districtEditText.getText().toString());
+                                        for (int m=0;m<jsonArray1.length();m++){
+                                            getMunicipality = jsonArray1.getString(m);
+                                            if (!municipalityList.contains(getMunicipality)) {
+                                                municipalityList.add(getMunicipality);
+                                            }
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }
+                        });
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+
             }
         }
 
-        //for dropdown
-        ArrayAdapter<String> districtAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, district);
-        ArrayAdapter<String> vdcAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, vdc);
-        districtAdapter.setDropDownViewResource(R.layout.item_dropdown);
-        binding.districtEditText.setAdapter(districtAdapter);
-        binding.munEditText.setAdapter(vdcAdapter);
-        binding.teestActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(FarmerRegisterActivity.this, TestActivity.class);
-                startActivity(intent);
-            }
-        });
 
+
+        //for dropdown for province
+        provinceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, provienceList);
+        provinceAdapter.setDropDownViewResource(R.layout.item_dropdown);
+        binding.provinceEditText.setAdapter(provinceAdapter);
+        //for dropdown for district
+        districtAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, districtList);
+        provinceAdapter.setDropDownViewResource(R.layout.item_dropdown);
+        binding.districtEditText.setAdapter(districtAdapter);
+        //for dropdown for municipality
+        municipalityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, municipalityList);
+        municipalityAdapter.setDropDownViewResource(R.layout.item_dropdown);
+        binding.munEditText.setAdapter(municipalityAdapter);
         //get data for edit or update
         Farmer farmer_edit= (Farmer) this.getIntent().getSerializableExtra("EDITFARMER");
 
@@ -112,12 +130,19 @@ public class FarmerRegisterActivity extends AppCompatActivity {
             binding.districtEditText.setText(farmer_edit.getDistrict());
             binding.munEditText.setText(farmer_edit.getMunicipality());
             binding.mblNumEditText.setText(farmer_edit.getMobile());
-            //for dropdown
-            ArrayAdapter<String> districtAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, district);
-            ArrayAdapter<String> vdcAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, vdc);
-            districtAdapter.setDropDownViewResource(R.layout.item_dropdown);
-            binding.districtEditText.setAdapter(districtAdapter2);
-            binding.munEditText.setAdapter(vdcAdapter2);
+            binding.provinceEditText.setText(farmer_edit.getProvince());
+            //for dropdown for province
+            provinceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, provienceList);
+            provinceAdapter.setDropDownViewResource(R.layout.item_dropdown);
+            binding.provinceEditText.setAdapter(provinceAdapter);
+            //for dropdown for district
+            districtAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, districtList);
+            provinceAdapter.setDropDownViewResource(R.layout.item_dropdown);
+            binding.districtEditText.setAdapter(districtAdapter);
+            //for dropdown for municipality
+            municipalityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, municipalityList);
+            municipalityAdapter.setDropDownViewResource(R.layout.item_dropdown);
+            binding.munEditText.setAdapter(municipalityAdapter);
 
         }
         else{
@@ -130,7 +155,7 @@ public class FarmerRegisterActivity extends AppCompatActivity {
                 farmer.setDistrict(binding.districtEditText.getText().toString().trim());
                 farmer.setMunicipality(binding.munEditText.getText().toString().trim());
                 farmer.setMobile(binding.mblNumEditText.getText().toString().trim());
-                farmer.setUserid(auth.getCurrentUser().getUid());
+                farmer.setProvince(binding.provinceEditText.getText().toString().trim());
                 if (farmerRegisterValidation()) {
                     if (auth.getCurrentUser() != null) {
                         CrudFarmer crud = new CrudFarmer();
@@ -138,6 +163,7 @@ public class FarmerRegisterActivity extends AppCompatActivity {
                             binding.munEditText.setText("");
                             binding.districtEditText.setText("");
                             binding.mblNumEditText.setText("");
+                            binding.provinceEditText.setText("");
                             Toasty.success(FarmerRegisterActivity.this, "Successfully registered as farmer", Toast.LENGTH_SHORT, true).show();
                         }).addOnFailureListener(e -> Toasty.error(FarmerRegisterActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT, true).show());
 
@@ -151,11 +177,13 @@ public class FarmerRegisterActivity extends AppCompatActivity {
                 hashMap.put("district",binding.districtEditText.getText().toString());
                 hashMap.put("mobile",binding.mblNumEditText.getText().toString());
                 hashMap.put("municipality",binding.munEditText.getText().toString());
+                hashMap.put("province",binding.provinceEditText.getText().toString());
                 crudFarmer.update(hashMap).addOnSuccessListener(unused -> {
                     Toasty.success(FarmerRegisterActivity.this, "Successfully update your farmer profile !", Toasty.LENGTH_SHORT,true).show();
                     binding.districtEditText.setText("");
                     binding.mblNumEditText.setText("");
                     binding.munEditText.setText("");
+                    binding.provinceEditText.setText("");
                     Intent intent = new Intent(FarmerRegisterActivity.this, ProductDashboard.class);
                     startActivity(intent);
                 }).addOnFailureListener(e -> Toasty.error(FarmerRegisterActivity.this, ""+e.getMessage(), Toasty.LENGTH_SHORT,true).show());
@@ -168,7 +196,7 @@ public class FarmerRegisterActivity extends AppCompatActivity {
     public String loadJSONFromAsset() {
         String json = null;
         try {
-            InputStream is = getAssets().open("district.json");
+            InputStream is = getAssets().open("location.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -182,16 +210,24 @@ public class FarmerRegisterActivity extends AppCompatActivity {
     }
 
     public boolean farmerRegisterValidation(){
-        if(binding.districtEditText.getText().toString().trim().isEmpty()){
-            binding.districtEditText.setError("Kindly choose District");
+        if(binding.provinceEditText.getText().toString().trim().isEmpty()){
+            Toasty.error(FarmerRegisterActivity.this,"Kindly choose One Province !",Toasty.LENGTH_SHORT,true).show();
+            return false;
+        }
+        else if(binding.districtEditText.getText().toString().trim().isEmpty()){
+            Toasty.error(FarmerRegisterActivity.this,"Kindly choose District !",Toasty.LENGTH_SHORT,true).show();
             return false;
         }
         else if(binding.munEditText.getText().toString().trim().isEmpty()){
-            binding.munEditText.setError("Kindly choose municipality/vdc");
+            Toasty.error(FarmerRegisterActivity.this,"Kindly choose municipality !",Toasty.LENGTH_SHORT,true).show();
             return false;
         }
         else if(binding.mblNumEditText.getText().toString().trim().isEmpty()){
             binding.mblNumEditText.setError("Kindly enter your mobile number");
+            return false;
+        }
+        else if(binding.mblNumEditText.getText().toString().length()<10){
+            Toasty.error(FarmerRegisterActivity.this,"Kindly choose 10 digit mobile number !",Toasty.LENGTH_SHORT,true).show();
             return false;
         }
         else{

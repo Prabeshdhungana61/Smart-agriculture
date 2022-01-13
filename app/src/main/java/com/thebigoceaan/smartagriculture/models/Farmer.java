@@ -8,13 +8,13 @@ public class Farmer implements Serializable {
     @Exclude
     private String key;
 
-    String mobile,district, municipality,userid;
+    String mobile,district, municipality,province;
 
-    public Farmer(String mobile, String district, String municipality,String userid) {
+    public Farmer(String mobile, String district, String municipality,String province) {
         this.mobile = mobile;
         this.district = district;
         this.municipality = municipality;
-        this.userid = userid;
+        this.province = province;
     }
     public Farmer(){}
 
@@ -42,12 +42,12 @@ public class Farmer implements Serializable {
         this.municipality = municipality;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getProvince() {
+        return province;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public String getKey() {
