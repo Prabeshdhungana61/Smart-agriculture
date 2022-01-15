@@ -29,7 +29,7 @@
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/profile_image_desc"
                 android:fitsSystemWindows="true"
-                android:src="@drawable/tractor"
+                android:src="@mipmap/ic_launcher"
                 app:civ_border_color="#DCDCDC"
                 app:civ_border_width="10dp"
                 app:civ_shadow_radius="20dp"
@@ -51,7 +51,7 @@
                 android:layout_marginTop="0dp"
                 android:fontFamily="@font/poppins_light"
                 android:gravity="center"
-                android:text="SIGNIN TO CONTINUE"
+                android:text="SIGN-IN TO CONTINUE"
                 android:textColor="@color/dark_grey"
                 android:textSize="17sp" />
 

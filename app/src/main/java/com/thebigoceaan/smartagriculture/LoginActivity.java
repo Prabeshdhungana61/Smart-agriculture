@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -65,6 +66,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //for skip button
         skipButtonOnClick();
+
+        //login back logo image
+        Glide.with(LoginActivity.this).load(R.drawable.gif_login_back).into(binding.profileImageAccount);
 
         //progress dialog codes
         progressDialog = new ProgressDialog(LoginActivity.this);

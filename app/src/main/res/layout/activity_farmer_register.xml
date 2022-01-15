@@ -115,22 +115,43 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <EditText
-                android:id="@+id/mbl_num_edit_text"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/customborder"
-                android:ems="10"
-                android:hint="@string/mb_text"
-                android:inputType="number"
-                android:minHeight="48dp"
-                android:textColor="#000000"
-                android:textColorHint="#403A3A" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/ccp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    app:ccp_defaultPhoneCode="977"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:backgroundTint="@color/lightWhite"
+                    app:ccpDialog_textColor="@color/dark_grey"
+                    app:ccpDialog_background="@color/light_white_back"
+                    />
+
+
+                <EditText
+                    android:id="@+id/mblNumEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/customborder"
+                    android:ems="10"
+                    android:hint="@string/mb_text"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#403A3A" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_reg_farmer"
@@ -138,11 +159,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/customborder"
-                android:text="ADD FARMER PROFILE"
+                android:text="Verify Mobile Number"
                 android:textColor="#F5F5F5"
                 app:backgroundTint="@color/darkGreen" />
 

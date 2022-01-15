@@ -1,15 +1,29 @@
 package com.thebigoceaan.smartagriculture.services.register;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.safetynet.SafetyNet;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.hbb20.CountryCodePicker;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.databinding.ActivityFarmerRegisterBinding;
 import com.thebigoceaan.smartagriculture.models.Farmer;
@@ -21,6 +35,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+
 import es.dmoral.toasty.Toasty;
 
 public class FarmerRegisterActivity extends AppCompatActivity {
@@ -36,7 +52,9 @@ public class FarmerRegisterActivity extends AppCompatActivity {
     int selectedId;
     String getDistrict,getMunicipality,getProvince;
     String json_string;
-
+    CountryCodePicker ccp;
+    Dialog dialog;
+    String otpId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +71,9 @@ public class FarmerRegisterActivity extends AppCompatActivity {
 
         //get instance
         auth = FirebaseAuth.getInstance();
+        ccp =(CountryCodePicker) findViewById(R.id.ccp);
+        ccp.registerCarrierNumberEditText(binding.mblNumEditText);
+        String finalMobile = ccp.getFullNumberWithPlus().replace(" ","");
 
         //JSON PARSING for nepali address
         json_string= loadJSONFromAsset();
@@ -107,7 +128,7 @@ public class FarmerRegisterActivity extends AppCompatActivity {
 
             }
         }
-
+//end json
 
 
         //for dropdown for province
@@ -150,44 +171,28 @@ public class FarmerRegisterActivity extends AppCompatActivity {
         }
 
         binding.btnRegFarmer.setOnClickListener(view -> {
-            if(farmer_edit==null) {
-                Farmer farmer = new Farmer();
-                farmer.setDistrict(binding.districtEditText.getText().toString().trim());
-                farmer.setMunicipality(binding.munEditText.getText().toString().trim());
-                farmer.setMobile(binding.mblNumEditText.getText().toString().trim());
-                farmer.setProvince(binding.provinceEditText.getText().toString().trim());
-                if (farmerRegisterValidation()) {
-                    if (auth.getCurrentUser() != null) {
-                        CrudFarmer crud = new CrudFarmer();
-                        crud.add(farmer).addOnSuccessListener(unused -> {
-                            binding.munEditText.setText("");
-                            binding.districtEditText.setText("");
-                            binding.mblNumEditText.setText("");
-                            binding.provinceEditText.setText("");
-                            Toasty.success(FarmerRegisterActivity.this, "Successfully registered as farmer", Toast.LENGTH_SHORT, true).show();
-                        }).addOnFailureListener(e -> Toasty.error(FarmerRegisterActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT, true).show());
-
-                    } else {
-                        Toasty.warning(FarmerRegisterActivity.this, "Kindly Login first to register as a farmer", Toast.LENGTH_SHORT, true).show();
-                    }
+            dialog =new Dialog(this);
+            dialog.setContentView(R.layout.dialog_mobile_verify);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            Button otpVerifyButton = dialog.findViewById(R.id.otp_verify_btn);
+            EditText enterOtp = dialog.findViewById(R.id.getOTP);
+            dialog.show();
+            initiateOtp();
+            otpVerifyButton.setOnClickListener(view1 -> {
+                if (enterOtp.getText().toString().isEmpty()){
+                    Toasty.error(FarmerRegisterActivity.this, "Empty Field cannot proceed", Toasty.LENGTH_SHORT).show();
                 }
-            }
-            else{
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("district",binding.districtEditText.getText().toString());
-                hashMap.put("mobile",binding.mblNumEditText.getText().toString());
-                hashMap.put("municipality",binding.munEditText.getText().toString());
-                hashMap.put("province",binding.provinceEditText.getText().toString());
-                crudFarmer.update(hashMap).addOnSuccessListener(unused -> {
-                    Toasty.success(FarmerRegisterActivity.this, "Successfully update your farmer profile !", Toasty.LENGTH_SHORT,true).show();
-                    binding.districtEditText.setText("");
-                    binding.mblNumEditText.setText("");
-                    binding.munEditText.setText("");
-                    binding.provinceEditText.setText("");
-                    Intent intent = new Intent(FarmerRegisterActivity.this, ProductDashboard.class);
-                    startActivity(intent);
-                }).addOnFailureListener(e -> Toasty.error(FarmerRegisterActivity.this, ""+e.getMessage(), Toasty.LENGTH_SHORT,true).show());
-            }
+                else if(enterOtp.getText().length()!=6){
+                    Toasty.error(FarmerRegisterActivity.this, "Invalid OTP", Toasty.LENGTH_SHORT).show();
+                }
+                else{
+                    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(otpId,enterOtp.getText().toString());
+                    addUpdateFarmer(credential);
+                    dialog.dismiss();
+                }
+            });
+
+
 
         });
 
@@ -233,6 +238,84 @@ public class FarmerRegisterActivity extends AppCompatActivity {
         else{
             return true;
         }
+    }
+
+    private void addUpdateFarmer(PhoneAuthCredential credential){
+        ccp =(CountryCodePicker) findViewById(R.id.ccp);
+        ccp.registerCarrierNumberEditText(binding.mblNumEditText);
+        String finalMobile = ccp.getFullNumberWithPlus().replace(" ","");
+        Farmer farmer_edit= (Farmer) this.getIntent().getSerializableExtra("EDITFARMER");
+        if(farmer_edit==null) {
+            Farmer farmer = new Farmer();
+            farmer.setDistrict(binding.districtEditText.getText().toString().trim());
+            farmer.setMunicipality(binding.munEditText.getText().toString().trim());
+            farmer.setMobile(finalMobile);
+            farmer.setProvince(binding.provinceEditText.getText().toString().trim());
+            if (farmerRegisterValidation()) {
+                if (auth.getCurrentUser() != null) {
+                    CrudFarmer crud = new CrudFarmer();
+                    crud.add(farmer).addOnSuccessListener(unused -> {
+                        binding.munEditText.setText("");
+                        binding.districtEditText.setText("");
+                        binding.mblNumEditText.setText("");
+                        binding.provinceEditText.setText("");
+                        Intent intent = new Intent(FarmerRegisterActivity.this, ProductDashboard.class);
+                        startActivity(intent);
+                        Toasty.success(FarmerRegisterActivity.this, "Successfully registered as farmer", Toast.LENGTH_SHORT, true).show();
+                    }).addOnFailureListener(e -> Toasty.error(FarmerRegisterActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT, true).show());
+
+                } else {
+                    Toasty.warning(FarmerRegisterActivity.this, "Kindly Login first to register as a farmer", Toast.LENGTH_SHORT, true).show();
+                }
+            }
+        }
+        else{
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("district",binding.districtEditText.getText().toString());
+            hashMap.put("mobile",finalMobile);
+            hashMap.put("municipality",binding.munEditText.getText().toString());
+            hashMap.put("province",binding.provinceEditText.getText().toString());
+            crudFarmer.update(hashMap).addOnSuccessListener(unused -> {
+                Toasty.success(FarmerRegisterActivity.this, "Successfully update your farmer profile !", Toasty.LENGTH_SHORT,true).show();
+                binding.districtEditText.setText("");
+                binding.mblNumEditText.setText("");
+                binding.munEditText.setText("");
+                binding.provinceEditText.setText("");
+                Intent intent = new Intent(FarmerRegisterActivity.this, ProductDashboard.class);
+                startActivity(intent);
+            }).addOnFailureListener(e -> Toasty.error(FarmerRegisterActivity.this, ""+e.getMessage(), Toasty.LENGTH_SHORT,true).show());
+        }
+    }
+
+    private void initiateOtp(){
+        ccp =(CountryCodePicker) findViewById(R.id.ccp);
+        ccp.registerCarrierNumberEditText(binding.mblNumEditText);
+        String finalMobile = ccp.getFullNumberWithPlus().replace(" ","");
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(auth)
+                        .setPhoneNumber(finalMobile)       // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                            @Override
+                            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                super.onCodeSent(s, forceResendingToken);
+                                otpId = s;
+                            }
+
+                            @Override
+                            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                                addUpdateFarmer(phoneAuthCredential);
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onVerificationFailed(@NonNull FirebaseException e) {
+                                Toast.makeText(FarmerRegisterActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        })          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
 }
