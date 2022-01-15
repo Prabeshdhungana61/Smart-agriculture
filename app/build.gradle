@@ -73,6 +73,4 @@ dependencies {
     implementation 'com.mikhaellopez:circularimageview:4.3.0'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
-
-
 }

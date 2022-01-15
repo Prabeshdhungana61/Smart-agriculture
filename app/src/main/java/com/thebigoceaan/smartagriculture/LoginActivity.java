@@ -19,6 +19,8 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.Login;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -76,25 +78,29 @@ public class LoginActivity extends AppCompatActivity {
         AppEventsLogger.activateApp(this);
 
         mCallbackManager= CallbackManager.Factory.create();
-        binding.btnFb.setPermissions(Arrays.asList("email","public_profile"));
-
-        binding.btnFb.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+        binding.btnFb.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "onSuccess"+loginResult);
-                progressDialog.show();
-                handleFacebookToken(loginResult.getAccessToken());
-            }
+            public void onClick(View view) {
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,Arrays.asList("email","public_profile"));
+                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Log.d(TAG, "onSuccess"+loginResult);
+                        progressDialog.show();
+                        handleFacebookToken(loginResult.getAccessToken());
+                    }
 
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "onCancel");
-            }
+                    @Override
+                    public void onCancel() {
+                        Log.d(TAG, "onCancel");
+                    }
 
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "onError");
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.d(TAG, "onError");
 
+                    }
+                });
             }
         });
 
