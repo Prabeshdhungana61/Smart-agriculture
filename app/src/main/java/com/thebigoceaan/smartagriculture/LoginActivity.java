@@ -69,9 +69,6 @@ public class LoginActivity extends AppCompatActivity {
         //for skip button
         skipButtonOnClick();
 
-        //login back logo image
-        Glide.with(LoginActivity.this).load(R.drawable.gif_login_back).into(binding.profileImageAccount);
-
         //progress dialog codes
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setTitle("Please Wait");
