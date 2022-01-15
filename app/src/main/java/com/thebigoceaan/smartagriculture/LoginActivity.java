@@ -46,6 +46,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Objects;
 
+import es.dmoral.toasty.Toasty;
+
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
     ProgressDialog progressDialog;
@@ -158,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else{
                     Log.d(TAG,"Signing with credential failure"+task.getException());
-                    Toast.makeText(LoginActivity.this, "Authentication Failed !", Toast.LENGTH_SHORT).show();
+                    Toasty.error(LoginActivity.this, "Authentication Failed !", Toasty.LENGTH_SHORT,true).show();
 
                 }
             }
@@ -225,7 +227,7 @@ public class LoginActivity extends AppCompatActivity {
                             users.setProfilePic(user.getPhotoUrl().toString());
                             database.getReference().child("Users").child(user.getUid()).setValue(users);
                             updateUi();
-                            Toast.makeText(LoginActivity.this, "Google Signing Successfully", Toast.LENGTH_SHORT).show();
+                            Toasty.success(LoginActivity.this, "Google Signing Successfully", Toasty.LENGTH_SHORT,true).show();
                             progressDialog.dismiss();
                         } else {
                             // If sign in fails, display a message to the user.

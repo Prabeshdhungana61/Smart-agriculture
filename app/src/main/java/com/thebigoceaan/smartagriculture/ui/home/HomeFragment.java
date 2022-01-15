@@ -1,5 +1,6 @@
 package com.thebigoceaan.smartagriculture.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
+import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.adapters.ProductDetailsAdapter;
 import com.thebigoceaan.smartagriculture.databinding.FragmentHomeBinding;
 import com.thebigoceaan.smartagriculture.models.Product;
@@ -69,9 +72,9 @@ public class HomeFragment extends Fragment {
         crud = new CrudProduct();
         loadData();
         //For Progress bar
-        Sprite cubegrid = new CubeGrid();
-        binding.spinKit.setIndeterminateDrawable(cubegrid);
-        binding.spinKit.setVisibility(View.GONE);
+        binding.swipCircle.startAnim();
+        binding.swipCircle.setViewColor(ContextCompat.getColor(getContext(), R.color.dark_grey));
+        binding.swipCircle.setBarColor(ContextCompat.getColor(getContext(),R.color.light_white_back));
 
         binding.recyclerViewProductDetails.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -101,7 +104,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadData() {
-        binding.spinKit.setVisibility(View.VISIBLE);
+        binding.swipCircle.startAnim();
         crud.get(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -115,10 +118,14 @@ public class HomeFragment extends Fragment {
                 adapter.setItem(product);
                 adapter.notifyDataSetChanged();
                 isLoading = false;
+                binding.swipCircle.stopAnim();
+                binding.swipCircle.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                binding.swipCircle.stopAnim();
+                binding.swipCircle.setVisibility(View.GONE);
                 Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT,true).show();
             };
         });

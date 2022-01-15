@@ -59,7 +59,7 @@
                 android:textColor="#E6DFDF"
                 android:textSize="14sp"
                 app:backgroundTint="#77752A"
-                app:backgroundTintMode="add" />
+                />
 
         </LinearLayout>
 

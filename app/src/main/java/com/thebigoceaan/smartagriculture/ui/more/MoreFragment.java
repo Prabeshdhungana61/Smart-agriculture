@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
+import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.databinding.FragmentMoreBinding;
 import com.thebigoceaan.smartagriculture.hyperlink.DailyVegMarketActivity;
 import com.thebigoceaan.smartagriculture.hyperlink.WeatherInformationActivity;
@@ -84,7 +86,9 @@ public class MoreFragment extends Fragment {
         binding.productDashboardBtn.setVisibility(View.GONE);
         binding.registerAsFarmerDesc.setVisibility(View.GONE);
         binding.imgRegisterBtn.setVisibility(View.GONE);
-
+        binding.swipCircle.startAnim();
+        binding.swipCircle.setRoundColor(ContextCompat.getColor(getContext(), R.color.darkGreen));
+        binding.swipCircle.setViewColor(ContextCompat.getColor(getContext(), R.color.splashColor));
         if(auth.getCurrentUser()!=null) {
             database.getReference("Farmer").child(auth.getCurrentUser().getUid()).get().addOnSuccessListener(dataSnapshot -> {
                 Farmer farmer = dataSnapshot.getValue(Farmer.class);
@@ -92,16 +96,26 @@ public class MoreFragment extends Fragment {
                     binding.productDashboardBtn.setVisibility(View.VISIBLE);
                     binding.registerAsFarmerDesc.setVisibility(View.GONE);
                     binding.imgRegisterBtn.setVisibility(View.GONE);
+
                 } else {
                     binding.productDashboardBtn.setVisibility(View.GONE);
                     binding.imgRegisterBtn.setVisibility(View.VISIBLE);
                     binding.registerAsFarmerDesc.setVisibility(View.VISIBLE);
                 }
-            }).addOnFailureListener(e -> Toast.makeText(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show());
+                binding.swipCircle.stopAnim();
+                binding.swipCircle.setVisibility(View.GONE);
+            }).addOnFailureListener(e -> {
+                Toast.makeText(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                binding.swipCircle.stopAnim();
+                binding.swipCircle.setVisibility(View.GONE);
+
+            });
         }
         else{
             binding.registerAsFarmerDesc.setVisibility(View.VISIBLE);
-            binding.registerAsFarmerDesc.setText("Kindly login through Facebook or Google to authenticate first for registering as a Farmer !");
+            binding.swipCircle.stopAnim();
+            binding.swipCircle.setVisibility(View.GONE);
+            binding.registerAsFarmerDesc.setText(R.string.desc_reg_farmer);
         }
 
 

@@ -24,6 +24,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.hbb20.CountryCodePicker;
+import com.thebigoceaan.smartagriculture.MainActivity;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.databinding.ActivityFarmerRegisterBinding;
 import com.thebigoceaan.smartagriculture.models.Farmer;
@@ -259,9 +260,9 @@ public class FarmerRegisterActivity extends AppCompatActivity {
                         binding.districtEditText.setText("");
                         binding.mblNumEditText.setText("");
                         binding.provinceEditText.setText("");
-                        Intent intent = new Intent(FarmerRegisterActivity.this, ProductDashboard.class);
+                        Toasty.success(FarmerRegisterActivity.this, "Successfully registered as farmer", Toasty.LENGTH_SHORT, true).show();
+                        Intent intent = new Intent(FarmerRegisterActivity.this, MainActivity.class);
                         startActivity(intent);
-                        Toasty.success(FarmerRegisterActivity.this, "Successfully registered as farmer", Toast.LENGTH_SHORT, true).show();
                     }).addOnFailureListener(e -> Toasty.error(FarmerRegisterActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT, true).show());
 
                 } else {
