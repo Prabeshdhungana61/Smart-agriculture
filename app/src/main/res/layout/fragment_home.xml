@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/lightWhite"
     android:orientation="vertical"
+    android:focusable="true"
     tools:context=".ui.home.HomeFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewProductDetails"
@@ -28,12 +29,13 @@
             android:id="@+id/swipCircle"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginTop="100dp"
             android:layout_gravity="center"
             android:layout_marginLeft="100dp"
+            android:layout_marginTop="100dp"
             android:layout_marginRight="50dp"
             android:foregroundGravity="center"
-            android:onClick="startAnim"/>
+            android:onClick="startAnim"
+            tools:ignore="SpeakableTextPresentCheck" />
 
     </LinearLayout>
 

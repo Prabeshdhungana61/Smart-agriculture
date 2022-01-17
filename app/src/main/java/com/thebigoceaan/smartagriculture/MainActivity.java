@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -28,6 +30,7 @@ import com.thebigoceaan.smartagriculture.databinding.ActivityMainBinding;
 import com.thebigoceaan.smartagriculture.descriptions.AboutActivity;
 import com.thebigoceaan.smartagriculture.hyperlink.DailyVegMarketActivity;
 import com.thebigoceaan.smartagriculture.services.news.NewsActivity;
+import com.thebigoceaan.smartagriculture.ui.home.HomeFragment;
 
 import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
@@ -177,5 +180,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ColorDrawable colorDrawable
                 = new ColorDrawable(Color.parseColor("#4fb424"));
         actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 }

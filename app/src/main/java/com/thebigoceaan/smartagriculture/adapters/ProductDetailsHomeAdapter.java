@@ -14,40 +14,37 @@ import com.bumptech.glide.Glide;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.models.Product;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 
-public class ProductDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ProductDetailsHomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
     private Context context;
     ArrayList<Product> list = new ArrayList<>();
     private RecyclerViewClickListener listener;
 
-    public ProductDetailsAdapter(Context context, RecyclerViewClickListener listener, ArrayList<Product> list) {
+    public ProductDetailsHomeAdapter(Context context, RecyclerViewClickListener listener, ArrayList<Product> list) {
         this.context = context;
         this.listener= listener;
         this.list = list;
     }
 
-    public void setItem(ArrayList<Product> product){
-        list.addAll(product);
-    }
 
     @NonNull
-    @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_product_details,parent,false);
         return new ProductDetailsVH(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ProductDetailsVH vh = (ProductDetailsVH) holder;
         Product product = list.get(position);
         Glide.with(context).load(product.getProductImage()).placeholder(R.drawable.ic_image).fitCenter().centerCrop().into(vh.productImage);
         vh.title.setText(product.getProductTitle());
-
+    }
+    public void setItem(ArrayList<Product> product){
+        list.addAll(product);
     }
 
     @Override

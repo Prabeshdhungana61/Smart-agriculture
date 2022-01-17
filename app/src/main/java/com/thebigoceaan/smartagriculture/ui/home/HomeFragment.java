@@ -1,13 +1,16 @@
 package com.thebigoceaan.smartagriculture.ui.home;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,23 +18,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.ybq.android.spinkit.sprite.Sprite;
-import com.github.ybq.android.spinkit.style.CubeGrid;
-import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.thebigoceaan.smartagriculture.R;
-import com.thebigoceaan.smartagriculture.adapters.ProductDetailsAdapter;
+import com.thebigoceaan.smartagriculture.adapters.ProductDetailsHomeAdapter;
 import com.thebigoceaan.smartagriculture.databinding.FragmentHomeBinding;
 import com.thebigoceaan.smartagriculture.models.Product;
 import com.thebigoceaan.smartagriculture.services.products.CrudProduct;
 import com.thebigoceaan.smartagriculture.services.products.ProductDetailsActivity;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 import es.dmoral.toasty.Toasty;
@@ -39,19 +43,47 @@ import es.dmoral.toasty.Toasty;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    ProductDetailsAdapter adapter;
-    boolean isLoading=false;
+    ProductDetailsHomeAdapter adapter;
+    boolean isLoading = false;
     CrudProduct crud;
-    String key=null;
+    String key = null;
     FirebaseAuth auth;
-    int totalItem,currentItem,scrollOutItem;
+    int totalItem, currentItem, scrollOutItem;
     ArrayList<Product> list = new ArrayList<>();
-    private ProductDetailsAdapter.RecyclerViewClickListener listener;
 
+
+    private ProductDetailsHomeAdapter.RecyclerViewClickListener listener;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
+        // TODO Add your menu entries here
+        inflater.inflate(R.menu.filter, menu);
+        MenuItem item = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                filterSearch(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                filterSearch(s);
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -60,10 +92,8 @@ public class HomeFragment extends Fragment {
         ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         Objects.requireNonNull(mActionBar).setDisplayHomeAsUpEnabled(true);
 
-        setOnClickListener();
-        binding.recyclerViewProductDetails.setHasFixedSize(true);
-        adapter = new ProductDetailsAdapter(getContext(),listener,list);
-        adapter.notifyDataSetChanged();
+        setOnClickListener(list);
+        adapter = new ProductDetailsHomeAdapter(getContext(), listener, list);
         binding.recyclerViewProductDetails.setAdapter(adapter);
 
         //get instance
@@ -74,27 +104,29 @@ public class HomeFragment extends Fragment {
         //For Progress bar
         binding.swipCircle.startAnim();
         binding.swipCircle.setViewColor(ContextCompat.getColor(getContext(), R.color.dark_grey));
-        binding.swipCircle.setBarColor(ContextCompat.getColor(getContext(),R.color.light_white_back));
+        binding.swipCircle.setBarColor(ContextCompat.getColor(getContext(), R.color.light_white_back));
 
         binding.recyclerViewProductDetails.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull @org.jetbrains.annotations.NotNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState== AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
-                    isLoading=true;
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isLoading = true;
                 }
             }
 
             @Override
             public void onScrolled(@NonNull @org.jetbrains.annotations.NotNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                GridLayoutManager manager = (GridLayoutManager)binding.recyclerViewProductDetails.getLayoutManager();
-                currentItem=manager.getChildCount();
+                GridLayoutManager manager = (GridLayoutManager) binding.recyclerViewProductDetails.getLayoutManager();
+                currentItem = manager.getChildCount();
                 totalItem = manager.getItemCount();
                 scrollOutItem = manager.findFirstVisibleItemPosition();
 
-                if(isLoading && (currentItem+scrollOutItem==totalItem) ){
-                    isLoading=false;
+                if (isLoading && (currentItem + scrollOutItem == totalItem)) {
+                    isLoading = false;
+                    binding.swipCircle.stopAnim();
+                    binding.swipCircle.setVisibility(View.GONE);
                     loadData();
                 }
             }
@@ -126,8 +158,10 @@ public class HomeFragment extends Fragment {
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
                 binding.swipCircle.stopAnim();
                 binding.swipCircle.setVisibility(View.GONE);
-                Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT,true).show();
-            };
+                Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT, true).show();
+            }
+
+            ;
         });
     }
 
@@ -137,19 +171,52 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-    private void setOnClickListener(){
-        listener = (view,position) ->{
-            Product product = list.get(position);
+
+    private void setOnClickListener(ArrayList<Product> updatedlist) {
+        listener = (view, position) -> {
+            Product product = updatedlist.get(position);
             Intent intent = new Intent(getContext(), ProductDetailsActivity.class);
-            intent.putExtra("TitleProductText",product.getProductTitle());
-            intent.putExtra("ProductPriceText",product.getProductPrice());
-            intent.putExtra("ProductImage",product.getProductImage());
-            intent.putExtra("ProductDescText",product.getProductDescription());
-            intent.putExtra("SellerProfile",product.getSellerProfile());
-            intent.putExtra("SellerEmail",product.getSellerEmail());
-            intent.putExtra("SellerMobile",product.getSellerMobile());
-            intent.putExtra("TotalProductStock",product.getProductStock());
+            intent.putExtra("TitleProductText", product.getProductTitle());
+            intent.putExtra("ProductPriceText", product.getProductPrice());
+            intent.putExtra("ProductImage", product.getProductImage());
+            intent.putExtra("ProductDescText", product.getProductDescription());
+            intent.putExtra("SellerProfile", product.getSellerProfile());
+            intent.putExtra("SellerEmail", product.getSellerEmail());
+            intent.putExtra("SellerMobile", product.getSellerMobile());
+            intent.putExtra("TotalProductStock", product.getProductStock());
             getContext().startActivity(intent);
         };
+    }
+    public void filterSearch(String s) {
+        Query query = FirebaseDatabase.getInstance().getReference("Product")
+                .orderByChild("productTitle")
+                .startAt(s)
+                .endAt(s+"\uf88ff");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Product> searchList = new ArrayList<>();
+                for (DataSnapshot data: snapshot.getChildren()) {
+                    Product product2 = data.getValue(Product.class);
+                    if (product2.getProductTitle().toLowerCase().contains(s.toLowerCase().trim())) {
+                        if (!searchList.contains(product2)) {
+                            searchList.add(product2);
+                        }
+                    }
+                }
+                list.clear();
+                setOnClickListener(searchList);
+                adapter.setItem(searchList);
+                adapter = new ProductDetailsHomeAdapter(getContext(), listener, searchList);
+                binding.recyclerViewProductDetails.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

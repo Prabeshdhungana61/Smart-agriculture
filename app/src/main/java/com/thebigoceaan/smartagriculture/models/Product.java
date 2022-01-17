@@ -94,10 +94,12 @@ public class Product implements Serializable {
         this.productDescription = productDescription;
     }
 
+    @Exclude
     public String getKey() {
         return key;
     }
 
+    @Exclude
     public void setKey(String key) {
         this.key = key;
     }
@@ -124,5 +126,17 @@ public class Product implements Serializable {
 
     public void setSellerMobile(String sellerMobile) {
         this.sellerMobile = sellerMobile;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productTitle='" + productTitle + '\'' +
+                ", productPrice='" + productPrice + '\'' +
+                ", productStock='" + productStock + '\'' +
+                ", productDescription='" + productDescription + '\'' +
+                ", sellerProfile='" + sellerProfile + '\'' +
+                ", sellerEmail='" + sellerEmail + '\'' +
+                '}';
     }
 }
