@@ -190,8 +190,8 @@ public class HomeFragment extends Fragment {
     public void filterSearch(String s) {
         Query query = FirebaseDatabase.getInstance().getReference("Product")
                 .orderByChild("productTitle")
-                .startAt(s)
-                .endAt(s+"\uf88ff");
+                .startAt(s.toLowerCase())
+                .endAt(s.toLowerCase()+"\uf88ff");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

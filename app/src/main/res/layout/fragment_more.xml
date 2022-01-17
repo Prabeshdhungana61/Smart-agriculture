@@ -115,21 +115,23 @@
 
         <ImageView
             android:id="@+id/img_register_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="120dp"
-            android:layout_marginStart="70dp"
-            android:layout_marginLeft="70dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+
             android:background="@drawable/customborder"
             android:contentDescription="@string/image_register_farmer"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/register_farmer_logo" />
+            app:srcCompat="@drawable/reg_farmer_btn" />
+
         <com.ldoublem.loadingviewlib.LVCircular
             android:id="@+id/swipCircle"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:onClick="startAnim"/>
+            android:onClick="startAnim"
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
         <ImageView
             android:id="@+id/product_dashboard_btn"
