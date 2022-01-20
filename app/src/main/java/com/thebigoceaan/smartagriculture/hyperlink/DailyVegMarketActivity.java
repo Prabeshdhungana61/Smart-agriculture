@@ -18,6 +18,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.databinding.ActivityDailyVegMarketBinding;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,9 +35,7 @@ public class DailyVegMarketActivity extends AppCompatActivity {
         // Set App bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        Utilities.appBarColor(actionBar,this); //action bar ends
 
         binding.progressBarMarket.setMax(100);
         WebSettings webSettings = binding.webViewMarket.getSettings();

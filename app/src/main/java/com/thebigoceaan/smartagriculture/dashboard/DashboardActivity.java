@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.thebigoceaan.smartagriculture.LoginActivity;
 import com.thebigoceaan.smartagriculture.MainActivity;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.dashboard.info.AddInfoActivity;
 import com.thebigoceaan.smartagriculture.dashboard.info.ViewInfoActivity;
 import com.thebigoceaan.smartagriculture.dashboard.news.AddNewsActivity;
@@ -38,9 +39,7 @@ public class DashboardActivity extends AppCompatActivity {
         //action bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        Utilities.appBarColor(actionBar,this); //action bar ends
 
         binding.imgAddNews.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -20,8 +21,6 @@ public class AboutActivity extends AppCompatActivity {
         // Set App bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        Utilities.appBarColor(actionBar,this);
     }
 }

@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.adapters.NewsAdapter;
 import com.thebigoceaan.smartagriculture.databinding.ActivityViewNewsBinding;
 import com.thebigoceaan.smartagriculture.models.News;
@@ -37,9 +38,7 @@ public class ViewNewsActivity extends AppCompatActivity {
         //for action bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        Utilities.appBarColor(actionBar,this); //action bar ends
 
         binding.recyclerViewViewNews.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(this);

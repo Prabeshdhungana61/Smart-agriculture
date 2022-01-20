@@ -3,20 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".services.news.EkantipurFragment">
+    tools:context=".services.news.AllNewsFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/swip3"
+        android:id="@+id/swipAllNews"
         >
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewEkantipur"
+            android:id="@+id/recyclerViewAllNews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 </LinearLayout>

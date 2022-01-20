@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
+
+import com.bumptech.glide.util.Util;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.login.LoginManager;
@@ -54,7 +56,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //dialog for confirmation
         dialog= new Dialog(this);
-        getActionBarColor();
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        Utilities.appBarColor(actionBar,this);
 
         //get instance
         auth = FirebaseAuth.getInstance();
@@ -171,15 +175,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loginText.setVisible(true);
             logoutText.setVisible(false);
         }
-    }
-
-    public void getActionBarColor(){
-        // Set App bar color
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
     }
 
     @Override

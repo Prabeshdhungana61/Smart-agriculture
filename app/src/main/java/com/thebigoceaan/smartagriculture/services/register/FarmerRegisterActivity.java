@@ -26,6 +26,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.hbb20.CountryCodePicker;
 import com.thebigoceaan.smartagriculture.MainActivity;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.databinding.ActivityFarmerRegisterBinding;
 import com.thebigoceaan.smartagriculture.models.Farmer;
 import com.thebigoceaan.smartagriculture.services.products.ProductDashboard;
@@ -66,9 +67,7 @@ public class FarmerRegisterActivity extends AppCompatActivity {
         //action bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        Utilities.appBarColor(actionBar,this);
 
         //get instance
         auth = FirebaseAuth.getInstance();

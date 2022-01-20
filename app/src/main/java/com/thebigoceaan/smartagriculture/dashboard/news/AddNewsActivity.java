@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.databinding.ActivityAddNewsBinding;
 import com.thebigoceaan.smartagriculture.models.News;
 import java.util.HashMap;
@@ -36,9 +37,7 @@ public class AddNewsActivity extends AppCompatActivity {
         //action bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        Utilities.appBarColor(actionBar,this);
         //get instance
         auth = FirebaseAuth.getInstance();
 

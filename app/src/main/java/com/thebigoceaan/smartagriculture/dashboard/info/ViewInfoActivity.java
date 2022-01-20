@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.adapters.InfoAdapter;
 import com.thebigoceaan.smartagriculture.adapters.NewsAdapter;
 import com.thebigoceaan.smartagriculture.dashboard.news.CrudNews;
@@ -41,9 +42,7 @@ public class ViewInfoActivity extends AppCompatActivity {
         //for action bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        Utilities.appBarColor(actionBar,this);
 
         binding.recyclerViewViewInfo.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(this);

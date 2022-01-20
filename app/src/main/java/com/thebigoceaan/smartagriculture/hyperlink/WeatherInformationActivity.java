@@ -16,7 +16,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.google.firebase.storage.internal.Util;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.databinding.ActivityWeatherInformationBinding;
 
 public class WeatherInformationActivity extends AppCompatActivity {
@@ -31,9 +33,7 @@ public class WeatherInformationActivity extends AppCompatActivity {
         // Set App bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        Utilities.appBarColor(actionBar,this); //action bar ends
 
         binding.progressBarWeather.setMax(100);
         WebSettings webSettings = binding.webViewWeather.getSettings();

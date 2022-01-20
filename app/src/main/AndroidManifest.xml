@@ -14,9 +14,6 @@
         android:theme="@style/Theme.SmartAgriculture"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".services.register.TestActivity"
-            android:exported="false" />
-        <activity
             android:name=".services.order.OrderDashboard"
             android:exported="false"
             android:label="Order Dashboard"

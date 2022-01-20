@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.databinding.ActivityProductDetailsBinding;
 import com.thebigoceaan.smartagriculture.models.Order;
 import com.thebigoceaan.smartagriculture.models.Product;
@@ -54,10 +55,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         // Set App bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        getSupportActionBar().setTitle(title);
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        Utilities.appBarColor(actionBar,this);
 
         auth = FirebaseAuth.getInstance();
 

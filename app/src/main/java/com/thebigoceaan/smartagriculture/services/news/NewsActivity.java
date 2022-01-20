@@ -11,6 +11,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.databinding.ActivityNewsBinding;
 
 public class NewsActivity extends AppCompatActivity {
@@ -25,14 +26,14 @@ public class NewsActivity extends AppCompatActivity {
         // Set App bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable drawable =new ColorDrawable(ContextCompat.getColor(this, R.color.splashColor));
-        actionBar.setBackgroundDrawable(drawable); //action bar ends
+        Utilities.appBarColor(actionBar, this); //action bar ends
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("Ekantipur", EkantipurFragment.class)
-                .add("Kishan Post", KishanPostFragment.class)
+                .add("All News", AllNewsFragment.class)
                 .add("Kishan Aawaj", KishanAwajFragment.class)
+                .add("Kishan Post", KishanPostFragment.class)
+                .add("Ekantipur", EkantipurFragment.class)
                 .create());
         ViewPager viewPager =  findViewById(R.id.viewpager_news);
         viewPager.setAdapter(adapter);

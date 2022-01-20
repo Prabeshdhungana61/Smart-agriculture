@@ -37,6 +37,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.thebigoceaan.smartagriculture.LoginActivity;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.databinding.ActivityAddInfoBinding;
 import com.thebigoceaan.smartagriculture.models.Info;
 import org.jetbrains.annotations.NotNull;
@@ -60,9 +61,7 @@ public class AddInfoActivity extends AppCompatActivity {
         //action bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        Utilities.appBarColor(actionBar, this); //action bar ends
 
         //progress dialog codes
         progressDialog = new ProgressDialog(AddInfoActivity.this);

@@ -28,6 +28,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.adapters.OrderAdapter;
 import com.thebigoceaan.smartagriculture.databinding.ActivityOrderListBinding;
 import com.thebigoceaan.smartagriculture.hyperlink.DailyVegMarketActivity;
@@ -47,8 +48,7 @@ public class OrderList extends AppCompatActivity {
         // Set App bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable drawable =new ColorDrawable(ContextCompat.getColor(this, R.color.splashColor));
-        actionBar.setBackgroundDrawable(drawable); //action bar ends
+        Utilities.appBarColor(actionBar,this); //action bar ends
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)

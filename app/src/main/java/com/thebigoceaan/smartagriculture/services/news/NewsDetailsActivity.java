@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.databinding.ActivityNewsDetailsBinding;
 
 public class NewsDetailsActivity extends AppCompatActivity {
@@ -32,9 +33,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         ActionBar actionBar;
         actionBar = getSupportActionBar();
         getSupportActionBar().setTitle(NEWS_SOURCE);
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#4fb424"));
-        actionBar.setBackgroundDrawable(colorDrawable); //action bar ends
+        Utilities.appBarColor(actionBar,this); //action bar ends
 
     }
 
