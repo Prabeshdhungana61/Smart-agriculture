@@ -102,19 +102,15 @@ public class AddProductFragment extends Fragment {
             browseImage();
         });
 
-        binding.productSubmitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(auth.getCurrentUser()!=null){
-                    uploadProduct();
-                }
-                else{
-                    Toasty.warning(getContext(), "Kindly login first !", Toast.LENGTH_SHORT, true).show();
-                }
-
+        binding.productSubmitBtn.setOnClickListener(view -> {
+            if(auth.getCurrentUser()!=null){
+                uploadProduct();
             }
+            else{
+                Toasty.warning(getContext(), "Kindly login first !", Toast.LENGTH_SHORT, true).show();
+            }
+
         });
-        // Inflate the layout for this fragment
         return root;
     }
 
@@ -164,74 +160,56 @@ public class AddProductFragment extends Fragment {
         crud = new CrudProduct();
         if (mImageUri != null) {
             StorageReference fileReference = mStorageReference.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
-            fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            database.getReference("Farmer").child(auth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                                @Override
-                                public void onSuccess(DataSnapshot dataSnapshot) {
-                                    Farmer farmer = dataSnapshot.getValue(Farmer.class);
-                                    Product product = new Product(System.currentTimeMillis()+"",
-                                            auth.getCurrentUser().getUid(),
-                                            binding.productTitle.getText().toString().trim(),
-                                            uri.toString(),
-                                            binding.productPrice.getText().toString().trim(),
-                                            binding.productStock.getText().toString().trim(),
-                                            binding.productDesc.getText().toString().trim(),
-                                            auth.getCurrentUser().getPhotoUrl().toString(),
-                                            auth.getCurrentUser().getEmail(),
-                                            farmer.getMobile()
-                                            );
-                                    if(product_edit==null) {
-                                        crud.add(product).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                binding.productTitle.setText("");
-                                                binding.productPrice.setText("");
-                                                Glide.with(getContext()).load(R.drawable.ic_image).into(binding.productImgShow);
-                                                binding.productStock.setText("");
-                                                binding.productPrice.setText("");
-                                                binding.productDesc.setText("");
-                                                Intent intent = new Intent(getContext(),ProductDashboard.class);
-                                                getContext().startActivity(intent);
-                                                progressDialog.dismiss();
-                                                Toasty.success(getContext(), "Successfully added your product", Toast.LENGTH_SHORT, true).show();
-                                            }
-                                        }).addOnFailureListener(e -> Toasty.warning(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT, true).show());
-                                    }
-                                    else{
-                                        HashMap<String, Object> hashMap = new HashMap<>();
-                                        hashMap.put("productTitle", binding.productTitle.getText().toString());
-                                        hashMap.put("productPrice", binding.productPrice.getText().toString());
-                                        hashMap.put("productStock",binding.productStock.getText().toString());
-                                        hashMap.put("productImage",uri.toString());
-                                        hashMap.put("productDesc",binding.productDesc.getText().toString());
-                                        crud.update(product_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
-                                            Intent intent = new Intent (getApplicationContext(), ProductDashboard.class);
-                                            startActivity(intent);
-                                            progressDialog.dismiss();
-                                            Toasty.success(getContext(), "Product updated successfully",
-                                                    Toasty.LENGTH_SHORT,true).show();
-                                            getActivity().finish();
-                                        }).addOnFailureListener(e -> Toasty.error
-                                                (getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT,true).show());
-                                        progressDialog.dismiss();
-                                    }
+            fileReference.putFile(mImageUri).addOnSuccessListener(taskSnapshot ->
+                    fileReference.getDownloadUrl().addOnSuccessListener(uri ->
+                    database.getReference("Farmer").child(auth.getCurrentUser().getUid()).get().addOnSuccessListener(dataSnapshot -> {
+                Farmer farmer = dataSnapshot.getValue(Farmer.class);
+                Product product = new Product(System.currentTimeMillis()+"",
+                        auth.getCurrentUser().getUid(),
+                        binding.productTitle.getText().toString().trim(),
+                        uri.toString(),
+                        binding.productPrice.getText().toString().trim(),
+                        binding.productStock.getText().toString().trim(),
+                        binding.productDesc.getText().toString().trim(),
+                        auth.getCurrentUser().getPhotoUrl().toString(),
+                        auth.getCurrentUser().getEmail(),
+                        farmer.getMobile()
+                        );
+                if(product_edit==null) {
+                    crud.add(product).addOnSuccessListener(unused -> {
+                        binding.productTitle.setText("");
+                        binding.productPrice.setText("");
+                        Glide.with(getContext()).load(R.drawable.ic_image).into(binding.productImgShow);
+                        binding.productStock.setText("");
+                        binding.productPrice.setText("");
+                        binding.productDesc.setText("");
+                        Intent intent = new Intent(getContext(),ProductDashboard.class);
+                        getContext().startActivity(intent);
+                        progressDialog.dismiss();
+                        Toasty.success(getContext(), "Successfully added your product", Toast.LENGTH_SHORT, true).show();
+                    }).addOnFailureListener(e -> Toasty.warning(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT, true).show());
+                }
+                else{
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("productTitle", binding.productTitle.getText().toString());
+                    hashMap.put("productPrice", binding.productPrice.getText().toString());
+                    hashMap.put("productStock",binding.productStock.getText().toString());
+                    hashMap.put("productImage",uri.toString());
+                    hashMap.put("productDesc",binding.productDesc.getText().toString());
+                    crud.update(product_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
+                        Intent intent = new Intent (getApplicationContext(), ProductDashboard.class);
+                        startActivity(intent);
+                        progressDialog.dismiss();
+                        Toasty.success(getContext(), "Product updated successfully",
+                                Toasty.LENGTH_SHORT,true).show();
+                        getActivity().finish();
+                    }).addOnFailureListener(e -> Toasty.error
+                            (getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT,true).show());
+                    progressDialog.dismiss();
+                }
 
-                                }
-                            });
-                        }
-                    });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull @NotNull Exception e) {
-                    Toasty.warning(getContext(), "" + e.getMessage(), Toasty.LENGTH_SHORT, true).show();
-                }
-            }).addOnProgressListener(snapshot -> {
+            }))).addOnFailureListener(e -> Toasty.warning(getContext(), "" + e.getMessage(),
+                    Toasty.LENGTH_SHORT, true).show()).addOnProgressListener(snapshot -> {
                 long percent = (100*snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
                 progressDialog.setMessage("Completed: "+ percent + "%");
             });

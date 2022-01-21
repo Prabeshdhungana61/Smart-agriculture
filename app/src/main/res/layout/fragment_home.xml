@@ -9,9 +9,36 @@
     android:focusable="true"
     tools:context=".ui.home.HomeFragment">
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/cuprum_bold"
+        android:gravity="center"
+        android:text="@string/theme_app"
+        android:textColor="#675555"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/cuprum_bold"
+        android:gravity="center"
+        android:text="@string/theme_home"
+        android:textColor="#534242"
+        android:textSize="16sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView

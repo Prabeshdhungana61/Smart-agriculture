@@ -92,5 +92,6 @@
     <string name="register_as_farmer">VERIFY AND REGISTER AS FARMER</string>
     <string name="enter_otp">ENTER OTP</string>
     <string name="desc_reg_farmer">Kindly login through Facebook or Google to authenticate first for registering as a Farmer !</string>
-
+    <string name="theme_app">स्मार्ट कृषि स्मार्ट किसान</string>
+    <string name="theme_home">अब कृषि सामाग्री मगाउनु होस सिधै कृषक बाट</string>
 </resources>

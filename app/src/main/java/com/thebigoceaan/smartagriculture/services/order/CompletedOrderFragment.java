@@ -49,46 +49,65 @@ public class CompletedOrderFragment extends Fragment {
         binding = FragmentCompletedOrderBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
-        //instance
-        database = FirebaseDatabase.getInstance().getReference("News");
-
-        binding.swipeCompletedOrders.setRefreshing(true);
-        //calling set adapter method
-        binding.completedOrdersRv.hasFixedSize();
-        //Reverse RecyclerView
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        binding.completedOrdersRv.setLayoutManager(linearLayoutManager);
-        adapter= new FarmerProfileAdapter(list,listener);
+        binding.completedOrdersRv.setHasFixedSize(true);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setReverseLayout(true);
+        manager.setStackFromEnd(true);
+        binding.completedOrdersRv.setLayoutManager(manager);
+        adapter = new FarmerProfileAdapter(list, listener);
+        adapter.notifyDataSetChanged();
         binding.completedOrdersRv.setAdapter(adapter);
-
         auth = FirebaseAuth.getInstance();
 
-        crud.get(key).addValueEventListener(new ValueEventListener() {
+        loadData();
+        binding.completedOrdersRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    Order order1 = dataSnapshot.getValue(Order.class);
-                    if(order1.isCompleted() && order1.getSellerEmail().equals(auth.getCurrentUser().getEmail())){
-                        order1.setKey(dataSnapshot.getKey());
-                        list.add(order1);
-                        key = dataSnapshot.getKey();
+            public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) binding.completedOrdersRv.getLayoutManager();
+                int totalItem = linearLayoutManager.getItemCount();
+                int lastVisible = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                if (totalItem < lastVisible + 3) {
+                    if (!isLoading) {
+                        isLoading = true;
+                        loadData();
                     }
-                }
-                binding.swipeCompletedOrders.setRefreshing(false);
-                adapter.setItem(list);
-                adapter.notifyDataSetChanged();
-                isLoading = false;
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         return view;
+    }
+
+    private void loadData() {
+        binding.swipeCompletedOrders.setRefreshing(true);
+        crud.get(key).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ArrayList<Order> order = new ArrayList<>();
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    Order order1 = data.getValue(Order.class);
+                    if (auth.getCurrentUser() != null) {
+                        if (order1.getSellerEmail().equals(auth.getCurrentUser().getEmail()) && order1.isCompleted()) {
+                            order1.setKey(data.getKey());
+                            order.add(order1);
+                            key = data.getKey();
+                        }
+                    }
+                }
+                binding.swipeCompletedOrders.setRefreshing(false);
+                adapter.setItem(order);
+                adapter.notifyDataSetChanged();
+                isLoading = false;
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                binding.swipeCompletedOrders.setRefreshing(false);
+                Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT, true).show();
+            }
+        });
     }
 
 }

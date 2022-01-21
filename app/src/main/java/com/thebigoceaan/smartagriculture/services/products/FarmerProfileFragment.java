@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,7 @@ public class FarmerProfileFragment extends Fragment {
     private FirebaseAuth auth;
     DatabaseReference reference;
     FirebaseDatabase database;
+    String key = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,14 +86,12 @@ public class FarmerProfileFragment extends Fragment {
         binding.farmerUsernameTextView.setText(auth.getCurrentUser().getDisplayName());
         binding.editFarmerProfileButton.setOnClickListener(view -> {
             //set intent to edit profile page
-            database.getReference("Farmer").child(auth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                @Override
-                public void onSuccess(DataSnapshot dataSnapshot) {
-                    Farmer farmer = dataSnapshot.getValue(Farmer.class);
-                    Intent intent = new Intent(getContext(), FarmerRegisterActivity.class);
-                    intent.putExtra("EDITFARMER",farmer);
-                    startActivity(intent);
-                }
+            database.getReference("Farmer").child(auth.getCurrentUser().getUid())
+                    .get().addOnSuccessListener(dataSnapshot -> {
+                Farmer farmer = dataSnapshot.getValue(Farmer.class);
+                Intent intent = new Intent(getContext(), FarmerRegisterActivity.class);
+                intent.putExtra("EDITFARMER",farmer);
+                startActivity(intent);
             }).addOnFailureListener(e -> {
                 Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             });
@@ -104,10 +104,45 @@ public class FarmerProfileFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         database.getReference("Sale").child(user.getUid()).get().addOnSuccessListener(dataSnapshot -> {
             Sale sale = dataSnapshot.getValue(Sale.class);
-            binding.totalSaleTextView.setText(sale!=null ? sale.getTotalSale() +"Rs" : "0 Rs");
-            binding.totalOrderTextView.setText(sale!=null?sale.getTotalOrders()+"":"0");
+            binding.totalSaleTextView.setText(sale!=null ? sale.getTotalSale() +" Rs" : "0 Rs");
         }).addOnFailureListener(e -> {
             Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+        CrudOrder crudOrder = new CrudOrder();
+        crudOrder.get(key).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Order> order = new ArrayList<>();
+                ArrayList<Order> pendingOrder = new ArrayList<>();
+                ArrayList<Order> completedOrder = new ArrayList<>();
+                for (DataSnapshot data: snapshot.getChildren() ){
+                    Order order1 = data.getValue(Order.class);
+                    if (auth.getCurrentUser().getEmail().trim().equals(order1.getSellerEmail().trim())){
+                        order1.setKey(data.getKey());
+                        order.add(order1);
+                        key = data.getKey();
+                        binding.totalOrderTextView.setText(order.size()+"");
+                    }
+                    if (auth.getCurrentUser().getEmail().equals(order1.getSellerEmail()) && order1.isCompleted()){
+                        order1.setKey(data.getKey());
+                        completedOrder.add(order1);
+                        key = data.getKey();
+                        binding.completedTotalOrder.setText(completedOrder.size()+"");
+
+                    }
+                    if (auth.getCurrentUser().getEmail().equals(order1.getSellerEmail()) && !order1.isCompleted()){
+                        order1.setKey(data.getKey());
+                        pendingOrder.add(order1);
+                        key = data.getKey();
+                        binding.pendingTotalOrder.setText(pendingOrder.size()+"");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("TAG",error.getMessage());
+            }
         });
 
         binding.orderDashboardButton.setOnClickListener(view -> {

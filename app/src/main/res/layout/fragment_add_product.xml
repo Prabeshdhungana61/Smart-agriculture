@@ -154,6 +154,11 @@
                 android:textEditSuggestionItemLayout="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <jp.wasabeef.richeditor.RichEditor
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/product_desc_editor"
+            />
         <Button
         android:id="@+id/product_submit_btn"
         android:layout_width="match_parent"
