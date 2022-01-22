@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +18,7 @@ import com.thebigoceaan.smartagriculture.models.Product;
 
 import java.util.ArrayList;
 
-public class ProductDetailsHomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ProductDetailsHomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     private Context context;
     ArrayList<Product> list = new ArrayList<>();
@@ -51,6 +53,37 @@ public class ProductDetailsHomeAdapter  extends RecyclerView.Adapter<RecyclerVie
     public int getItemCount() {
         return list.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence keyword) {
+            ArrayList<Product> filteredData = new ArrayList<>();
+            if(keyword.toString().trim().isEmpty()){
+                filteredData.addAll(list);
+            }
+            else{
+                    for (Product obj: list){
+                        if (obj.getProductTitle().toLowerCase().contains(keyword.toString().toLowerCase().trim())){
+                            filteredData.add(obj);
+                        }
+                    }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredData;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults results) {
+            list.clear();
+            list.addAll((ArrayList<Product>)results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public class ProductDetailsVH  extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;

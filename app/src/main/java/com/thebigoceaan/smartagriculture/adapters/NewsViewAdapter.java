@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +15,7 @@ import com.thebigoceaan.smartagriculture.models.News;
 
 import java.util.ArrayList;
 
-public class NewsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class NewsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
     ArrayList<News> list = new ArrayList<>();
     private RecyclerViewClickListener listener;

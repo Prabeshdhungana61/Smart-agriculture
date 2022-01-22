@@ -3,6 +3,7 @@ package com.thebigoceaan.smartagriculture.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,9 +50,7 @@ public class HomeFragment extends Fragment {
     String key = null;
     FirebaseAuth auth;
     int totalItem, currentItem, scrollOutItem;
-    ArrayList<Product> list = new ArrayList<>();
-
-
+    private ArrayList<Product> list = new ArrayList<>();
     private ProductDetailsHomeAdapter.RecyclerViewClickListener listener;
 
     @Override
@@ -69,13 +68,13 @@ public class HomeFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                filterSearch(s);
+                adapter.getFilter().filter(s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                filterSearch(s);
+                adapter.getFilter().filter(s);
                 return false;
             }
         });
@@ -92,8 +91,8 @@ public class HomeFragment extends Fragment {
         ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         Objects.requireNonNull(mActionBar).setDisplayHomeAsUpEnabled(true);
 
-        setOnClickListener(list);
-        adapter = new ProductDetailsHomeAdapter(getContext(), listener, list);
+        setOnClickListener();
+        adapter = new ProductDetailsHomeAdapter(getContext(), listener,list);
         binding.recyclerViewProductDetails.setAdapter(adapter);
 
         //get instance
@@ -150,18 +149,20 @@ public class HomeFragment extends Fragment {
                 adapter.setItem(product);
                 adapter.notifyDataSetChanged();
                 isLoading = false;
-                binding.swipCircle.stopAnim();
-                binding.swipCircle.setVisibility(View.GONE);
+                try {
+                    binding.swipCircle.stopAnim();
+                    binding.swipCircle.setVisibility(View.GONE);
+                }
+                catch (Exception e){
+                    Log.d("HomeFragment",e.getMessage()+"");
+                }
+
             }
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                binding.swipCircle.stopAnim();
-                binding.swipCircle.setVisibility(View.GONE);
-                Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT, true).show();
+             Log.d("HomeFragment",error.getMessage()+"");
             }
-
-            ;
         });
     }
 
@@ -172,9 +173,9 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void setOnClickListener(ArrayList<Product> updatedlist) {
+    private void setOnClickListener() {
         listener = (view, position) -> {
-            Product product = updatedlist.get(position);
+            Product product = list.get(position);
             Intent intent = new Intent(getContext(), ProductDetailsActivity.class);
             intent.putExtra("TitleProductText", product.getProductTitle());
             intent.putExtra("ProductPriceText", product.getProductPrice());
@@ -186,37 +187,5 @@ public class HomeFragment extends Fragment {
             intent.putExtra("TotalProductStock", product.getProductStock());
             getContext().startActivity(intent);
         };
-    }
-    public void filterSearch(String s) {
-        Query query = FirebaseDatabase.getInstance().getReference("Product")
-                .orderByChild("productTitle")
-                .startAt(s.toLowerCase())
-                .endAt(s.toLowerCase()+"\uf88ff");
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<Product> searchList = new ArrayList<>();
-                for (DataSnapshot data: snapshot.getChildren()) {
-                    Product product2 = data.getValue(Product.class);
-                    if (product2.getProductTitle().toLowerCase().contains(s.toLowerCase().trim())) {
-                        if (!searchList.contains(product2)) {
-                            searchList.add(product2);
-                        }
-                    }
-                }
-                list.clear();
-                setOnClickListener(searchList);
-                adapter.setItem(searchList);
-                adapter = new ProductDetailsHomeAdapter(getContext(), listener, searchList);
-                binding.recyclerViewProductDetails.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 }

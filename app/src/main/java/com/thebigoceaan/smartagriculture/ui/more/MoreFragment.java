@@ -2,6 +2,7 @@ package com.thebigoceaan.smartagriculture.ui.more;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,22 +94,29 @@ public class MoreFragment extends Fragment {
             database.getReference("Farmer").child(auth.getCurrentUser().getUid()).get().addOnSuccessListener(dataSnapshot -> {
                 Farmer farmer = dataSnapshot.getValue(Farmer.class);
                 if (farmer != null) {
-                    binding.productDashboardBtn.setVisibility(View.VISIBLE);
-                    binding.registerAsFarmerDesc.setVisibility(View.GONE);
-                    binding.imgRegisterBtn.setVisibility(View.GONE);
-
+                    try {
+                        binding.productDashboardBtn.setVisibility(View.VISIBLE);
+                        binding.registerAsFarmerDesc.setVisibility(View.GONE);
+                        binding.imgRegisterBtn.setVisibility(View.GONE);
+                    }
+                    catch(Exception e){
+                        Log.d("productDashboard",e.getMessage()+"");
+                    }
                 } else {
                     binding.productDashboardBtn.setVisibility(View.GONE);
                     binding.imgRegisterBtn.setVisibility(View.VISIBLE);
                     binding.registerAsFarmerDesc.setVisibility(View.VISIBLE);
                 }
-                binding.swipCircle.stopAnim();
-                binding.swipCircle.setVisibility(View.GONE);
-            }).addOnFailureListener(e -> {
-                Toast.makeText(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                binding.swipCircle.stopAnim();
-                binding.swipCircle.setVisibility(View.GONE);
+                try {
+                    binding.swipCircle.stopAnim();
+                    binding.swipCircle.setVisibility(View.GONE);
+                }
+                catch(Exception e){
+                    Log.d("MoreFragment", e.getMessage()+"");
+                }
 
+            }).addOnFailureListener(e -> {
+                Log.d("MoreFragment",e.getMessage()+"");
             });
         }
         else{
