@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightWhite"
     android:orientation="vertical"
     tools:context=".descriptions.PrivacyPolicyActivity">
 
@@ -28,6 +29,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="2dp"
             android:layout_marginRight="2dp"
-            android:text="@string/privacy_policy" />
+            android:fontFamily="@font/cuprum_regular"
+            android:text="@string/privacy_policy"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>

@@ -7,7 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="splashColor">#4fb424</color>
+    <color name="splashColor2">#4fb424</color>
+    <color name="splashColor">#008037</color>
+    <color name="splashColor3">#375623</color>
     <color name="googleLogoColor">#E3E5E8</color>
     <color name="facebookLogoColor">#1877f2</color>
     <color name="colorAccount">#9C9B71</color>
@@ -22,4 +24,5 @@
     <color name="dark_grey">#545454</color>
     <color name="light_white2">#fffdf6</color>
     <color name="help_button">#d9ba3a</color>
+    <color name="lightWhite3">#f4f4f4</color>
 </resources>

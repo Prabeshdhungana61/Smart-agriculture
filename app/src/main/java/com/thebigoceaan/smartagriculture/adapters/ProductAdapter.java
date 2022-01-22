@@ -43,7 +43,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Product product = list.get(position);
         Glide.with(context).load(product.getProductImage()).fitCenter().centerCrop().into(vh.productImage);
         vh.title.setText(product.getProductTitle());
-        vh.price.setText(product.getProductPrice());
+        vh.price.setText(product.getProductPrice()+" Rs");
 
     }
 

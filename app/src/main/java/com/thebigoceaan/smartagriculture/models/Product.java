@@ -6,14 +6,12 @@ import java.io.Serializable;
 public class Product implements Serializable {
     @Exclude
      private String key;
-    private String productId;
     private String userId, productTitle, productImage, productPrice, productStock, productDescription;
     private String sellerProfile,sellerEmail,sellerMobile;
 
-    public Product(String productId, String userId, String productTitle, String productImage, String productPrice, String productStock
+    public Product( String userId, String productTitle, String productImage, String productPrice, String productStock
             , String productDescription,
                    String sellerProfile, String sellerEmail, String sellerMobile) {
-        this.productId = productId;
         this.userId = userId;
         this.productTitle = productTitle;
         this.productImage = productImage;
@@ -25,9 +23,8 @@ public class Product implements Serializable {
         this.sellerMobile=sellerMobile;
     }
 
-    public Product(String productId, String userId, String productTitle, String productImage, String productPrice, String productStock
+    public Product( String userId, String productTitle, String productImage, String productPrice, String productStock
             , String productDescription){
-        this.productId = productId;
         this.userId = userId;
         this.productTitle = productTitle;
         this.productImage = productImage;
@@ -37,14 +34,6 @@ public class Product implements Serializable {
     }
 
     public Product(){}
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
 
     public String getUserId() {
         return userId;

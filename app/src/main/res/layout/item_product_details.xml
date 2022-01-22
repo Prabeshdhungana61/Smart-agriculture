@@ -13,26 +13,20 @@
         android:id="@+id/productTitleDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/cuprum_bold"
         android:gravity="center"
         android:maxLines="2"
         android:text="@string/product_title"
         android:textColor="#2F3A10"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
-
-    <View
-        android:id="@+id/view6"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginBottom="5dp"
-        android:background="#18317E" />
 
     <ImageView
         android:id="@+id/productImageDesc"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/product_image"
         android:orientation="vertical"
         android:scaleType="center"

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.thebigoceaan.smartagriculture.R;
@@ -42,7 +45,9 @@ public class AllNewsFragment extends Fragment {
     private CrudNews crud;
     private String key=null;
     FirebaseAuth auth;
+    DatabaseReference database;
     private final ArrayList<News> list = new ArrayList<>();
+
 
 
     @Override
@@ -51,67 +56,42 @@ public class AllNewsFragment extends Fragment {
         binding = FragmentAllNewsBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
+        //instance
+        database = FirebaseDatabase.getInstance().getReference("News");
+        //swip layout call
         setOnClickListener();
-        binding.recyclerViewAllNews.setHasFixedSize(true);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        manager.setReverseLayout(true);
-        manager.setStackFromEnd(true);
-        binding.recyclerViewAllNews.setLayoutManager(manager);
-        adapter = new NewsViewAdapter(getContext(),listener,list);
-        adapter.notifyDataSetChanged();
-        binding.recyclerViewAllNews.setAdapter(adapter);
-
+        binding.swipAllNews.setRefreshing(true);
+        //calling set adapter method
+        binding.recyclerViewAllNews.hasFixedSize();
+        //Reverse RecyclerView
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        binding.recyclerViewAllNews.setLayoutManager(linearLayoutManager);
+        NewsViewAdapter newsAdapter= new NewsViewAdapter(getContext(),listener,list);
+        binding.recyclerViewAllNews.setAdapter(newsAdapter);
         //get instance
         auth = FirebaseAuth.getInstance();
 
-        crud = new CrudNews();
-        loadData();
-        binding.recyclerViewAllNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager)binding.recyclerViewAllNews.getLayoutManager();
-                int totalItem=linearLayoutManager.getItemCount();
-                int lastVisible=linearLayoutManager.findLastCompletelyVisibleItemPosition();
-                if(totalItem<lastVisible+3){
-                    if(!isLoading){
-                        isLoading=true;
-                        loadData();
-                    }
-                }
-            }
-        });
+        database.addValueEventListener(new ValueEventListener() {
+       @Override
+       public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+           binding.swipAllNews.setRefreshing(false);
+           for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+               News newsList = dataSnapshot.getValue(News.class);
+               list.add(newsList);
 
+           }
+           newsAdapter.notifyDataSetChanged();
+       }
 
+       @Override
+       public void onCancelled(@NonNull @NotNull DatabaseError error) {
+           Log.d("AllNewsFragment",error.getMessage()+"");
+       }});
 
         return view;
     }
-    private void loadData() {
-        binding.swipAllNews.setRefreshing(true);
-        crud.get(key).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                ArrayList<News> news = new ArrayList<>();
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    News news1 = data.getValue(News.class);
-                    news1.setKey(data.getKey());
-                    news.add(news1);
-                    key = data.getKey();
-                }
-                adapter.setItem(news);
-                adapter.notifyDataSetChanged();
-                isLoading = false;
-                binding.swipAllNews.setRefreshing(false);
-
-
-            }
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                binding.swipAllNews.setRefreshing(false);
-                Toasty.error(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT,true).show();
-            }
-        });
-    }
-
     private void setOnClickListener(){
         listener=(view,position)->{
             Intent intent = new Intent(getContext(),NewsDetailsActivity.class);

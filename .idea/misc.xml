@@ -17,8 +17,10 @@
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_news.xml" value="0.17083333333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_order_dashboard.xml" value="0.17083333333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_order_list.xml" value="0.18645833333333334" />
+        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_privacy_policy.xml" value="0.17083333333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_product_dashboard.xml" value="0.17083333333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_product_details.xml" value="0.22" />
+        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_splash.xml" value="0.17083333333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_test.xml" value="0.18645833333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/activity_view_info.xml" value="0.18645833333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/dialog_confirmation.xml" value="0.15" />
@@ -42,6 +44,7 @@
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/fragment_view_product.xml" value="0.17083333333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/item_farmer_profile.xml" value="0.25" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/item_order.xml" value="0.25" />
+        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/item_product.xml" value="0.18645833333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/item_product_details.xml" value="0.18645833333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/navigation_layout_drawer.xml" value="0.17083333333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/menu/bottom_nav_menu.xml" value="0.18645833333333334" />
