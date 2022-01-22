@@ -20,4 +20,6 @@
     <color name="black_overlay">#66000000</color>
     <color name="light_white_back">#ecf0f3</color>
     <color name="dark_grey">#545454</color>
+    <color name="light_white2">#fffdf6</color>
+    <color name="help_button">#d9ba3a</color>
 </resources>

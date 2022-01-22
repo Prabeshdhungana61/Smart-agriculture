@@ -94,4 +94,51 @@
     <string name="desc_reg_farmer">Kindly login through Facebook or Google to authenticate first for registering as a Farmer !</string>
     <string name="theme_app">स्मार्ट कृषि स्मार्ट किसान</string>
     <string name="theme_home">अब कृषि सामाग्री मगाउनु होस सिधै कृषक बाट</string>
+    <string name="more_options">More Options</string>
+    <string name="help">Help</string>
+    <string name="farmer_help">After transferring Normal users to farmer users, they get many more features: \n
+        1. Farmer user can post their product regarding agriculture. \n
+        2. Farmer use can see their posted product inside product dashboard. \n
+        3. They can edit/update and delete their posted product inside the product dashboard. \n
+        4. They can see their profile inside the product dashboard and edit their profile. \n
+        5. They can see their total sales, total orders, total completed orders, and total pending orders below their profile. \n
+        6. They can see the order dashboard button below to their details. \n
+        7. After clicking on the order dashboard, the farmer can see their pending and completed orders in the list and their pages.\n
+    </string>
+
+    <string name="farmerRegHelp">For farmer registration, there is an option inside more option in Bottom navigation.\n
+        You can see the Image Button register as farmer.\n
+        after clicking on the image button, you can see that there is a form field to register as a farmer.\n
+        It needs :
+        1. Province \n
+        2.  District \n
+        3. Municipality|subMunicipality \n
+        4. Mobile Number \n
+        After clicking on the Register as farmer button, the user can see the dialog and it needs OTP to verify your mobile number,\n
+        after entering OTP which is 6 digit pin, users mobile number is successfully verified and now farmer user have more features compared to a normal user.\n
+    </string>
+    <string name="order_help">For ordering the product posted by a normal user,\n
+    1. First you can go to the product details of any product.\n
+    2. On the product details page, you can see the ORDER AND REQUEST button.\n
+    3. After clicking on that order and request button, a dialog box is appeared.\n
+    4. There is edit Text in the dialog, you have to enter stock less than the stock posted by the farmer and in the exact unit posted by the farmer.\n
+    5. After entering the correct stock you need, you can press the send image button and your order is requested. \n
+    </string>
+    <string name="user_help">Normal users or buyers can easily install smart agriculture apps from Google Play Store.\n
+        After Installing,
+he/she can see the product on the home screen posted by the farmer. He/she can click on the product for product details.\n
+* Normal users can easily, send an order request directly to the farmer.\n
+* There is more option in the bottom navigation, you can see many more features there,\n
+You can read the news regarding agriculture by clicking agriculture news posted by admin users,\n
+You can view weather information which helps both farmers and normal users.\n
+You can view market information that shows market values (eg. Kalimati) for vegetable stuff.\n
+You can see the many information regarding seeds and plants in the information section.\n
+/n/n
+Note: Normal users can easily transfer to Farmer users anytime they want.\n
+    </string>
+    <string name="user_reg_help">For registering as a normal user, you can see the login button in the menu drawable or from the account option in Bottom Navigation.\n
+        There is an option to log in: \n
+        1. You can login via Your Google account or Your Facebook Account.\n
+        2. After login, You have to feature like requesting an order inside the product description\n
+    </string>
 </resources>

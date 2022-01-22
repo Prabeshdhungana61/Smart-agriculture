@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thebigoceaan.smartagriculture.databinding.ActivityMainBinding;
 import com.thebigoceaan.smartagriculture.descriptions.AboutActivity;
+import com.thebigoceaan.smartagriculture.descriptions.help.HelpActivity;
 import com.thebigoceaan.smartagriculture.hyperlink.DailyVegMarketActivity;
 import com.thebigoceaan.smartagriculture.services.news.NewsActivity;
 import com.thebigoceaan.smartagriculture.ui.home.HomeFragment;
@@ -91,14 +92,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(toggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return false;
     }
 
 
@@ -179,6 +172,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.help_menu, menu);
+        return true;
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        if(item.getItemId() == R.id.nav_help){
+            Intent intent = new Intent(MainActivity.this, HelpActivity.class);
+            startActivity(intent);
+        }
+        return false;
+    }
+
+
 }

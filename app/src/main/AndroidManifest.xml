@@ -14,6 +14,12 @@
         android:theme="@style/Theme.SmartAgriculture"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".descriptions.help.HelpActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:label="USER HELP GUIDELINES"
+            />
+        <activity
             android:name=".services.order.OrderDashboard"
             android:exported="false"
             android:label="Order Dashboard"
