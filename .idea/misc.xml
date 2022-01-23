@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/drawable/button_color_state.xml" value="0.20260416666666667" />
+        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/drawable/customborder.xml" value="0.18697916666666667" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/drawable/ic_danger.xml" value="0.18697916666666667" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/drawable/ic_delete.xml" value="0.18697916666666667" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/drawable/ic_search.xml" value="0.20260416666666667" />
@@ -27,8 +29,8 @@
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/dialog_mobile_verify.xml" value="0.18645833333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/dialog_otp.xml" value="0.14" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/dialog_stock.xml" value="0.25" />
-        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/fragment_account.xml" value="0.17962962962962964" />
-        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/fragment_add_product.xml" value="0.18645833333333334" />
+        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/fragment_account.xml" value="0.22" />
+        <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/fragment_add_product.xml" value="0.22" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/fragment_all_news.xml" value="0.1" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/fragment_completed_order.xml" value="0.17083333333333334" />
         <entry key="..\:/PRINT 2/Android Development/Smart-Agriculture/app/src/main/res/layout/fragment_completed_orders_list.xml" value="0.17239583333333333" />

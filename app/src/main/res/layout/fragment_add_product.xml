@@ -25,7 +25,7 @@
         app:endIconMode="clear_text"
         app:endIconTint="@color/black"
         app:errorEnabled="true"
-        app:helperText="Input Your Product Title Here"
+        app:helperText="उत्पादन को नाम ( Eg . Banana available at Hetauda, Makawanpur)"
         app:helperTextTextColor="@color/black"
         app:hintTextColor="@color/black"
         app:startIconDrawable="@drawable/ic_title"
@@ -38,7 +38,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/customborder"
             android:hint="@string/product_title"
-            android:maxLength="30"
+            android:maxLength="80"
             android:nextFocusUp="@color/white"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
@@ -54,7 +54,7 @@
             app:counterTextColor="@color/black"
             app:endIconMode="clear_text"
             app:endIconTint="@color/black"
-            app:helperText="Input Your Product Price Here In Rupees"
+            app:helperText="जुन एकाइ (Unit) मा सामान राख्नु हुन्छ त्यही एकाइ मा समान को मुल्य प्रती एकाइ राख्नु होस "
             app:helperTextTextColor="@color/black"
             app:hintTextColor="@color/black"
             app:startIconDrawable="@drawable/ic_money"
@@ -84,7 +84,7 @@
         app:counterTextColor="@color/black"
         app:endIconMode="clear_text"
         app:endIconTint="@color/black"
-        app:helperText="Input Total Stocks Here"
+        app:helperText="जम्मा कती समान राख्न चाहनुहुन्छ यहाँ लेख्नुहोस : "
         app:helperTextTextColor="@color/black"
         app:hintTextColor="@color/black"
         app:startIconDrawable="@drawable/ic_title"
@@ -133,7 +133,7 @@
             app:counterTextColor="@color/black"
             app:endIconMode="clear_text"
             app:endIconTint="@color/black"
-            app:helperText="Input Product Description Here"
+            app:helperText="आफ्नो उत्पादन को बारेमा यहाँ माथि लेख्नुहोस "
             app:helperTextTextColor="@color/black"
             app:hintTextColor="@color/black"
             app:startIconDrawable="@drawable/ic_title"
@@ -153,15 +153,16 @@
                 android:textColorHint="@color/black"
                 android:textEditSuggestionItemLayout="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <Button
-        android:id="@+id/product_submit_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ADD PRODUCT"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:fontFamily="@font/cuprum_bold"
-        />
+            android:id="@+id/product_submit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/cuprum_bold"
+            android:text="ADD PRODUCT"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
     </LinearLayout>
 

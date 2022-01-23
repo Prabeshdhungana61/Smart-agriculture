@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,6 +66,10 @@ public class CompletedOrdersListFragment extends Fragment {
 
         dialog = new Dialog(getContext());
 
+        //gif image
+        Glide.with(getContext()).load(R.drawable.no_order_gif).into(binding.noOrderCompleted);
+        binding.noOrderCompleted.setVisibility(View.GONE);
+
         loadData();
         binding.recyclerViewOrderListCompleted.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -96,6 +101,10 @@ public class CompletedOrdersListFragment extends Fragment {
                             order1.setKey(data.getKey());
                             order.add(order1);
                             key = data.getKey();
+                            if (order.isEmpty()){
+                                binding.noOrderCompleted.setVisibility(View.VISIBLE);
+                                binding.swipeCompletedOrder.setRefreshing(false);
+                            }
                         }
                         binding.swipeCompletedOrder.setRefreshing(false);
                     }

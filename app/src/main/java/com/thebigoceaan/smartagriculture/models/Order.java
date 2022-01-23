@@ -1,9 +1,9 @@
 package com.thebigoceaan.smartagriculture.models;
 import com.google.firebase.database.Exclude;
-import com.google.type.Date;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -11,14 +11,15 @@ public class Order implements Serializable {
     @Exclude
             private String key;
 
+    private Date orderDate;
     String orderId;
-    String orderDate,sellerEmail, buyerEmail,buyerName, buyerProfile,productTitle,stockTotal,orderPrice;
+    String sellerEmail, buyerEmail,buyerName, buyerProfile,productTitle,stockTotal,orderPrice;
     boolean isCompleted = false;
 
     public Order(String sellerEmail, String buyerEmail, String buyerName, String buyerProfile
             ,String productTitle,String stockTotal,String orderPrice,boolean isCompleted) {
         this.orderId= UUID.randomUUID().toString();
-        this.orderDate= Calendar.getInstance().getTime().toString();
+        this.orderDate= Calendar.getInstance().getTime();
         this.sellerEmail = sellerEmail;
         this.buyerEmail = buyerEmail;
         this.buyerName = buyerName;
@@ -47,11 +48,11 @@ public class Order implements Serializable {
         this.orderPrice = orderPrice;
     }
 
-    public String getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(String orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -124,7 +125,6 @@ public class Order implements Serializable {
         return "Order{" +
                 "key='" + key + '\'' +
                 ", orderId='" + orderId + '\'' +
-                ", orderDate='" + orderDate + '\'' +
                 ", sellerEmail='" + sellerEmail + '\'' +
                 ", buyerEmail='" + buyerEmail + '\'' +
                 ", buyerName='" + buyerName + '\'' +

@@ -16,6 +16,7 @@ import com.thebigoceaan.smartagriculture.services.order.CrudOrder;
 
 import java.util.ArrayList;
 
+//farmer profile order adapter
 public class FarmerProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     ArrayList<Order> list = new ArrayList<>();
     CrudOrder order = new CrudOrder();

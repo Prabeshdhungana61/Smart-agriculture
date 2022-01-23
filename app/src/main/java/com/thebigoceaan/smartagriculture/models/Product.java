@@ -2,10 +2,13 @@ package com.thebigoceaan.smartagriculture.models;
 
 import com.google.firebase.database.Exclude;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Product implements Serializable {
     @Exclude
      private String key;
+    private Date productDate;
     private String userId, productTitle, productImage, productPrice, productStock, productDescription;
     private String sellerProfile,sellerEmail,sellerMobile;
 
@@ -21,9 +24,18 @@ public class Product implements Serializable {
         this.sellerProfile=sellerProfile;
         this.sellerEmail=sellerEmail;
         this.sellerMobile=sellerMobile;
+        this.productDate = Calendar.getInstance().getTime();
     }
 
-    public Product( String userId, String productTitle, String productImage, String productPrice, String productStock
+    public Date getProductDate() {
+        return productDate;
+    }
+
+    public void setProductDate(Date productDate) {
+        this.productDate = productDate;
+    }
+
+    public Product(String userId, String productTitle, String productImage, String productPrice, String productStock
             , String productDescription){
         this.userId = userId;
         this.productTitle = productTitle;

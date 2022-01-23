@@ -105,9 +105,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
             //Setting Intent Data
             binding.productTitleDetails.setText(title);
-            binding.productDetailsPrice.setText(price + "Rs.");
+            binding.productDetailsPrice.setText(price + " Rs.");
             binding.productDescriptionDetails.setText(description);
-            binding.productDetailsTotalStock.setText(totalProductStock);
+            binding.productDetailsTotalStock.setText("Total Stock : "+ totalProductStock);
 
             Glide.with(this).load(image).placeholder(R.drawable.ic_image).into(binding.imageView);
             Glide.with(this).load(sellerProfile).placeholder(R.drawable.ic_image).into(binding.sellerProfileImage);

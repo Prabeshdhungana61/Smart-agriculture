@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Binder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,9 +63,11 @@ public class PendingOrderListFragment extends Fragment {
         adapter = new OrderAdapter(getContext(),list,listener);
         adapter.notifyDataSetChanged();
         binding.recyclerViewOrderListPending.setAdapter(adapter);
-
         dialog = new Dialog(getContext());
 
+        //gif image
+        Glide.with(getContext()).load(R.drawable.no_order_gif).into(binding.noOrder);
+        binding.noOrder.setVisibility(View.GONE);
 
         loadData();
         binding.recyclerViewOrderListPending.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -96,6 +100,10 @@ public class PendingOrderListFragment extends Fragment {
                             order1.setKey(data.getKey());
                             order.add(order1);
                             key = data.getKey();
+                            if (order.isEmpty()){
+                                binding.noOrder.setVisibility(View.VISIBLE);
+                                binding.swipePendingOrder.setRefreshing(false);
+                            }
                         }
 
                         binding.swipePendingOrder.setRefreshing(false);

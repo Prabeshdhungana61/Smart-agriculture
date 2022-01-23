@@ -25,7 +25,7 @@
                 android:background="@drawable/bg_smart_agriculture"
                 android:contentDescription="@string/image_description"
                 android:orientation="vertical"
-                android:scaleType="fitXY">
+                android:scaleType="centerCrop">
 
             </ImageView>
 
@@ -50,10 +50,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.1"
                     android:fontFamily="@font/cuprum_bold"
                     android:text="@string/total_stock"
-                    android:textColor="@color/darkGreen"
+                    android:textColor="@color/light_blue_900"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:fontFamily="@font/cuprum_bold"
-                android:gravity="center"
+                android:gravity="center|left"
                 android:text="@string/product_title"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
@@ -74,7 +74,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:fontFamily="@font/cuprum_regular"
-                android:text="@string/image_description"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -102,9 +101,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/cuprum_bold"
-                android:text="Seller Information : "
+                android:text="Seller Information (बिक्रेताको जानकारी): "
                 android:textColor="#3E3636"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <com.mikhaellopez.circularimageview.CircularImageView
@@ -204,10 +203,15 @@
             android:layout_marginEnd="50dp"
             android:layout_marginRight="50dp"
             android:background="@drawable/customborder"
+            android:bufferType="normal"
+            android:drawableLeft="@drawable/ic_check_white_24dp"
             android:fontFamily="@font/cuprum_bold"
-            android:text="ORDER AND BUY"
+            android:text="REQUEST AN ORDER (अर्डर गर्नुहोस)"
             android:textColor="#E3E1E1"
-            app:backgroundTint="#597E1F" />
+            android:layout_marginBottom="10dp"
+            app:backgroundTint="@color/dark_blue"
+            app:cornerRadius="20dp"
+            app:rippleColor="#AA3B3B" />
 
 
     </LinearLayout>

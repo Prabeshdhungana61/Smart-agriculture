@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.models.Order;
 import java.util.ArrayList;
 
@@ -41,7 +42,10 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         OrderVH vh = (OrderVH) holder;
         Order order = list.get(position);
-        vh.orderDate.setText(order.getOrderDate());
+        String day = Utilities.formatDay(order.getOrderDate());
+        String date = Utilities.formatDate(order.getOrderDate());
+        String month = Utilities.formatMonth(order.getOrderDate());
+        vh.orderDate.setText(day +","+date + " "+ month);
         vh.sellerEmail.setText(order.getSellerEmail());
         vh.productTitle.setText(order.getProductTitle());
 

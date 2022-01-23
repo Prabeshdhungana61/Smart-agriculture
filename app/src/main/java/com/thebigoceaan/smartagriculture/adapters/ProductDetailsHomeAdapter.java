@@ -13,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.chip.Chip;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.models.Product;
 
 import java.util.ArrayList;
@@ -44,6 +46,11 @@ public class ProductDetailsHomeAdapter  extends RecyclerView.Adapter<RecyclerVie
         Product product = list.get(position);
         Glide.with(context).load(product.getProductImage()).placeholder(R.drawable.ic_image).fitCenter().centerCrop().into(vh.productImage);
         vh.title.setText(product.getProductTitle());
+        String day = Utilities.formatDay(product.getProductDate());
+        String month = Utilities.formatMonth(product.getProductDate());
+        String date = Utilities.formatDate(product.getProductDate());
+        vh.price.setText(product.getProductPrice()+ " Rs.");
+        vh.date.setText(date+" "+month+", "+ day);
     }
     public void setItem(ArrayList<Product> product){
         list.addAll(product);
@@ -86,12 +93,15 @@ public class ProductDetailsHomeAdapter  extends RecyclerView.Adapter<RecyclerVie
     };
 
     public class ProductDetailsVH  extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView title;
+        TextView title,price;
         ImageView productImage;
+        Chip date;
         public ProductDetailsVH(@NonNull @com.google.firebase.database.annotations.NotNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.productTitleDesc);
+            price = itemView.findViewById(R.id.productPriceDesc);
             productImage=itemView.findViewById(R.id.productImageDesc);
+            date = itemView.findViewById(R.id.productDate);
             itemView.setOnClickListener(this);
         }
 

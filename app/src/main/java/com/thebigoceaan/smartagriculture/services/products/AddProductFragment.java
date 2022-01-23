@@ -81,7 +81,6 @@ public class AddProductFragment extends Fragment {
             Glide.with(getContext()).load(R.drawable.ic_image).into(binding.productImgShow);
         }
 
-
         binding.productImgChooseBtn.setOnClickListener(view -> {
             browseImage();
         });
@@ -148,8 +147,6 @@ public class AddProductFragment extends Fragment {
                             Farmer farmer = dataSnapshot.getValue(Farmer.class);
                             String mobile = farmer.getMobile();
                             Product product_edit=  (Product) getActivity().getIntent().getSerializableExtra("EDIT");
-
-
                             if(product_edit==null) {
                                 Product product = new Product(
                                         auth.getCurrentUser().getUid(),
@@ -163,10 +160,14 @@ public class AddProductFragment extends Fragment {
                                         mobile
                                 );
                                 crud.add(product).addOnSuccessListener(unused -> {
+                                    Toasty.success(getContext(), "Successfully added your product", Toast.LENGTH_SHORT, true).show();
+                                    binding.productPrice.setText("");
+                                    binding.productStock.setText("");
+                                    binding.productDesc.setText("");
+                                    binding.productTitle.setText("");
                                     Intent intent = new Intent(getContext(), MainActivity.class);
                                     getContext().startActivity(intent);
                                     progressDialog.dismiss();
-                                    Toasty.success(getContext(), "Successfully added your product", Toast.LENGTH_SHORT, true).show();
                                 }).addOnFailureListener(e -> {
                                     Log.d("AddProductFragment",e.getMessage()+"");
                                 });
@@ -179,11 +180,15 @@ public class AddProductFragment extends Fragment {
                                 hashMap.put("productImage",uri.toString());
                                 hashMap.put("productDesc",binding.productDesc.getText().toString());
                                 crud.update(product_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
+                                    binding.productPrice.setText("");
+                                    binding.productStock.setText("");
+                                    binding.productDesc.setText("");
+                                    binding.productTitle.setText("");
+                                    Toasty.success(getContext(), "Product updated successfully",
+                                            Toasty.LENGTH_SHORT,true).show();
                                     Intent intent = new Intent (getApplicationContext(), ProductDashboard.class);
                                     startActivity(intent);
                                     progressDialog.dismiss();
-                                    Toasty.success(getContext(), "Product updated successfully",
-                                            Toasty.LENGTH_SHORT,true).show();
                                 }).addOnFailureListener(e -> Toasty.error
                                         (getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT,true).show());
                                 progressDialog.dismiss();

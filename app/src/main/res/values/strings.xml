@@ -82,7 +82,7 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="stock_name">You can order a stock less than total stock.</string>
+    <string name="stock_name">अर्डर गर्दा कुल स्टक भन्दा कम अर्डर गर्नुहोला । जुन एकाइ मा कुल स्टक रखिएको छ त्यही एकाइ मा आफुलाई चहिने अर्डर राख्नुहोला । </string>
     <string name="total_stock">Total Stock : </string>
     <string name="your_orders">Your stock :</string>
     <string name="edit_your_orders">How much/many you want to get(unit)</string>
