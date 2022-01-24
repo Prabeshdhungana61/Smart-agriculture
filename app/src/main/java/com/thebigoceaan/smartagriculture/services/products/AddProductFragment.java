@@ -140,10 +140,13 @@ public class AddProductFragment extends Fragment {
         bundle = this.getArguments();
         crud = new CrudProduct();
         if (mImageUri != null) {
-            StorageReference fileReference = mStorageReference.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
+            StorageReference fileReference = mStorageReference.child
+                    (System.currentTimeMillis() + "." + getFileExtension(mImageUri));
             fileReference.putFile(mImageUri).addOnSuccessListener(taskSnapshot ->
                     fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                        database.getReference("Farmer").child(auth.getCurrentUser().getUid()).get().addOnSuccessListener(dataSnapshot -> {
+                        database.getReference("Farmer")
+                                .child(auth.getCurrentUser().getUid()).get()
+                                .addOnSuccessListener(dataSnapshot -> {
                             Farmer farmer = dataSnapshot.getValue(Farmer.class);
                             String mobile = farmer.getMobile();
                             Product product_edit=  (Product) getActivity().getIntent().getSerializableExtra("EDIT");
@@ -160,7 +163,8 @@ public class AddProductFragment extends Fragment {
                                         mobile
                                 );
                                 crud.add(product).addOnSuccessListener(unused -> {
-                                    Toasty.success(getContext(), "Successfully added your product", Toast.LENGTH_SHORT, true).show();
+                                    Toasty.success(getContext(), "Successfully added your product"
+                                            , Toast.LENGTH_SHORT, true).show();
                                     binding.productPrice.setText("");
                                     binding.productStock.setText("");
                                     binding.productDesc.setText("");

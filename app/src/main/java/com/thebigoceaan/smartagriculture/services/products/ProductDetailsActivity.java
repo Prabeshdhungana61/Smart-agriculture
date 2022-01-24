@@ -60,27 +60,34 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             int orderStock = Integer.parseInt(myStock);
                             int perUnitPrice = Integer.parseInt(price);
                             int orderPrice = orderStock * perUnitPrice;
-                            order = new Order(sellerEmail, buyerEmail, buyerName, buyerProfile, title, myStock, "" + orderPrice, false);
+                            order = new Order(sellerEmail, buyerEmail, buyerName, buyerProfile,
+                                    title, myStock, "" + orderPrice, false);
                             crud = new CrudOrder();
                             try {
                                 crud.add(order).addOnSuccessListener(unused -> {
                                     yourStock.setText("");
                                     dialog.dismiss();
-                                    Toasty.success(ProductDetailsActivity.this, "Successfully sent order to the farmer !", Toasty.LENGTH_SHORT, true).show();
+                                    Toasty.success(ProductDetailsActivity.this,
+                                            "Successfully sent order to the farmer !",
+                                            Toasty.LENGTH_SHORT, true)
+                                            .show();
                                 }).addOnFailureListener(e -> {
                                     dialog.dismiss();
-                                    Toasty.error(ProductDetailsActivity.this, "" + e.getMessage(), Toasty.LENGTH_SHORT, true).show();
+                                    Toasty.error(ProductDetailsActivity.this, "" + e.getMessage()
+                                            , Toasty.LENGTH_SHORT, true).show();
 
                                 });
                             } catch (Exception e) {
-                                Toast.makeText(ProductDetailsActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProductDetailsActivity.this, "" +
+                                        e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
             });
         }
         else{
-            Toasty.error(this, "Kindly login first to order product !", Toasty.LENGTH_SHORT,true).show();
+            Toasty.error(this, "Kindly login first to order product !",
+                    Toasty.LENGTH_SHORT,true).show();
         }
 
 

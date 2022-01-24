@@ -126,12 +126,9 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
 
-        binding.btnGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressDialog.show();
-                signIn();
-            }
+        binding.btnGoogle.setOnClickListener(view -> {
+            progressDialog.show();
+            signIn();
         });
 
     }
