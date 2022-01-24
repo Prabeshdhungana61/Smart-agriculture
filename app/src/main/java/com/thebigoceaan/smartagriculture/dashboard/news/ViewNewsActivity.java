@@ -7,17 +7,24 @@ import androidx.core.app.NavUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
+import com.thebigoceaan.smartagriculture.MainActivity;
+import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.adapters.NewsAdapter;
 import com.thebigoceaan.smartagriculture.databinding.ActivityViewNewsBinding;
+import com.thebigoceaan.smartagriculture.descriptions.help.HelpActivity;
 import com.thebigoceaan.smartagriculture.models.News;
 
 import java.util.ArrayList;
@@ -97,5 +104,26 @@ public class ViewNewsActivity extends AppCompatActivity {
     public void onBackPressed() {
         NavUtils.navigateUpFromSameTask(this);
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.filter, menu);
+        MenuItem item = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                adapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,6 +15,8 @@ import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.databinding.ActivityAddNewsBinding;
 import com.thebigoceaan.smartagriculture.models.News;
 import java.util.HashMap;
+
+import es.dmoral.toasty.Toasty;
 
 public class AddNewsActivity extends AppCompatActivity {
     ActivityAddNewsBinding binding;
@@ -55,7 +58,6 @@ public class AddNewsActivity extends AppCompatActivity {
             adapter2.setDropDownViewResource(R.layout.item_dropdown);
             binding.newsSourceEditText.setAdapter(adapter2);
 
-
         }
         else{
             binding.btnNewsAdd.setText(R.string.add_news);
@@ -78,10 +80,10 @@ public class AddNewsActivity extends AppCompatActivity {
                     Intent intent = new Intent (getApplicationContext(), ViewNewsActivity.class);
                     startActivity(intent);
 
-                    Toast.makeText(AddNewsActivity.this, "News inserted successfully",
-                            Toast.LENGTH_SHORT).show();
-                }).addOnFailureListener(e -> Toast.makeText
-                        (AddNewsActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    Toasty.success(AddNewsActivity.this, "News inserted successfully",
+                            Toasty.LENGTH_SHORT,true).show();
+                }).addOnFailureListener(e ->
+                        Log.d("AddNewsActivity",e.getMessage()+""));
             }
             else {
                 HashMap<String, Object> hashMap = new HashMap<>();
@@ -94,8 +96,8 @@ public class AddNewsActivity extends AppCompatActivity {
                 crud.update(news_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
                     Intent intent = new Intent (getApplicationContext(), ViewNewsActivity.class);
                     startActivity(intent);
-                    Toast.makeText(AddNewsActivity.this, "news updated successfully",
-                            Toast.LENGTH_SHORT).show();
+                    Toasty.success(AddNewsActivity.this, "news updated successfully",
+                            Toasty.LENGTH_SHORT,true).show();
                     finish();
                 }).addOnFailureListener(e -> Toast.makeText
                         (AddNewsActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show());

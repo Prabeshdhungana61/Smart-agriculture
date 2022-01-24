@@ -17,6 +17,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
@@ -42,6 +43,8 @@ import com.thebigoceaan.smartagriculture.databinding.ActivityAddInfoBinding;
 import com.thebigoceaan.smartagriculture.models.Info;
 import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
+
+import es.dmoral.toasty.Toasty;
 
 public class AddInfoActivity extends AppCompatActivity {
     ActivityAddInfoBinding binding;
@@ -72,6 +75,12 @@ public class AddInfoActivity extends AppCompatActivity {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference(Info.class.getSimpleName());
         mStorageReference = FirebaseStorage.getInstance().getReference(Info.class.getSimpleName());
 
+        //for dropdown buttons
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.info_type, R.layout.item_dropdown);
+        adapter.setDropDownViewResource(R.layout.item_dropdown);
+        binding.infoTypeEditText.setAdapter(adapter);
+
         binding.btnChooseImgInfo.setOnClickListener(view -> {
             browseImage();
         });
@@ -82,6 +91,13 @@ public class AddInfoActivity extends AppCompatActivity {
             binding.infoTitleEditText.setText(info_edit.getInfoTitle());
             binding.infoDetailsEditText.setText(info_edit.getInfoDetails());
             Glide.with(this).load(info_edit.getInfoImage()).into(binding.imgInfoView);
+            binding.infoTypeEditText.setText(info_edit.getInfoType());
+
+            //for dropdown buttons
+            ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                    R.array.info_type, R.layout.item_dropdown);
+            adapter2.setDropDownViewResource(R.layout.item_dropdown);
+            binding.infoTypeEditText.setAdapter(adapter2);
         }
         else{
             binding.btnAddInfo.setText(R.string.add_info);
@@ -127,18 +143,19 @@ public class AddInfoActivity extends AppCompatActivity {
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Info info = new Info(uri.toString(),binding.infoTitleEditText.getText().toString(),
-                                            binding.infoDetailsEditText.getText().toString());
+                                    Info info = new Info(uri.toString(),binding.infoTitleEditText.getText().toString().trim(),
+                                            binding.infoDetailsEditText.getText().toString().trim(),binding.infoTypeEditText.getText().toString());
                                     if(info_edit==null) {
                                         crud.add(info).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void suc) {
                                                 binding.infoTitleEditText.setText("");
                                                 binding.infoDetailsEditText.setText("");
+                                                binding.infoTypeEditText.setText("");
+                                                Toasty.success(AddInfoActivity.this, "Agriculture Info inserted successfully",
+                                                        Toasty.LENGTH_SHORT,true).show();
                                                 Intent intent = new Intent(AddInfoActivity.this.getApplicationContext(), ViewInfoActivity.class);
                                                 AddInfoActivity.this.startActivity(intent);
-                                                Toast.makeText(AddInfoActivity.this, "Agro Info inserted successfully",
-                                                        Toast.LENGTH_SHORT).show();
                                                 progressDialog.dismiss();
                                             }
                                         }).addOnFailureListener(e -> Toast.makeText
@@ -150,13 +167,13 @@ public class AddInfoActivity extends AppCompatActivity {
                                         hashMap.put("infoTitle", binding.infoTitleEditText.getText().toString());
                                         hashMap.put("infoDetails", binding.infoDetailsEditText.getText().toString());
                                         hashMap.put("infoImage",uri.toString());
+                                        hashMap.put("infoType",binding.infoTypeEditText.getText().toString());
                                         crud.update(info_edit.getKey(), hashMap).addOnSuccessListener(suc -> {
+                                            Toasty.success(AddInfoActivity.this, "Info updated successfully",
+                                                    Toasty.LENGTH_SHORT).show();
                                             Intent intent = new Intent (getApplicationContext(), ViewInfoActivity.class);
                                             startActivity(intent);
                                             progressDialog.dismiss();
-                                            Toast.makeText(AddInfoActivity.this, "Info updated successfully",
-                                                    Toast.LENGTH_SHORT).show();
-                                            finish();
                                         }).addOnFailureListener(e -> Toast.makeText
                                                 (AddInfoActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show());
                                         progressDialog.dismiss();
@@ -165,19 +182,11 @@ public class AddInfoActivity extends AppCompatActivity {
                             });
                         }
                     })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@NonNull @NotNull UploadTask.TaskSnapshot snapshot) {
-                            long percent = (100*snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
-                            progressDialog.setMessage("Saving information to your account :"+ percent + "% Completed");
-                        }
+                    .addOnProgressListener(snapshot -> {
+                        long percent = (100*snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                        progressDialog.setMessage("Saving information to your account :"+ percent + "% Completed");
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull @NotNull Exception e) {
-                            Toast.makeText(AddInfoActivity.this, "Failure due to :"+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    .addOnFailureListener(e -> Log.d("AddInfoActivity",e.getMessage()+""));
         }
         else{
             Toast.makeText(this, "No File Selected !", Toast.LENGTH_SHORT).show();

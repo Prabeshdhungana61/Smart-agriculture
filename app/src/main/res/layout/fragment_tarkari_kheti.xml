@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/lightWhite3"
     android:orientation="vertical"
-    tools:context=".dashboard.info.ViewInfoActivity">
+    tools:context=".services.kheti.TarkariKhetiFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,12 +14,12 @@
         android:orientation="vertical">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swip_view_info"
+            android:id="@+id/swip_tarkari"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_view_info"
+                android:id="@+id/recyclerView_tarkari"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:reverseLayout="false" />

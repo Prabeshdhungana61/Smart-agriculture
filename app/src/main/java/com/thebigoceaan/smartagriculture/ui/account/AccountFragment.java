@@ -92,7 +92,6 @@ public class AccountFragment extends Fragment {
             Button noBtn = dialog.findViewById(R.id.btn_no_confirm);
             dialog.show();
             ImageView closeImage = dialog.findViewById(R.id.close_image);
-
             closeImage.setOnClickListener(view13 -> dialog.dismiss());
 
             yesBtn.setOnClickListener(view1 -> {

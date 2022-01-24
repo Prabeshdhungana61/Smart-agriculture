@@ -20,10 +20,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thebigoceaan.smartagriculture.R;
+import com.thebigoceaan.smartagriculture.adapters.KhetiAdapter;
 import com.thebigoceaan.smartagriculture.databinding.FragmentMoreBinding;
 import com.thebigoceaan.smartagriculture.hyperlink.DailyVegMarketActivity;
 import com.thebigoceaan.smartagriculture.hyperlink.WeatherInformationActivity;
 import com.thebigoceaan.smartagriculture.models.Farmer;
+import com.thebigoceaan.smartagriculture.services.kheti.KhetiDashboard;
 import com.thebigoceaan.smartagriculture.services.news.NewsActivity;
 import com.thebigoceaan.smartagriculture.services.products.ProductDashboard;
 import com.thebigoceaan.smartagriculture.services.register.FarmerRegisterActivity;
@@ -45,33 +47,31 @@ public class MoreFragment extends Fragment {
         ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         Objects.requireNonNull(mActionBar).setDisplayHomeAsUpEnabled(true);
 
-        binding.krishiNewsImgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), NewsActivity.class);
-                startActivity(intent);
-            }
+        //invisible buttons
+        binding.khetiTarikaBtn2.setVisibility(View.INVISIBLE);
+        binding.khetiTarikaBtn3.setVisibility(View.INVISIBLE);
+
+        binding.khetiTarikaBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getContext(), KhetiDashboard.class);
+            startActivity(intent);
         });
-        binding.kalimatiVegMarketImgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), DailyVegMarketActivity.class);
-                startActivity(intent);
-            }
+
+
+        binding.krishiNewsImgBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), NewsActivity.class);
+            startActivity(intent);
         });
-        binding.weatherInfoImgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), WeatherInformationActivity.class);
-                startActivity(intent);
-            }
+        binding.kalimatiVegMarketImgBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), DailyVegMarketActivity.class);
+            startActivity(intent);
         });
-        binding.imgRegisterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), FarmerRegisterActivity.class);
-                startActivity(intent);
-            }
+        binding.weatherInfoImgBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), WeatherInformationActivity.class);
+            startActivity(intent);
+        });
+        binding.imgRegisterBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), FarmerRegisterActivity.class);
+            startActivity(intent);
         });
         binding.productDashboardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +106,9 @@ public class MoreFragment extends Fragment {
                     binding.productDashboardBtn.setVisibility(View.GONE);
                     binding.imgRegisterBtn.setVisibility(View.VISIBLE);
                     binding.registerAsFarmerDesc.setVisibility(View.VISIBLE);
+                    binding.registerAsFarmerDesc.setOnClickListener(view -> {
+                        binding.registerAsFarmerDesc.setText(R.string.register_as_farmer_details_nepali);
+                    });
                 }
                 try {
                     binding.swipCircle.stopAnim();

@@ -30,7 +30,10 @@
     <string name="rate_us">Rate Us</string>
     <string name="login_click">Click here to login Smart Agriculture</string>
     <string name="disclaimer">Disclaimer</string>
-    <string name="dashboard_desc">You can perform crud operations in this dashboard which includes adding agriculture news, information about agriculture, and many more things</string>
+    <string name="dashboard_desc">
+        तपाईले यस ड्यासबोर्डमा धेरै अपरेशनहरू गर्न सक्नुहुन्छ जसमा कृषि समाचारहरू थप्ने,
+        कृषिको बारेमा जानकारी, र धेरै कुराहरू गर्न सक्नुहुन्छ
+    </string>
     <string name="operations_dashboard_desc">You can click on the specific image button to perform operations.</string>
     <string name="add_news">ADD NEWS</string>
     <string name="update_news">UPDATE NEWS</string>
@@ -48,13 +51,28 @@
         <item>krishi post</item>
         <item>kisan aawaj</item>
     </string-array>
+    <string-array name="info_type">
+        <item>तरकारी खेती</item>
+        <item>फलफुल खेती</item>
+        <item>जडिबुटी खेती</item>
+    </string-array>
     <string name="register_as_farmer_details">
-        If You are farmer and your want to sell then you can register as a farmer.
+        If You are farmer and your want to sell the product then you can register as a farmer.
         If you register as a farmer then you have many features available which are as below:\n\n
 
         1. You can unlock message us directly feature and contact us via app.\n
         2. You can post your product details like product images, product description, product price per unit etc.\n
         3. You can sell via app using Sell your product option which is appear on "more" page after registration as farmer.\n\n
+
+        CLICK ON THE IMAGE BELOW TO REGISTER AS A FARMER
+    </string>
+    <string name="register_as_farmer_details_nepali">
+        यदि तपाइँ किसान हुनुहुन्छ र तपाइँ उत्पादन बेच्न चाहनुहुन्छ भने तपाइँ किसानको रूपमा दर्ता गर्न सक्नुहुन्छ। \n
+यदि तपाइँ किसानको रूपमा दर्ता गर्नुहुन्छ भने तपाइँसँग धेरै सुविधाहरू उपलब्ध छन् जुन निम्न छन्:\n\n
+
+        1. तपाईंले सन्देश हामीलाई सीधा मेसेज गर्न सक्नुहुन्छ र एप मार्फत हामीलाई सम्पर्क गर्न सक्नुहुन्छ।\n
+        2. तपाईं आफ्नो उत्पादन विवरणहरू पोस्ट गर्न सक्नुहुन्छ जस्तै उत्पादन फोटो, उत्पादन विवरण, उत्पादन मूल्य प्रति एकाइ आदि। \n
+        3. तपाइले एप को तल रहेको मोर भन्ने अप्सन प्रयोग गरेर किसान मा दर्ता गर्न सक्नुहुन्छ \n\n
 
         CLICK ON THE IMAGE BELOW TO REGISTER AS A FARMER
     </string>
@@ -67,7 +85,7 @@
     <string name="version">Version</string>
     <string name="our_services">Our Services :</string>
     <string name="_1_hyperlink">1. Hyperlink</string>
-    <string name="_2_register_as_a_farmer">2. Register as a Farmer</string>
+    <string name="_2_register_as_a_farmer">3. Register as a Farmer</string>
     <string name="image_news">image news</string>
     <string name="image_vegmarket">image_vegMarket</string>
     <string name="img_weather">img_weather</string>

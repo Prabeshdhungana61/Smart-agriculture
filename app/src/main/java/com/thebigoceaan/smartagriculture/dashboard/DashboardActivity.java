@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,9 +26,13 @@ import com.thebigoceaan.smartagriculture.dashboard.news.AddNewsActivity;
 import com.thebigoceaan.smartagriculture.dashboard.news.ViewNewsActivity;
 import com.thebigoceaan.smartagriculture.databinding.ActivityDashboardBinding;
 
+import es.dmoral.toasty.Toasty;
+
 public class DashboardActivity extends AppCompatActivity {
     FirebaseAuth auth;
     ActivityDashboardBinding binding;
+    Dialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,49 +40,31 @@ public class DashboardActivity extends AppCompatActivity {
         binding= ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //get instance
         auth = FirebaseAuth.getInstance();
+        dialog = new Dialog(this);
 
         //action bar color
         ActionBar actionBar;
         actionBar = getSupportActionBar();
         Utilities.appBarColor(actionBar,this); //action bar ends
 
-        binding.imgAddNews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, AddNewsActivity.class);
-                startActivity(intent);
-            }
+        binding.imgAddNews.setOnClickListener(view -> {
+            Intent intent = new Intent(DashboardActivity.this, AddNewsActivity.class);
+            startActivity(intent);
         });
-        binding.imgViewNews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, ViewNewsActivity.class);
-                startActivity(intent);
-            }
+        binding.imgViewNews.setOnClickListener(view -> {
+            Intent intent = new Intent(DashboardActivity.this, ViewNewsActivity.class);
+            startActivity(intent);
         });
-        binding.imgViewInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, ViewInfoActivity.class);
-                startActivity(intent);
-            }
+        binding.imgViewInfo.setOnClickListener(view -> {
+            Intent intent = new Intent(DashboardActivity.this, ViewInfoActivity.class);
+            startActivity(intent);
         });
-        binding.imgAddInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, AddInfoActivity.class);
-                startActivity(intent);
-            }
+        binding.imgAddInfo.setOnClickListener(view -> {
+            Intent intent = new Intent(DashboardActivity.this, AddInfoActivity.class);
+            startActivity(intent);
         });
-        binding.imgViewMsg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, AddInfoActivity.class);
-                startActivity(intent);
-            }
-        });
-        binding.imgViewMsg2.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -89,10 +77,25 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.nav_signout) {
-            Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
-            startActivity(intent);
-            Toast.makeText(this, "Successfully Logout the admin account.", Toast.LENGTH_SHORT).show();
-            auth.signOut();
+            dialog.setContentView(R.layout.dialog_confirmation);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            Button yesBtn = dialog.findViewById(R.id.btn_yes_confirm);
+            Button noBtn = dialog.findViewById(R.id.btn_no_confirm);
+            dialog.show();
+            yesBtn.setOnClickListener(view -> {
+                Toasty.success(DashboardActivity.this, "Successfully Logout the admin account.", Toasty.LENGTH_SHORT,true).show();
+                Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
+                startActivity(intent);
+                dialog.dismiss();
+                auth.signOut();
+            });
+            noBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
         }
         return false;
     }

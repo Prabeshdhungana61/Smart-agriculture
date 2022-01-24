@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Info implements Serializable {
     @Exclude
     private String key;
-    String infoId, infoImage, infoTitle,  infoDetails;
+    String infoImage, infoTitle,  infoDetails, infoType;
     public String getKey() {
         return key;
     }
@@ -16,34 +16,24 @@ public class Info implements Serializable {
         this.key = key;
     }
 
-    public Info(String infoId, String infoImage, String infoTitle, String infoDetails) {
-        this.infoId = infoId;
-        this.infoImage = infoImage;
-        this.infoTitle = infoTitle;
-        this.infoDetails = infoDetails;
-    }
-    public Info(String infoImage, String infoTitle, String infoDetails ){
+    public Info(String infoImage, String infoTitle, String infoDetails, String infoType ){
         if (infoTitle.trim().equals("") && infoDetails.equals("")) {
-
             infoTitle="No Title";
             infoDetails= "No Details";
         }
         this.infoImage = infoImage;
         this.infoTitle = infoTitle;
         this.infoDetails = infoDetails;
-    }
-    public Info(String infoTitle, String infoDetails ){
-        this.infoTitle = infoTitle;
-        this.infoDetails = infoDetails;
+        this.infoType = infoType;
     }
      Info(){ }
 
-    public String getInfoId() {
-        return infoId;
+    public String getInfoType() {
+        return infoType;
     }
 
-    public void setInfoId(String infoId) {
-        this.infoId = infoId;
+    public void setInfoType(String infoType) {
+        this.infoType = infoType;
     }
 
     public String getInfoImage() {

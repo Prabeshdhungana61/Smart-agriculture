@@ -14,11 +14,20 @@
         android:theme="@style/Theme.SmartAgriculture"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".services.kheti.KhetiDetails"
+            android:exported="false"
+            android:parentActivityName=".services.kheti.KhetiDashboard"
+            />
+        <activity
+            android:name=".services.kheti.KhetiDashboard"
+            android:exported="false"
+            android:label="व्यवसायिक खेती"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".descriptions.help.HelpActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity"
             android:label="USER HELP GUIDELINES"
-            />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".services.order.OrderDashboard"
             android:exported="false"

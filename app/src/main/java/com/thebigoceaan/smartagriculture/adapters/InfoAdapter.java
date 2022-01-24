@@ -9,15 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
+import com.google.android.material.chip.Chip;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.thebigoceaan.smartagriculture.R;
@@ -25,11 +26,10 @@ import com.thebigoceaan.smartagriculture.dashboard.info.AddInfoActivity;
 import com.thebigoceaan.smartagriculture.dashboard.info.CrudInfo;
 import com.thebigoceaan.smartagriculture.dashboard.info.ViewInfoActivity;
 import com.thebigoceaan.smartagriculture.models.Info;
-
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
-public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     private Context context;
     ArrayList<Info> list = new ArrayList<>();
     CrudInfo crud = new CrudInfo();
@@ -58,6 +58,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Info info = list.get(position);
         vh.info_title.setText(info.getInfoTitle());
         vh.details.setText(info.getInfoDetails());
+        vh.infoType.setText(info.getInfoType());
         Glide.with(context).load(info.getInfoImage()).fitCenter().centerCrop().into(vh.imageInfo);
         vh.menuText.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(context,vh.menuText);
@@ -112,9 +113,42 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return list.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence keyword) {
+            ArrayList<Info> filteredData = new ArrayList<>();
+            if(keyword.toString().trim().isEmpty()){
+                filteredData.addAll(list);
+            }
+            else{
+                for (Info obj: list){
+                    if (obj.getInfoTitle().toLowerCase().contains(keyword.toString().toLowerCase().trim())){
+                        filteredData.add(obj);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredData;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults results) {
+            list.clear();
+            list.addAll((ArrayList<Info>)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
     public class InfoVH  extends RecyclerView.ViewHolder {
         public TextView info_title, details, menuText;
         public ImageView imageInfo;
+        Chip infoType;
 
         public InfoVH(@NonNull @com.google.firebase.database.annotations.NotNull View itemView) {
             super(itemView);
@@ -122,6 +156,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             details = itemView.findViewById(R.id.details_for_info);
             imageInfo = itemView.findViewById(R.id.image_for_agro_info);
             menuText = itemView.findViewById(R.id.menu_text_info);
+            infoType = itemView.findViewById(R.id.info_type_chip);
 
         }
     }
