@@ -14,7 +14,10 @@ After splash screen, You can see home screen like snapshot below:
 After clicking on the specific item to buy the product,
 Product description screen is appear as seen in the snapshot below
 
-<img src="images/product_desc_screen.jpg" alt="product_description" height="400px" width="200px" /> <img src="images/dialog_order.jpg" alt="no_data_imageheight="400px"width="200px"/> 
+<img src="images/product_desc_screen.jpg" alt="product_description" height="400px" width="200px" /> 
+
+Order Product Screen:
+<img src="images/dialog_order.jpg" alt="no_data_imageheight="400px"width="200px"/> 
 
 If you are interested to register as farmer then you have option in more menu to register as farmer, 
 After clicking on that option you can redirected to the screen shown below to register
