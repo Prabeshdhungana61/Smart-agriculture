@@ -10,23 +10,26 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.thebigoceaan.smartagriculture.R;
 import com.thebigoceaan.smartagriculture.Utilities;
 import com.thebigoceaan.smartagriculture.databinding.ActivityProductDetailsBinding;
 import com.thebigoceaan.smartagriculture.models.Order;
 import com.thebigoceaan.smartagriculture.services.order.CrudOrder;
+
+import java.util.HashMap;
+
 import es.dmoral.toasty.Toasty;
 
 public class ProductDetailsActivity extends AppCompatActivity {
     ActivityProductDetailsBinding binding;
-    String title, sellerProfile,sellerMobile,sellerEmail, price, description, image,totalProductStock;
+    String title, sellerProfile,sellerMobile,sellerEmail, price, description, image,totalProductStock, productKey;
     CrudOrder crud;
     private FirebaseAuth auth;
     Order order;
     Dialog dialog;
-
-
+    CrudProduct crudProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,19 +67,35 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                     title, myStock, "" + orderPrice, false);
                             crud = new CrudOrder();
                             try {
-                                crud.add(order).addOnSuccessListener(unused -> {
-                                    yourStock.setText("");
-                                    dialog.dismiss();
-                                    Toasty.success(ProductDetailsActivity.this,
-                                            "Successfully sent order to the farmer !",
-                                            Toasty.LENGTH_SHORT, true)
-                                            .show();
-                                }).addOnFailureListener(e -> {
-                                    dialog.dismiss();
-                                    Toasty.error(ProductDetailsActivity.this, "" + e.getMessage()
-                                            , Toasty.LENGTH_SHORT, true).show();
+                                String[] product_stock_array = totalProductStock.split(" ");
+                                int product_stock = Integer.parseInt(product_stock_array[0]);
+                                int final_stock = product_stock-orderStock;
+                                    if (product_stock >= orderStock && product_stock > 0) {
+                                        crud.add(order).addOnSuccessListener(unused -> {
+                                            yourStock.setText("");
+                                            dialog.dismiss();
+                                            Toasty.success(ProductDetailsActivity.this,
+                                                    "Successfully sent order to the farmer !",
+                                                    Toasty.LENGTH_SHORT, true)
+                                                    .show();
+                                            crudProduct = new CrudProduct();
+                                            HashMap<String, Object> hashMap = new HashMap<>();
+                                            hashMap.put("productStock", final_stock + " " + product_stock_array[1]);
+                                            crudProduct.update(productKey, hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    binding.productDetailsTotalStock.setText(final_stock + " " + product_stock_array[1]);
+                                                }
+                                            });
+                                        }).addOnFailureListener(e -> {
+                                            dialog.dismiss();
+                                            Toasty.error(ProductDetailsActivity.this, "" + e.getMessage()
+                                                    , Toasty.LENGTH_SHORT, true).show();
 
-                                });
+                                        });
+                                    } else {
+                                        Toasty.error(ProductDetailsActivity.this, "Sorry! Stock is limited ", Toasty.LENGTH_SHORT, true).show();
+                                    }
                             } catch (Exception e) {
                                 Toast.makeText(ProductDetailsActivity.this, "" +
                                         e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -98,7 +117,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 && getIntent().hasExtra("TotalProductStock")
                 && getIntent().hasExtra("SellerProfile") && getIntent().hasExtra("TitleProductText")
                 && getIntent().hasExtra("ProductPriceText")
-                && getIntent().hasExtra("ProductImage") && getIntent().hasExtra("ProductDescText")
+                && getIntent().hasExtra("ProductImage") && getIntent().hasExtra("ProductDescText") && getIntent().hasExtra("ProductKey")
         ) {
             //Getting Data from Intent
             title = getIntent().getStringExtra("TitleProductText");
@@ -109,6 +128,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             sellerEmail=getIntent().getStringExtra("SellerEmail");
             sellerMobile=getIntent().getStringExtra("SellerMobile");
             totalProductStock = getIntent().getStringExtra("TotalProductStock");
+            productKey= getIntent().getStringExtra("ProductKey");
 
             //Setting Intent Data
             binding.productTitleDetails.setText(title);

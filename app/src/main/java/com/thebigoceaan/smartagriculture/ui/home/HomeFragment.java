@@ -185,6 +185,7 @@ public class HomeFragment extends Fragment {
             intent.putExtra("SellerEmail", product.getSellerEmail());
             intent.putExtra("SellerMobile", product.getSellerMobile());
             intent.putExtra("TotalProductStock", product.getProductStock());
+            intent.putExtra("ProductKey",product.getKey());
             getContext().startActivity(intent);
         };
     }
